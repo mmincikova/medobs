@@ -1,5 +1,6 @@
-Medical appointments system
-===========================
+Medical reservation system
+==========================
+Simple system for making reservations and display timetables.
 
 Requirement
 -----------
