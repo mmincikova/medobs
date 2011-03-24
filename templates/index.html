@@ -1,1 +1,146 @@
 {% extends "base.html" %}
+
+{% block head_css %}
+<style>
+	body {
+		font-size: 90%;
+		font-family: Verdana;
+	}
+	label {
+		float: left;
+		display: block;
+		width: 11ex;
+		font-weight: normal;
+		line-height: 24px;
+	}
+	#header {
+		font-size: 110%;
+		border-bottom: 1px solid #DFE2E1;
+		margin-bottom: 1em;
+		font-family: Georgia, Times New Roman, Serif;
+	}
+	#header span {
+		font-size: 200%;
+		font-variant: small-caps;
+		font-style:italic;
+	}
+	#form {
+		padding: 1em;
+		background-color: #def;
+	}
+	input[type="submit"] {
+		padding: 5px 7px;
+		font-weight: bold;
+		font-size: 100%;
+	}
+	#datetime {
+	}
+	#footer {
+		margin-top: 1em;
+		border-top: 1px solid #DFE2E1;
+		text-align: center;
+		font-size: 75%;
+	}
+	#selectable .ui-selecting { background: #FECA40; }
+	#selectable .ui-selected { background: #F39814; color: white; }
+	#selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+	#selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
+
+	#selectable2 .ui-selecting { background: #FECA40; }
+	#selectable2 .ui-selected { background: #F39814; color: white; }
+	#selectable2 { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+	#selectable2 li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
+</style>
+{% endblock %}
+
+
+{% block page_container %}
+<div class="span-24" id="header">
+<span>Rezervačný systém</span> 
+</div>
+
+<div class="span-8">
+<div id="form">
+<form>
+	<label>Rodné číslo:</label> <input type="text" /><br />
+	<label>Meno:</label> <input type="text" /><br />
+	<label>Priezvisko:</label> <input type="text" /><br />
+	<label>Telefón:</label> <input type="text" /><br />
+	<label>E-mail:</label> <input type="text" /><br /><br />
+	<input type="radio"> Prvé vyšetrenie v ambulancii<br />
+	<input type="radio"> Kontrolné vyšetrenie<br /><br />
+
+	<div id="datepicker"></div><br />
+
+	<input type="submit" value="Rezervovať termín">
+</form>
+</div>
+</div>
+
+<div class="span-16 last" id="datetime">
+	<div id="tabs">
+		<ul>
+			<li><a href="#tabs-1">Ambulancia Prešov</a></li>
+			<li><a href="#tabs-2">Ambulancia Sabinov</a></li>
+		</ul>
+		<div id="tabs-1">
+			<h3>Deň: {% now "d.m.Y" %}</h3>
+			<ol id="selectable">
+				<li class="ui-widget-content">08:00</li>
+				<li class="ui-widget-content">09:00</li>
+				<li class="ui-widget-content">10:00</li>
+				<li class="ui-widget-content">11:00</li>
+				<li class="ui-widget-content">12:00</li>
+				<li class="ui-widget-content">13:00</li>
+				<li class="ui-widget-content">14:00</li>
+				<li class="ui-widget-content">15:00</li>
+			</ol>
+		</div>
+		<div id="tabs-2">
+			<h3>Deň: {% now "d.m.Y" %}</h3>
+			<ol id="selectable2">
+				<li class="ui-widget-content">08:30</li>
+				<li class="ui-widget-content">09:30</li>
+				<li class="ui-widget-content">10:30</li>
+				<li class="ui-widget-content">11:30</li>
+				<li class="ui-widget-content">12:30</li>
+				<li class="ui-widget-content">13:30</li>
+			</ol>
+		</div>
+	</div>
+</div>
+
+<div id="footer" class="span-24">
+	<a href="http://www.urologia-presov.sk/">Urologická ambulancia</a>, Doc. MUDr. Ivan Minčík, PhD.
+</div>
+{% endblock %}
+
+{% block footer_js_page %}
+<script>
+$(function() {
+        $.datepicker.regional['sk'] = {
+                closeText: 'Zavrieť',
+                prevText: '&#x3c;Predchádzajúci',
+                nextText: 'Nasledujúci&#x3e;',
+                currentText: 'Dnes',
+                monthNames: ['Január','Február','Marec','Apríl','Máj','Jún',
+                'Júl','August','September','Október','November','December'],
+                monthNamesShort: ['Jan','Feb','Mar','Apr','Máj','Jún',
+                'Júl','Aug','Sep','Okt','Nov','Dec'],
+                dayNames: ['Nedel\'a','Pondelok','Utorok','Streda','Štvrtok','Piatok','Sobota'],
+                dayNamesShort: ['Ned','Pon','Uto','Str','Štv','Pia','Sob'],
+                dayNamesMin: ['Ne','Po','Ut','St','Št','Pia','So'],
+                weekHeader: 'Ty',
+                dateFormat: 'dd.mm.yy',
+                firstDay: 1,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''};
+        $.datepicker.setDefaults($.datepicker.regional['sk']);
+	$("#datepicker").datepicker();
+	$("#tabs").tabs();
+	$("#selectable").selectable();
+	$("#selectable2").selectable();
+});
+</script>
+{% endblock %}
