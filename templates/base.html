@@ -6,8 +6,7 @@
 	<title>{% block title %}{% endblock %}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="author" content="Peter Hyben; e-mail: hugis@tag.sk" />
-	<link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/screen.css" type="text/css" media="screen, projection">
-	<link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/print.css" type="text/css" media="print">
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/960.css" type="text/css" media="screen, projection">
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/cupertino/jquery-ui.css" type="text/css" media="screen, projection" />
 	<!--[if lt IE 8]>
 		<link rel="stylesheet" href="{{ MEDIA_URL }}css/blueprint/ie.css" type="text/css" media="screen, projection">
@@ -19,7 +18,7 @@
 {% endblock %}
 {% block body %}
 <body>
-<div class="container">
+<div class="container_12">
 {% block page_container %}{% endblock %}
 </div>
 </body>
