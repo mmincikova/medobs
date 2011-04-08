@@ -30,4 +30,28 @@ class Patient(models.Model):
 			self.ident_hash = get_hexdigest(self.ident_hash)
 		super(Patient, self).save(*args, **kwargs)
 
+class Medical_office(models.Model):
+	name = models.CharField(_("name"), max_length=100)
+	street = models.TextField(_("street"))
+	zip_code = models.CharField(_("zip code"), max_length=20)
+	city = models.CharField(_("city"), max_length=100)
+	email = models.EmailField(_("e-mail address"), blank=True)
 
+	class Meta:
+		verbose_name = _("medical office")
+		verbose_name_plural = _("medical offices")
+
+	def __unicode__(self):
+		return self.name
+
+class Office_phone(models.Model):
+	number = models.CharField(_("number"), max_length=50)
+	office = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
+			related_name="phone_numbers")
+
+	class Meta:
+		verbose_name = _("office phone")
+		verbose_name_plural = _("office phones")
+
+	def __unicode__(self):
+		return self.number

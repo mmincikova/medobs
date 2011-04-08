@@ -1,5 +1,17 @@
 from django.contrib import admin
-from djcode.reservations.models import Patient
+from djcode.reservations.models import Medical_office, Office_phone, Patient
+
+class Office_phone_Inline(admin.TabularInline):
+    model = Office_phone
+
+class Medical_office_Admin(admin.ModelAdmin):
+	list_display = ("name", "street", "zip_code", "city", "email")
+	inlines = [Office_phone_Inline,]
+admin.site.register(Medical_office, Medical_office_Admin)
+
+class Office_phone_Admin(admin.ModelAdmin):
+	list_display = ("number", "office")
+admin.site.register(Office_phone, Office_phone_Admin)
 
 class Patient_Admin(admin.ModelAdmin):
 	list_display = ("full_name", "phone_number", "email", "ident_hash")
