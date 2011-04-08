@@ -1,5 +1,5 @@
 from django.contrib import admin
-from djcode.reservations.models import Medical_office, Office_phone, Patient
+from djcode.reservations.models import Medical_office, Office_phone, Patient, Visit_template
 
 class Office_phone_Inline(admin.TabularInline):
     model = Office_phone
@@ -17,3 +17,7 @@ class Patient_Admin(admin.ModelAdmin):
 	list_display = ("full_name", "phone_number", "email", "ident_hash")
 	search_fields = ("last_name",)
 admin.site.register(Patient, Patient_Admin)
+
+class Visit_template_Admin(admin.ModelAdmin):
+	list_display = ("__unicode__", "valid_since", "valid_until")
+admin.site.register(Visit_template, Visit_template_Admin)

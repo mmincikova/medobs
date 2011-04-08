@@ -55,3 +55,28 @@ class Office_phone(models.Model):
 
 	def __unicode__(self):
 		return self.number
+
+class Visit_template(models.Model):
+	DAYS = (
+		(0, _("Sunday")),
+		(1, _("Monday")),
+		(2, _("Tuesday")),
+		(3, _("Wednesday")),
+		(4, _("Thursday")),
+		(5, _("Friday")),
+		(6, _("Saturday")),
+	)
+	day = models.PositiveSmallIntegerField(_("day"), choices=DAYS)
+	starting_time = models.TimeField(_("starting time"))
+	valid_since = models.DateField(_("valid since"),
+			help_text=_("This date is included into interval."))
+	valid_until = models.DateField(_("valid until"), null=True, blank=True,
+			help_text=_("This date is not included into interval."))
+
+	class Meta:
+		verbose_name = _("visit template")
+		verbose_name_plural = _("visit templates")
+
+	def __unicode__(self):
+		return _("%s at %s") % (self.get_day_display(), self.starting_time)
+
