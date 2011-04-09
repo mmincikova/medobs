@@ -58,13 +58,13 @@ class Office_phone(models.Model):
 
 class Visit_template(models.Model):
 	DAYS = (
-		(0, _("Sunday")),
 		(1, _("Monday")),
 		(2, _("Tuesday")),
 		(3, _("Wednesday")),
 		(4, _("Thursday")),
 		(5, _("Friday")),
 		(6, _("Saturday")),
+		(7, _("Sunday")),
 	)
 	day = models.PositiveSmallIntegerField(_("day"), choices=DAYS)
 	starting_time = models.TimeField(_("starting time"))
