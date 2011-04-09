@@ -1,5 +1,8 @@
 from django.contrib import admin
-from djcode.reservations.models import Medical_office, Office_phone, Patient, Visit_disable_rule, Visit_template
+from djcode.reservations.models import Examination_kind, Medical_office, Office_phone, Patient
+from djcode.reservations.models import Visit_disable_rule, Visit_reservation, Visit_template
+
+admin.site.register(Examination_kind)
 
 class Office_phone_Inline(admin.TabularInline):
     model = Office_phone
@@ -21,6 +24,10 @@ admin.site.register(Patient, Patient_Admin)
 class Visit_template_Admin(admin.ModelAdmin):
 	list_display = ("__unicode__", "valid_since", "valid_until")
 admin.site.register(Visit_template, Visit_template_Admin)
+
+class Visit_reservation_Admin(admin.ModelAdmin):
+	pass
+admin.site.register(Visit_reservation, Visit_reservation_Admin)
 
 class Visit_disable_rule_Admin(admin.ModelAdmin):
 	list_display = ("begin", "end")

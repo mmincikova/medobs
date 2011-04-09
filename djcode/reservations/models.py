@@ -90,3 +90,37 @@ class Visit_disable_rule(models.Model):
 
 	def __unicode__(self):
 		return _("From %s to %s") % (self.begin, self.end)
+
+class Examination_kind(models.Model):
+	title = models.TextField(_("title"))
+
+	class Meta:
+		verbose_name = _("examination kind")
+		verbose_name_plural = _("examinations kinds")
+
+	def __unicode__(self):
+		return self.title
+
+class Visit_reservation(models.Model):
+	STATUSES = (
+		(1, _("disabled")),
+		(2, _("enabled")),
+		(3, _("booked")),
+		(4, _("in held")),
+	)
+	starting_time = models.DateTimeField(_("starting_time"))
+	place = models.ForeignKey(Medical_office, verbose_name=_("place"),
+			related_name="visit_reservations")
+	patient = models.ForeignKey(Patient, verbose_name=_("patient"), null=True, blank=True,
+			related_name="visit_reservations")
+	exam_kind = models.ForeignKey(Examination_kind, verbose_name=_("examination kind"),
+			null=True, blank=True)
+	status = models.PositiveSmallIntegerField(_("status"), default=2, choices=STATUSES)
+	booked_at = models.DateTimeField(_("booked at"), null=True, blank=True)
+
+	class Meta:
+		verbose_name = _("visit reservation")
+		verbose_name_plural = _("visit reservations")
+
+	def __unicode__(self):
+		return _("%s at %s") % (self.patient.full_name, self.starting_time)
