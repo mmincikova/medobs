@@ -108,7 +108,7 @@ class Visit_reservation(models.Model):
 		(3, _("booked")),
 		(4, _("in held")),
 	)
-	starting_time = models.DateTimeField(_("starting_time"))
+	starting_time = models.DateTimeField(_("starting time"))
 	place = models.ForeignKey(Medical_office, verbose_name=_("place"),
 			related_name="visit_reservations")
 	patient = models.ForeignKey(Patient, verbose_name=_("patient"), null=True, blank=True,
