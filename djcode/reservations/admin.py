@@ -22,7 +22,7 @@ class Patient_Admin(admin.ModelAdmin):
 admin.site.register(Patient, Patient_Admin)
 
 class Visit_template_Admin(admin.ModelAdmin):
-	list_display = ("__unicode__", "valid_since", "valid_until")
+	list_display = ("__unicode__", "place", "valid_since", "valid_until")
 admin.site.register(Visit_template, Visit_template_Admin)
 
 class Visit_reservation_Admin(admin.ModelAdmin):
@@ -30,5 +30,5 @@ class Visit_reservation_Admin(admin.ModelAdmin):
 admin.site.register(Visit_reservation, Visit_reservation_Admin)
 
 class Visit_disable_rule_Admin(admin.ModelAdmin):
-	list_display = ("begin", "end")
+	list_display = ("begin", "end", "place")
 admin.site.register(Visit_disable_rule, Visit_disable_rule_Admin)
