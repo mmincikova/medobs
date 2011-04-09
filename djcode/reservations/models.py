@@ -80,3 +80,13 @@ class Visit_template(models.Model):
 	def __unicode__(self):
 		return _("%s at %s") % (self.get_day_display(), self.starting_time)
 
+class Visit_disable_rule(models.Model):
+	begin = models.DateTimeField(_("begin"))
+	end = models.DateTimeField(_("end"))
+
+	class Meta:
+		verbose_name = _("visit disable rule")
+		verbose_name_plural = _("visit disable rules")
+
+	def __unicode__(self):
+		return _("From %s to %s") % (self.begin, self.end)
