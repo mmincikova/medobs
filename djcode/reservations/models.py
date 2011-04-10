@@ -106,7 +106,7 @@ class Examination_kind(models.Model):
 		return self.title
 
 class Visit_reservation(models.Model):
-	STATUSES = (
+	STATUS_CHOICES = (
 		(1, _("disabled")),
 		(2, _("enabled")),
 		(3, _("booked")),
@@ -119,7 +119,7 @@ class Visit_reservation(models.Model):
 			related_name="visit_reservations")
 	exam_kind = models.ForeignKey(Examination_kind, verbose_name=_("examination kind"),
 			null=True, blank=True)
-	status = models.PositiveSmallIntegerField(_("status"), default=2, choices=STATUSES)
+	status = models.PositiveSmallIntegerField(_("status"), default=2, choices=STATUS_CHOICES)
 	booked_at = models.DateTimeField(_("booked at"), null=True, blank=True)
 
 	class Meta:
