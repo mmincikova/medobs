@@ -127,4 +127,4 @@ class Visit_reservation(models.Model):
 		verbose_name_plural = _("visit reservations")
 
 	def __unicode__(self):
-		return _("%s at %s") % (self.patient.full_name, self.starting_time)
+		return _("%s at %s") % (self.starting_time, self.place.name)
