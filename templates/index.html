@@ -22,10 +22,6 @@
 		font-style: italic;
 		font-weight: normal;
 	}
-	#form {
-		padding: 1em;
-		background-color: #def;
-	}
 	input[type="submit"] {
 		padding: 5px 7px;
 		font-weight: bold;
@@ -55,9 +51,7 @@
 {% block page_container %}
 <h1 class="grid_12">Rezervačný systém</h1>
 
-<div class="grid_4">
-<div id="form">
-<form>
+<form class="grid_4">
 	<label>Rodné číslo:</label> <input type="text" /><br />
 	<label>Meno:</label> <input type="text" /><br />
 	<label>Priezvisko:</label> <input type="text" /><br />
@@ -68,10 +62,8 @@
 
 	<div id="datepicker"></div><br />
 
-	<input type="submit" value="Rezervovať termín">
+	<button type="submit">Rezervovať termín</button>
 </form>
-</div>
-</div>
 
 <div class="grid_8" id="datetime">
 	<div id="tabs">
