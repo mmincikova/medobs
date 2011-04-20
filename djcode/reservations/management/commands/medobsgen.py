@@ -25,7 +25,7 @@ class Command(NoArgsCommand):
 			while day <= end_day:
 				templates = Visit_template.objects.filter(day = day.isoweekday())
 				templates = templates.filter(valid_since__lte = day)
-				templates = templates.filter(Q(valid_until__exact=None) | Q(valid_until__gt=None))
+				templates = templates.filter(Q(valid_until__exact=None) | Q(valid_until__gt=day))
 
 				for tmp in templates:
 					starting_time = datetime.datetime.combine(day, tmp.starting_time)
