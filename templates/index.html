@@ -6,11 +6,15 @@
 		font-size: 90%;
 		font-family: Verdana;
 	}
+	fieldset { margin-bottom: 1em; }
 	label {
+		font-weight: normal;
+		font-size: 80%;
+		width: 14ex;
+	}
+	#person_part label {
 		float: left;
 		display: block;
-		width: 11ex;
-		font-weight: normal;
 		line-height: 24px;
 	}
 	h1 {
@@ -27,8 +31,8 @@
 		font-weight: bold;
 		font-size: 100%;
 	}
-	#datetime {
-	}
+	form ul { list-style: none; }
+	#datepicker { margin-top: 2em; margin-bottom: 1em; }
 	#footer {
 		margin-top: 1em;
 		border-top: 1px solid #DFE2E1;
@@ -51,17 +55,20 @@
 {% block page_container %}
 <h1 class="grid_12">Rezervačný systém</h1>
 
-<form class="grid_4">
-	<label>Rodné číslo:</label> <input type="text" /><br />
-	<label>Meno:</label> <input type="text" /><br />
-	<label>Priezvisko:</label> <input type="text" /><br />
-	<label>Telefón:</label> <input type="text" /><br />
-	<label>E-mail:</label> <input type="text" /><br /><br />
-	<input type="radio"> Prvé vyšetrenie v ambulancii<br />
-	<input type="radio"> Kontrolné vyšetrenie<br /><br />
-
-	<div id="datepicker"></div><br />
-
+<form class="grid_4" action="." method="post">
+	<fieldset id="person_part">
+		{% csrf_token %}
+		{{ form.ident_hash.label_tag }}{{ form.ident_hash }}
+		{{ form.first_name.label_tag }}{{ form.first_name }}
+		{{ form.last_name.label_tag }}{{ form.last_name }}
+		{{ form.phone_number.label_tag }}{{ form.phone_number }}
+		{{ form.email.label_tag }}{{ form.email }}
+	</fieldset>
+	<fieldset id="visit_part">
+		{{ form.reservation }}
+		{{ form.exam_kind.label_tag }}{{ form.exam_kind }}
+	</fieldset>
+	<div id="datepicker"></div>
 	<button type="submit">Rezervovať termín</button>
 </form>
 
