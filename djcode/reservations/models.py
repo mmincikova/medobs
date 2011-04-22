@@ -1,3 +1,5 @@
+from datetime import datetime, date, time
+
 from django.conf import settings
 from django.db import models
 from django.utils.hashcompat import sha_constructor
@@ -43,6 +45,16 @@ class Medical_office(models.Model):
 
 	def __unicode__(self):
 		return self.name
+
+	def reservations(self, year=date.today().year, month=date.today().month, day=date.today().day):
+		""" Returns all reservations in office for selected day. """
+		for_date = date(year, month, day)
+		since = datetime.combine(for_date, time(0, 0, 0))
+		until = datetime.combine(for_date, time(23, 59, 59))
+		return self.visit_reservations.filter(
+				starting_time__gte=since,
+				starting_time__lte=until
+			).order_by("starting_time")
 
 class Office_phone(models.Model):
 	number = models.CharField(_("number"), max_length=50)
