@@ -39,15 +39,9 @@
 		text-align: center;
 		font-size: 75%;
 	}
-	#selectable-1 .ui-selecting { background: #FECA40; }
-	#selectable-1 .ui-selected { background: #F39814; color: white; }
-	#selectable-1 { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-	#selectable-1 li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
-
-	#selectable-2 .ui-selecting { background: #FECA40; }
-	#selectable-2 .ui-selected { background: #F39814; color: white; }
-	#selectable-2 { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-	#selectable-2 li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
+	.ui-selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+	.ui-selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
+	.ui-selectable .ui-selected { background: #F39814; color: white; }
 </style>
 {% endblock %}
 
@@ -82,9 +76,12 @@
 		{% for place in places %}
 		<div id="tabs-{{ place.id }}">
 			<h3>Deň: {% now "d.m.Y" %}</h3>
-			<ol id="selectable-{{ place.id }}">
+			<ol class="ui-selectable">
 				{% for r in place.reservations %}
-				<li class="ui-widget-content">{{ r.starting_time|date:"H:i" }}</li>
+				<li class="ui-widget-content ui-selectee">
+					<input type="hidden" value="{{ r.id }}" />
+					{{ r.starting_time|date:"H:i" }}
+				</li>
 				{% endfor %}
 			</ol>
 		</div>
@@ -100,29 +97,13 @@
 {% block footer_js_page %}
 <script>
 $(function() {
-        $.datepicker.regional['sk'] = {
-                closeText: 'Zavrieť',
-                prevText: '&#x3c;Predchádzajúci',
-                nextText: 'Nasledujúci&#x3e;',
-                currentText: 'Dnes',
-                monthNames: ['Január','Február','Marec','Apríl','Máj','Jún',
-                'Júl','August','September','Október','November','December'],
-                monthNamesShort: ['Jan','Feb','Mar','Apr','Máj','Jún',
-                'Júl','Aug','Sep','Okt','Nov','Dec'],
-                dayNames: ['Nedel\'a','Pondelok','Utorok','Streda','Štvrtok','Piatok','Sobota'],
-                dayNamesShort: ['Ned','Pon','Uto','Str','Štv','Pia','Sob'],
-                dayNamesMin: ['Ne','Po','Ut','St','Št','Pia','So'],
-                weekHeader: 'Ty',
-                dateFormat: 'dd.mm.yy',
-                firstDay: 1,
-                isRTL: false,
-                showMonthAfterYear: false,
-                yearSuffix: ''};
-        $.datepicker.setDefaults($.datepicker.regional['sk']);
 	$("#datepicker").datepicker();
 	$("#tabs").tabs();
-	$("#selectable-1").selectable();
-	$("#selectable-2").selectable();
+	$(".ui-selectable li").click(function(){
+		$(".ui-selected").removeClass("ui-selected");
+		$(this).addClass("ui-selected");
+		$("#id_reservation").val($("input[type='hidden']", $(this)).val());
+	});
 });
 </script>
 {% endblock %}
