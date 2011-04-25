@@ -3,14 +3,9 @@ from django.conf.urls.defaults import *
 from django.contrib import admin
 from django.views.generic.simple import direct_to_template
 
-from djcode.reservations.forms import Patient_form
-
 admin.autodiscover()
 urlpatterns = patterns("",
-	(r"^$", direct_to_template, {
-		"template": "index.html",
-		"extra_context": {"form": Patient_form()}
-	}, "site_home"),
+	(r"^$", "djcode.reservations.views.front_page"),
 )
 
 if settings.DEBUG:

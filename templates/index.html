@@ -39,15 +39,15 @@
 		text-align: center;
 		font-size: 75%;
 	}
-	#selectable .ui-selecting { background: #FECA40; }
-	#selectable .ui-selected { background: #F39814; color: white; }
-	#selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-	#selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
+	#selectable-1 .ui-selecting { background: #FECA40; }
+	#selectable-1 .ui-selected { background: #F39814; color: white; }
+	#selectable-1 { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+	#selectable-1 li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
 
-	#selectable2 .ui-selecting { background: #FECA40; }
-	#selectable2 .ui-selected { background: #F39814; color: white; }
-	#selectable2 { list-style-type: none; margin: 0; padding: 0; width: 60%; }
-	#selectable2 li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
+	#selectable-2 .ui-selecting { background: #FECA40; }
+	#selectable-2 .ui-selected { background: #F39814; color: white; }
+	#selectable-2 { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+	#selectable-2 li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
 </style>
 {% endblock %}
 
@@ -75,33 +75,20 @@
 <div class="grid_8" id="datetime">
 	<div id="tabs">
 		<ul>
-			<li><a href="#tabs-1">Ambulancia Prešov</a></li>
-			<li><a href="#tabs-2">Ambulancia Sabinov</a></li>
+		{% for place in places %}
+			<li><a href="#tabs-{{ place.id }}">{{ place.name }}</a></li>
+		{% endfor %}
 		</ul>
-		<div id="tabs-1">
+		{% for place in places %}
+		<div id="tabs-{{ place.id }}">
 			<h3>Deň: {% now "d.m.Y" %}</h3>
-			<ol id="selectable">
-				<li class="ui-widget-content">08:00</li>
-				<li class="ui-widget-content">09:00</li>
-				<li class="ui-widget-content">10:00</li>
-				<li class="ui-widget-content">11:00</li>
-				<li class="ui-widget-content">12:00</li>
-				<li class="ui-widget-content">13:00</li>
-				<li class="ui-widget-content">14:00</li>
-				<li class="ui-widget-content">15:00</li>
+			<ol id="selectable-{{ place.id }}">
+				{% for r in place.reservations %}
+				<li class="ui-widget-content">{{ r.starting_time|date:"H:i" }}</li>
+				{% endfor %}
 			</ol>
 		</div>
-		<div id="tabs-2">
-			<h3>Deň: {% now "d.m.Y" %}</h3>
-			<ol id="selectable2">
-				<li class="ui-widget-content">08:30</li>
-				<li class="ui-widget-content">09:30</li>
-				<li class="ui-widget-content">10:30</li>
-				<li class="ui-widget-content">11:30</li>
-				<li class="ui-widget-content">12:30</li>
-				<li class="ui-widget-content">13:30</li>
-			</ol>
-		</div>
+		{% endfor %}
 	</div>
 </div>
 
@@ -134,8 +121,8 @@ $(function() {
         $.datepicker.setDefaults($.datepicker.regional['sk']);
 	$("#datepicker").datepicker();
 	$("#tabs").tabs();
-	$("#selectable").selectable();
-	$("#selectable2").selectable();
+	$("#selectable-1").selectable();
+	$("#selectable-2").selectable();
 });
 </script>
 {% endblock %}
