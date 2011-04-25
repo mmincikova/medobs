@@ -32,6 +32,7 @@
 		font-size: 100%;
 	}
 	form ul { list-style: none; }
+	.errorlist { font-size: 80%; color: #F00; margin-left: 10px; }
 	#datepicker { margin-top: 2em; margin-bottom: 1em; }
 	#footer {
 		margin-top: 1em;
@@ -52,15 +53,15 @@
 <form class="grid_4" action="." method="post">
 	<fieldset id="person_part">
 		{% csrf_token %}
-		{{ form.ident_hash.label_tag }}{{ form.ident_hash }}
-		{{ form.first_name.label_tag }}{{ form.first_name }}
-		{{ form.last_name.label_tag }}{{ form.last_name }}
-		{{ form.phone_number.label_tag }}{{ form.phone_number }}
-		{{ form.email.label_tag }}{{ form.email }}
+		{{ form.ident_hash.label_tag }}{{ form.ident_hash }}{{ form.ident_hash.errors }}
+		{{ form.first_name.label_tag }}{{ form.first_name }}{{ form.first_name.errors }}
+		{{ form.last_name.label_tag }}{{ form.last_name }}{{ form.last_name.errors }}
+		{{ form.phone_number.label_tag }}{{ form.phone_number }}{{ form.phone_number.errors }}
+		{{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}
 	</fieldset>
 	<fieldset id="visit_part">
-		{{ form.reservation }}
-		{{ form.exam_kind.label_tag }}{{ form.exam_kind }}
+		{{ form.reservation }}{{ form.reservation.errors }}
+		{{ form.exam_kind.label_tag }}{{ form.exam_kind }}{{ form.exam_kind.errors }}
 	</fieldset>
 	<div id="datepicker"></div>
 	<button type="submit">Rezervovať termín</button>
