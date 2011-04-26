@@ -9,17 +9,44 @@
 	<meta name="author" content="Peter Hyben; e-mail: hugis@tag.sk" />
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/960.css" type="text/css" media="screen, projection">
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/cupertino/jquery-ui.css" type="text/css" media="screen, projection" />
+	<style type="text/css">
+		body {
+			font-size: 90%;
+			font-family: Verdana;
+		}
+		h1 {
+			border-bottom: 1px solid #DFE2E1;
+			margin-bottom: 1em;
+			font-family: Georgia, Times New Roman, Serif;
+			font-size: 200%;
+			font-variant: small-caps;
+			font-style: italic;
+			font-weight: normal;
+		}
+		#footer {
+			margin-top: 1em;
+			border-top: 1px solid #DFE2E1;
+			text-align: center;
+			font-size: 75%;
+		}
+	</style>
 	{% block head_css %}{% endblock %}
 	{% block head_section %}{% endblock %}
 	{% block head_page %}{% endblock %}
 </head>
 {% endblock %}
+
 {% block body %}
 <body>
 <div class="container_12">
+<h1 class="grid_12">{% trans "Medical Reservation System" %}</h1>
 {% block page_container %}{% endblock %}
+<div id="footer" class="grid_12">
+	<a href="http://www.urologia-presov.sk/">Urologická ambulancia</a>, Doc. MUDr. Ivan Minčík, PhD.
+</div>
 </div>
 {% endblock %}
+
 {% block footer %}
 {% block footer_js_site %}
 <script type="text/javascript" src="{{ MEDIA_URL }}js/jquery.js"></script>
