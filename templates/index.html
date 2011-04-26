@@ -44,6 +44,7 @@
 	.ui-selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
 	.ui-selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
 	.ui-selectable .ui-selected { background: #F39814; color: white; }
+	.ui-selectable .ui-disabled { color: #CCC; }
 </style>
 {% endblock %}
 
@@ -80,7 +81,7 @@
 			<h3>Deň: {% now "d.m.Y" %}</h3>
 			<ol class="ui-selectable">
 				{% for r in place.reservations %}
-				<li class="ui-widget-content ui-selectee">
+				<li class="ui-widget-content ui-selectee{% if r.status != 2 %} ui-disabled{% endif %}">
 					<input type="hidden" value="{{ r.id }}" />
 					{{ r.starting_time|date:"H:i" }}
 				</li>
@@ -102,9 +103,11 @@ $(function() {
 	$("#datepicker").datepicker();
 	$("#tabs").tabs();
 	$(".ui-selectable li").click(function(){
-		$(".ui-selected").removeClass("ui-selected");
-		$(this).addClass("ui-selected");
-		$("#id_reservation").val($("input[type='hidden']", $(this)).val());
+		if(!$(this).hasClass("ui-disabled")){
+			$(".ui-selected").removeClass("ui-selected");
+			$(this).addClass("ui-selected");
+			$("#id_reservation").val($("input[type='hidden']", $(this)).val());
+		}
 	});
 });
 </script>
