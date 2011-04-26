@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load i18n %}
 
 {% block head_css %}
 <style>
@@ -48,7 +49,7 @@
 
 
 {% block page_container %}
-<h1 class="grid_12">Rezervačný systém</h1>
+<h1 class="grid_12">{% trans "Medical Reservation System" %}</h1>
 
 <form class="grid_4" action="." method="post">
 	<fieldset id="person_part">
@@ -64,7 +65,7 @@
 		{{ form.exam_kind.label_tag }}{{ form.exam_kind }}{{ form.exam_kind.errors }}
 	</fieldset>
 	<div id="datepicker"></div>
-	<button type="submit">Rezervovať termín</button>
+	<button type="submit">{% trans "Book reservation" %}</button>
 </form>
 
 <div class="grid_8" id="datetime">
