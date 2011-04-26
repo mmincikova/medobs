@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block page_container %}
+<div class="grid_12">
+<p>Your reservation has been booked. If you want to change or cancel your reservation
+call us on phone number:
+<ul>
+	{% for n in place.phone_numbers.all %}<li>{{ n }}</li>{% endfor %}
+</ul>
+</p>
+<p><a href="/">Back to front page</a></p>
+</div>
+{% endblock %}

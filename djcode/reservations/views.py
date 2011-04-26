@@ -1,4 +1,5 @@
 import datetime
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
@@ -26,6 +27,8 @@ def front_page(request):
 			reservation.status = 3
 			reservation.booked_at = datetime.datetime.now()
 			reservation.save()
+
+			return HttpResponseRedirect("/booked/%d/" % reservation.place_id)
 	else:
 		form = Patient_form()
 	
