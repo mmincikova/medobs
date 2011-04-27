@@ -98,3 +98,6 @@ if DEBUG:
 	INSTALLED_APPS += (
 		"django.contrib.admindocs",
 	)
+
+# How many day to future medobsgen generate visit reservation.
+MEDOBS_GEN_DAYS = 14
