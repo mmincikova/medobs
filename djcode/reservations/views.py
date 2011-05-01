@@ -57,4 +57,6 @@ def date_reservations(request, date):
 			} for r in place.reservations(year=date.year, month=date.month, day=date.day)]
 		})
 
-	return HttpResponse(json.dumps(response_data), "application/json")
+	response = HttpResponse(json.dumps(response_data), "application/json")
+	response["Cache-Control"] = "no-cache"
+	return response
