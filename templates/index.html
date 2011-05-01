@@ -21,6 +21,7 @@
 	}
 	form ul { list-style: none; }
 	.errorlist { font-size: 80%; color: #F00; margin-left: 10px; }
+	.error-message { color: #F00; }
 	#datepicker { margin-top: 2em; margin-bottom: 1em; }
 	.ui-selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
 	.ui-selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
@@ -33,6 +34,7 @@
 {% block page_container %}
 <form class="grid_4" action="." method="post">
 	<fieldset id="person_part">
+		{% if message %}<p class="error-message">{{ message }}</p>{% endif %}
 		{% csrf_token %}
 		{{ form.ident_hash.label_tag }}{{ form.ident_hash }}{{ form.ident_hash.errors }}
 		{{ form.first_name.label_tag }}{{ form.first_name }}{{ form.first_name.errors }}

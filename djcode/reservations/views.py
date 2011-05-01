@@ -4,33 +4,45 @@ import simplejson as json
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.utils.translation import ugettext_lazy as _
 
 from djcode.reservations.forms import Patient_form
 from djcode.reservations.models import Medical_office, Patient
 from djcode.reservations.models import get_hexdigest
 
+class DateInPast(Exception):
+	pass
+
 def front_page(request):
+	message = None
+	datetime_limit = datetime.combine(date.today(), time(23, 59, 59))
 	if request.method == 'POST':
 		form = Patient_form(request.POST)
 		if form.is_valid():
-			hexdigest = get_hexdigest(form.cleaned_data["ident_hash"])
-			patient, patient_created = Patient.objects.get_or_create(ident_hash=hexdigest,
-					defaults={
-						"first_name": form.cleaned_data["first_name"],
-						"last_name": form.cleaned_data["last_name"],
-						"ident_hash": form.cleaned_data["ident_hash"],
-						"phone_number": form.cleaned_data["phone_number"],
-						"email": form.cleaned_data["email"],
-					})
+			try:
+				reservation = form.cleaned_data["reservation"]
+				if reservation.starting_time <= datetime_limit:
+					raise DateInPast()
 
-			reservation = form.cleaned_data["reservation"]
-			reservation.patient = patient
-			reservation.exam_kind = form.cleaned_data["exam_kind"]
-			reservation.status = 3
-			reservation.booked_at = datetime.now()
-			reservation.save()
+				hexdigest = get_hexdigest(form.cleaned_data["ident_hash"])
+				patient, patient_created = Patient.objects.get_or_create(ident_hash=hexdigest,
+						defaults={
+							"first_name": form.cleaned_data["first_name"],
+							"last_name": form.cleaned_data["last_name"],
+							"ident_hash": form.cleaned_data["ident_hash"],
+							"phone_number": form.cleaned_data["phone_number"],
+							"email": form.cleaned_data["email"],
+						})
 
-			return HttpResponseRedirect("/booked/%d/" % reservation.place_id)
+				reservation.patient = patient
+				reservation.exam_kind = form.cleaned_data["exam_kind"]
+				reservation.status = 3
+				reservation.booked_at = datetime.now()
+				reservation.save()
+
+				return HttpResponseRedirect("/booked/%d/" % reservation.place_id)
+			except DateInPast:
+				message = _("You cannot make reservation for today or date in the past.")
 	else:
 		form = Patient_form()
 	
@@ -39,6 +51,7 @@ def front_page(request):
 		{
 			"places": Medical_office.objects.order_by("pk"),
 			"form": form,
+			"message": message,
 		},
 		context_instance=RequestContext(request)
 	)
