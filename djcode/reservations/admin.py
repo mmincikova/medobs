@@ -27,6 +27,7 @@ admin.site.register(Visit_template, Visit_template_Admin)
 
 class Visit_reservation_Admin(admin.ModelAdmin):
 	list_display = ("starting_time", "place", "status")
+	list_filter = ("status",)
 admin.site.register(Visit_reservation, Visit_reservation_Admin)
 
 class Visit_disable_rule_Admin(admin.ModelAdmin):
