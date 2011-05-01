@@ -59,7 +59,7 @@
 		</ul>
 		{% for place in places %}
 		<div id="tab-{{ place.id }}">
-			<h3>Deň: {% now "d.m.Y" %}</h3>
+			<h3>Deň: {{ actual_date|date:"d.m.Y" }}</h3>
 			<ol class="ui-selectable">
 				{% for r in place.reservations %}
 				<li class="ui-widget-content ui-selectee{% if r.id == reservation_id %} ui-selected{% endif %}{% if r.status != 2 %} ui-disabled{% endif %}">
