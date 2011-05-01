@@ -80,6 +80,7 @@
 $(function() {
 	$("#datepicker").datepicker({
 		defaultDate: "{{ actual_date|date:"Y-m-d" }}",
+		minDate: "{{ actual_date|date:"Y-m-d" }}",
 		dateFormat: "yy-mm-dd",
 		onSelect: function(dateText, inst){
 			var url = "/reservations/"+ dateText +"/";
