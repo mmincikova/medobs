@@ -6,8 +6,8 @@ from django.views.generic.list_detail import object_detail
 from djcode.reservations.models import Medical_office
 
 admin.autodiscover()
-urlpatterns = patterns("",
-	(r"^$", "djcode.reservations.views.front_page"),
+urlpatterns = patterns("djcode.reservations.views",
+	(r"^$", "front_page"),
 	(r"^booked/(?P<object_id>\d+)/$", object_detail, {
 		"queryset": Medical_office.objects.all(),
 		"template_object_name": "place",
