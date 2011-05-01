@@ -27,6 +27,13 @@ class Patient(models.Model):
 		return "%s %s" % (self.last_name, self.first_name)
 	full_name = property(_get_full_name)
 
+	def has_reservation(self):
+		if self.visit_reservations.filter(starting_time__gte=datetime.now()).exists():
+			return True
+		else:
+			return False
+	has_reservation.boolean = True
+
 	def save(self, *args, **kwargs):
 		if not self.id:
 			self.ident_hash = get_hexdigest(self.ident_hash)

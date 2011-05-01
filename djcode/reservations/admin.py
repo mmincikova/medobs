@@ -17,7 +17,7 @@ class Office_phone_Admin(admin.ModelAdmin):
 admin.site.register(Office_phone, Office_phone_Admin)
 
 class Patient_Admin(admin.ModelAdmin):
-	list_display = ("full_name", "phone_number", "email", "ident_hash")
+	list_display = ("full_name", "phone_number", "email", "ident_hash", "has_reservation")
 	search_fields = ("last_name",)
 admin.site.register(Patient, Patient_Admin)
 
