@@ -79,7 +79,7 @@ def date_reservations(request, for_date):
 				"id": r.id,
 				"time": r.starting_time.time().strftime("%H:%M"),
 				"disabled": True if r.status != 2 else False
-			} for r in place.reservations(year=for_date.year, month=for_date.month, day=for_date.day)]
+			} for r in place.reservations(for_date)]
 		})
 
 	response = HttpResponse(json.dumps(response_data), "application/json")
