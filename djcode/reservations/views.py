@@ -1,4 +1,4 @@
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timedelta
 import simplejson as json
 
 from django.http import HttpResponseRedirect, HttpResponse
@@ -15,8 +15,8 @@ class DateInPast(Exception):
 
 def front_page(request):
 	message = None
-	actual_date = date.today()
-	datetime_limit = datetime.combine(date.today(), time(23, 59, 59))
+	actual_date = date.today() + timedelta(1)
+	datetime_limit = datetime.combine(actual_date, time(0, 0))
 	reservation_id = 0
 
 	if request.method == 'POST':
@@ -27,7 +27,7 @@ def front_page(request):
 				actual_date = reservation.starting_time.date()
 				reservation_id = reservation.id
 
-				if reservation.starting_time <= datetime_limit:
+				if reservation.starting_time < datetime_limit:
 					raise DateInPast()
 
 				hexdigest = get_hexdigest(form.cleaned_data["ident_hash"])
