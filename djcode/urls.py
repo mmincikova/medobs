@@ -8,6 +8,7 @@ from djcode.reservations.models import Medical_office
 admin.autodiscover()
 urlpatterns = patterns("djcode.reservations.views",
 	(r"^$", "front_page"),
+	(r"^reservations/(?P<date>\d{4}-\d{2}-\d{2})/$", "date_reservations"),
 	(r"^booked/(?P<object_id>\d+)/$", object_detail, {
 		"queryset": Medical_office.objects.all(),
 		"template_object_name": "place",

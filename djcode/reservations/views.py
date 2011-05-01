@@ -1,5 +1,7 @@
 import datetime
-from django.http import HttpResponseRedirect
+import simplejson as json
+
+from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 
@@ -41,3 +43,18 @@ def front_page(request):
 		context_instance=RequestContext(request)
 	)
 
+def date_reservations(request, date):
+	date = datetime.datetime.strptime(date, "%Y-%m-%d").date()
+	response_data = []
+
+	for place in Medical_office.objects.all():
+		response_data.append({
+			"place_id": place.id,
+			"reservations": [{
+				"id": r.id,
+				"time": r.starting_time.time().strftime("%H:%M"),
+				"disabled": True if r.status != 2 else False
+			} for r in place.reservations(year=date.year, month=date.month, day=date.day)]
+		})
+
+	return HttpResponse(json.dumps(response_data), "application/json")
