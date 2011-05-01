@@ -46,9 +46,8 @@ class Medical_office(models.Model):
 	def __unicode__(self):
 		return self.name
 
-	def reservations(self, year=date.today().year, month=date.today().month, day=date.today().day):
+	def reservations(self, for_date):
 		""" Returns all reservations in office for selected day. """
-		for_date = date(year, month, day)
 		since = datetime.combine(for_date, time(0, 0, 0))
 		until = datetime.combine(for_date, time(23, 59, 59))
 		return self.visit_reservations.filter(

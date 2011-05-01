@@ -62,7 +62,7 @@
 			<h3>Deň: {% now "d.m.Y" %}</h3>
 			<ol class="ui-selectable">
 				{% for r in place.reservations %}
-				<li class="ui-widget-content ui-selectee{% if r.status != 2 %} ui-disabled{% endif %}">
+				<li class="ui-widget-content ui-selectee{% if r.id == reservation_id %} ui-selected{% endif %}{% if r.status != 2 %} ui-disabled{% endif %}">
 					<input type="hidden" value="{{ r.id }}" />
 					{{ r.starting_time|date:"H:i" }}
 				</li>
@@ -79,6 +79,7 @@
 <script>
 $(function() {
 	$("#datepicker").datepicker({
+		defaultDate: "{{ actual_date|date:"Y-m-d" }}",
 		dateFormat: "yy-mm-dd",
 		onSelect: function(dateText, inst){
 			var url = "/reservations/"+ dateText +"/";

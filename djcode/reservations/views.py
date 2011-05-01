@@ -15,12 +15,18 @@ class DateInPast(Exception):
 
 def front_page(request):
 	message = None
+	actual_date = date.today()
 	datetime_limit = datetime.combine(date.today(), time(23, 59, 59))
+	reservation_id = 0
+
 	if request.method == 'POST':
 		form = Patient_form(request.POST)
 		if form.is_valid():
 			try:
 				reservation = form.cleaned_data["reservation"]
+				actual_date = reservation.starting_time.date()
+				reservation_id = reservation.id
+
 				if reservation.starting_time <= datetime_limit:
 					raise DateInPast()
 
@@ -49,12 +55,18 @@ def front_page(request):
 	return render_to_response(
 		"index.html",
 		{
-			"places": Medical_office.objects.order_by("pk"),
+			"places": get_places(actual_date),
 			"form": form,
 			"message": message,
+			"actual_date": actual_date,
+			"reservation_id": reservation_id,
 		},
 		context_instance=RequestContext(request)
 	)
+
+def get_places(actual_date):
+	offices = Medical_office.objects.order_by("pk")
+	return [{"id": o.id, "name": o.name, "reservations": o.reservations(actual_date)} for o in offices]
 
 def date_reservations(request, for_date):
 	for_date = datetime.strptime(for_date, "%Y-%m-%d").date()
