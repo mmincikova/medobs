@@ -52,11 +52,11 @@
 	<div id="tabs">
 		<ul>
 		{% for place in places %}
-			<li><a href="#tabs-{{ place.id }}">{{ place.name }}</a></li>
+			<li><a href="#tab-{{ place.id }}">{{ place.name }}</a></li>
 		{% endfor %}
 		</ul>
 		{% for place in places %}
-		<div id="tabs-{{ place.id }}">
+		<div id="tab-{{ place.id }}">
 			<h3>Deň: {% now "d.m.Y" %}</h3>
 			<ol class="ui-selectable">
 				{% for r in place.reservations %}
@@ -76,9 +76,32 @@
 {% block footer_js_page %}
 <script>
 $(function() {
-	$("#datepicker").datepicker();
+	$("#datepicker").datepicker({
+		dateFormat: "yy-mm-dd",
+		onSelect: function(dateText, inst){
+			var url = "/reservations/"+ dateText +"/";
+			$.getJSON(url, function(data){
+				var tabs = $("#tabs");
+				$.each(data, function(i, place){
+					var rlist = $("#tab-"+ place.place_id +" .ui-selectable", tabs);
+					rlist.empty();
+					$.each(place.reservations, function(i, r){
+						var disabled_class = r.disabled ? " ui-disabled" : "";
+						$("<li></li>")
+							.addClass("ui-widget-content ui-selectee"+ disabled_class)
+							.html(r.time)
+							.appendTo(rlist)
+							.prepend($("<input>").attr({
+								type: "hidden",
+								value: r.id
+							}));
+					});
+				});
+			});
+		}
+	});
 	$("#tabs").tabs();
-	$(".ui-selectable li").click(function(){
+	$(".ui-selectable li").live("click", function(){
 		if(!$(this).hasClass("ui-disabled")){
 			$(".ui-selected").removeClass("ui-selected");
 			$(this).addClass("ui-selected");
