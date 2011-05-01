@@ -40,6 +40,9 @@ def front_page(request):
 							"email": form.cleaned_data["email"],
 						})
 
+				if not patient_created and patient.has_reservation():
+					return HttpResponseRedirect("/cancel/%d/" % reservation.place_id)
+
 				reservation.patient = patient
 				reservation.exam_kind = form.cleaned_data["exam_kind"]
 				reservation.status = 3
