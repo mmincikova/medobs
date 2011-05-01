@@ -14,6 +14,11 @@ urlpatterns = patterns("djcode.reservations.views",
 		"template_object_name": "place",
 		"template_name": "booked.html",
 	}),
+	(r"^cancel/(?P<object_id>\d+)/$", object_detail, {
+		"queryset": Medical_office.objects.all(),
+		"template_object_name": "place",
+		"template_name": "cancel.html",
+	}),
 )
 
 if settings.DEBUG:
