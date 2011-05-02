@@ -13,6 +13,9 @@ from djcode.reservations.models import get_hexdigest
 class DateInPast(Exception):
 	pass
 
+class BadStatus(Exception):
+	pass
+
 def front_page(request):
 	message = None
 	actual_date = date.today() + timedelta(1)
@@ -26,6 +29,9 @@ def front_page(request):
 				reservation = form.cleaned_data["reservation"]
 				actual_date = reservation.starting_time.date()
 				reservation_id = reservation.id
+
+				if reservation.status != 2:
+					raise BadStatus()
 
 				if reservation.starting_time < datetime_limit:
 					raise DateInPast()
@@ -52,6 +58,9 @@ def front_page(request):
 				return HttpResponseRedirect("/booked/%d/" % reservation.place_id)
 			except DateInPast:
 				message = _("You cannot make reservation for today or date in the past.")
+			except BadStatus:
+				message = _("The reservation has been already booked. Please try again.")
+				reservation_id = 0
 	else:
 		form = Patient_form()
 	
