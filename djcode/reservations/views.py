@@ -31,8 +31,12 @@ def front_page(request):
 				actual_date = reservation.starting_time.date()
 				reservation_id = reservation.id
 
-				if reservation.status != 2:
-					raise BadStatus()
+				if request.user.is_authenticated:
+					if reservation.status not in (2, 4):
+						raise BadStatus()
+				else:
+					if reservation.status != 2:
+						raise BadStatus()
 
 				if reservation.starting_time < datetime_limit:
 					raise DateInPast()
