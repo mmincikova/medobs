@@ -23,10 +23,16 @@
 	.errorlist { font-size: 80%; color: #F00; margin-left: 10px; }
 	.error-message { color: #F00; }
 	#datepicker { margin-top: 2em; margin-bottom: 1em; }
-	.ui-selectable { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+	.ui-selectable { list-style-type: none; margin: 0; padding: 0; }
 	.ui-selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
 	.ui-selectable .ui-selected { background: #F39814; color: white; }
+	{% if user.is_authenticated %}
+	.ui-selectable .ui-status-1 { color: #CCC; }
+	.ui-selectable .ui-status-3 { color: #0A0; }
+	.ui-selectable .ui-status-4 { color: #A00; }
+	{% else %}
 	.ui-selectable .ui-disabled { color: #CCC; }
+	{% endif %}
 </style>
 {% endblock %}
 
@@ -62,9 +68,15 @@
 			<h3>Deň: {{ actual_date|date:"d.m.Y" }}</h3>
 			<ol class="ui-selectable">
 				{% for r in place.reservations %}
-				<li class="ui-widget-content ui-selectee{% if r.id == reservation_id %} ui-selected{% endif %}{% if r.status != 2 %} ui-disabled{% endif %}">
+				<li class="ui-widget-content ui-selectee{% if r.id == reservation_id %} ui-selected{% endif %} {% spaceless %}
+					{% if user.is_authenticated %}
+						ui-status-{{ r.status }}
+					{% else %}
+						{% if r.status != 2 %}ui-disabled{% endif %}
+					{% endif %}{% endspaceless %}">
 					<input type="hidden" value="{{ r.id }}" />
 					{{ r.starting_time|date:"H:i" }}
+					{% if user.is_authenticated and r.status == 3 %} {{ r.patient.full_name }}{% endif %}
 				</li>
 				{% endfor %}
 			</ol>
@@ -76,8 +88,49 @@
 {% endblock %}
 
 {% block footer_js_page %}
-<script>
+<script type="text/javascript">
+
 $(function() {
+	function select_reservation(elem){
+		$(".ui-selected").removeClass("ui-selected");
+		elem.addClass("ui-selected");
+		$("#id_reservation").val($("input[type='hidden']", $(this)).val());
+	}
+
+	{% if user.is_authenticated %}
+	$(".ui-selectable li").live("click", function(){ select_reservation($(this)); });
+
+	function make_reservation_item(r, rlist){
+		$("<li></li>")
+			.addClass("ui-widget-content ui-selectee ui-status-"+ r.status)
+			.html(r.time)
+			.appendTo(rlist)
+			.prepend($("<input>").attr({
+				type: "hidden",
+				value: r.id
+			}))
+			.append(" "+ r.patient);
+	}
+	{% else %}
+	$(".ui-selectable li").live("click", function(){
+		if(!$(this).hasClass("ui-disabled")){ select_reservation($(this)); }
+	});
+
+	function make_reservation_item(r, rlist){
+		var disabled_class = r.disabled ? " ui-disabled" : "";
+		$("<li></li>")
+			.addClass("ui-widget-content ui-selectee"+ disabled_class)
+			.html(r.time)
+			.appendTo(rlist)
+			.prepend($("<input>").attr({
+				type: "hidden",
+				value: r.id
+			}));
+	}
+	{% endif %}
+
+	var tabs = $("#tabs").tabs();
+
 	$("#datepicker").datepicker({
 		defaultDate: "{{ actual_date|date:"Y-m-d" }}",
 		minDate: "{{ actual_date|date:"Y-m-d" }}",
@@ -85,31 +138,14 @@ $(function() {
 		onSelect: function(dateText, inst){
 			var url = "/reservations/"+ dateText +"/";
 			$.getJSON(url, function(data){
-				var tabs = $("#tabs");
 				$.each(data, function(i, place){
 					var rlist = $("#tab-"+ place.place_id +" .ui-selectable", tabs);
 					rlist.empty();
 					$.each(place.reservations, function(i, r){
-						var disabled_class = r.disabled ? " ui-disabled" : "";
-						$("<li></li>")
-							.addClass("ui-widget-content ui-selectee"+ disabled_class)
-							.html(r.time)
-							.appendTo(rlist)
-							.prepend($("<input>").attr({
-								type: "hidden",
-								value: r.id
-							}));
+						make_reservation_item(r, rlist);
 					});
 				});
 			});
-		}
-	});
-	$("#tabs").tabs();
-	$(".ui-selectable li").live("click", function(){
-		if(!$(this).hasClass("ui-disabled")){
-			$(".ui-selected").removeClass("ui-selected");
-			$(this).addClass("ui-selected");
-			$("#id_reservation").val($("input[type='hidden']", $(this)).val());
 		}
 	});
 });

@@ -85,13 +85,22 @@ def date_reservations(request, for_date):
 	response_data = []
 
 	for place in Medical_office.objects.all():
-		response_data.append({
-			"place_id": place.id,
-			"reservations": [{
+		if request.user.is_authenticated():
+			reservations = [{
 				"id": r.id,
 				"time": r.starting_time.time().strftime("%H:%M"),
-				"disabled": True if r.status != 2 else False
+				"status": r.status,
+				"patient": r.patient.full_name if r.patient else "",
 			} for r in place.reservations(for_date)]
+		else:
+			reservations = [{
+				"id": r.id,
+				"time": r.starting_time.time().strftime("%H:%M"),
+				"disabled": True if r.status != 2 else False,
+			} for r in place.reservations(for_date)]
+		response_data.append({
+			"place_id": place.id,
+			"reservations": reservations
 		})
 
 	response = HttpResponse(json.dumps(response_data), "application/json")
