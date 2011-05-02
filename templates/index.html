@@ -142,6 +142,26 @@ $(function() {
 
 		select_reservation($(this));
 
+		{% if user.is_staff %}
+		if(elem.hasClass("ui-status-1")){
+			add_button("{% trans "Enable" %}", function(){
+				$.getJSON("/reservations/"+ r_id +"/enable/", function(data){
+					if(data.status_ok){
+						elem.removeClass("ui-status-1").addClass("ui-status-2");
+						$(".ui-selected", tab).removeClass("ui-selected");
+						$(".act-button", tab).remove();
+					} else {
+						display_message(
+							"{% trans "Message" %}",
+							"{% trans "The enable operation failed" %}"
+						);
+					}
+				});
+
+			});
+		}
+		{% endif %}
+
 		if(elem.hasClass("ui-status-3")){
 			add_button("{% trans "Unbook" %}", function(){
 				$.getJSON("/reservations/"+ r_id +"/unbook/", function(data){
