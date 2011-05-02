@@ -98,7 +98,29 @@ $(function() {
 	}
 
 	{% if user.is_authenticated %}
-	$(".ui-selectable li").live("click", function(){ select_reservation($(this)); });
+	$(".ui-selectable li").live("click", function(){
+		if($(this).hasClass("ui-status-2")){
+			var elem = $(this);
+			var r_id = $("input[type='hidden']", $(this)).val();
+			$.getJSON("/reservations/"+ r_id +"/hold/", function(data){
+				if(data.status_ok){
+					elem.removeClass("ui-status-2")
+						.addClass("ui-status-4");
+				} else {
+					$("<div></div>")
+						.html("{% trans "The hold operation failed" %}")
+						.appendTo("body")
+						.dialog({
+							title: "{% trans "Message" %}",
+							close: function(event, ui){
+								$(this).dialog("destroy").remove();
+							}
+						});
+				}
+			});
+		}
+		select_reservation($(this));
+	});
 
 	function make_reservation_item(r, rlist){
 		$("<li></li>")

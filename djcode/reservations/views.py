@@ -1,13 +1,14 @@
 from datetime import datetime, date, time, timedelta
 import simplejson as json
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import render_to_response
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
 from djcode.reservations.forms import Patient_form
-from djcode.reservations.models import Medical_office, Patient
+from djcode.reservations.models import Medical_office, Patient, Visit_reservation
 from djcode.reservations.models import get_hexdigest
 
 class DateInPast(Exception):
@@ -103,6 +104,20 @@ def date_reservations(request, for_date):
 			"reservations": reservations
 		})
 
+	response = HttpResponse(json.dumps(response_data), "application/json")
+	response["Cache-Control"] = "no-cache"
+	return response
+
+@login_required
+def hold_reservation(request, r_id):
+	reservation = get_object_or_404(Visit_reservation, pk=r_id)
+	if reservation.status == 2:
+		reservation.status = 4
+		reservation.save()
+		response_data = {"status_ok": True}
+	else:
+		response_data = {"status_ok": False}
+		
 	response = HttpResponse(json.dumps(response_data), "application/json")
 	response["Cache-Control"] = "no-cache"
 	return response

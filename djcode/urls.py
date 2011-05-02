@@ -12,6 +12,7 @@ urlpatterns = patterns("djcode.reservations.views",
 	(r"^accounts/login/$", login),
 	(r"^accounts/logout/$", logout),
 	(r"^reservations/(?P<for_date>\d{4}-\d{2}-\d{2})/$", "date_reservations"),
+	(r"^reservations/(?P<r_id>\d+)/hold/$", "hold_reservation"),
 	(r"^booked/(?P<object_id>\d+)/$", object_detail, {
 		"queryset": Medical_office.objects.all(),
 		"template_object_name": "place",
