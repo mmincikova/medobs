@@ -153,7 +153,7 @@ $(function() {
 					} else {
 						display_message(
 							"{% trans "Message" %}",
-							"{% trans "The hold operation failed" %}"
+							"{% trans "The unbook operation failed" %}"
 						);
 					}
 				});
@@ -171,11 +171,28 @@ $(function() {
 					} else {
 						display_message(
 							"{% trans "Message" %}",
-							"{% trans "The hold operation failed" %}"
+							"{% trans "The unhold operation failed" %}"
 						);
 					}
 				});
 			});
+			{% if user.is_staff %}
+			add_button("{% trans "Disable" %}", function(){
+				$.getJSON("/reservations/"+ r_id +"/disable/", function(data){
+					if(data.status_ok){
+						elem.removeClass("ui-status-4").addClass("ui-status-1");
+						$(".ui-selected", tab).removeClass("ui-selected");
+						$(".act-button", tab).remove();
+					} else {
+						display_message(
+							"{% trans "Message" %}",
+							"{% trans "The disable operation failed" %}"
+						);
+					}
+				});
+
+			});
+			{% endif %}
 		}
 	});
 
