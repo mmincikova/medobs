@@ -76,7 +76,7 @@
 					{% endif %}{% endspaceless %}">
 					<input type="hidden" value="{{ r.id }}" />
 					{{ r.starting_time|date:"H:i" }}
-					{% if user.is_authenticated and r.status == 3 %} {{ r.patient.full_name }}{% endif %}
+					{% if user.is_authenticated and r.status == 3 %} <span class="patient-name">{{ r.patient.full_name }}</span>{% endif %}
 				</li>
 				{% endfor %}
 			</ol>
@@ -99,27 +99,65 @@ $(function() {
 
 	{% if user.is_authenticated %}
 	$(".ui-selectable li").live("click", function(){
-		if($(this).hasClass("ui-status-2")){
-			var elem = $(this);
-			var r_id = $("input[type='hidden']", $(this)).val();
+		var elem = $(this);
+		var tab = elem.parent().parent();
+		var r_id = $("input[type='hidden']", elem).val();
+
+		$(".act-button", tab).remove();
+
+		function add_button(text, func){
+			$("<button></button>")
+				.html(text)
+				.addClass("act-button")
+				.appendTo(tab)
+				.button()
+				.click(func);
+		}
+
+		function display_message(title, text){
+			$("<div></div>")
+				.html(text)
+				.appendTo("body")
+				.dialog({
+					title: title,
+					close: function(event, ui){
+						$(this).dialog("destroy").remove();
+					}
+				});
+		}
+
+		if(elem.hasClass("ui-status-2")){
 			$.getJSON("/reservations/"+ r_id +"/hold/", function(data){
 				if(data.status_ok){
 					elem.removeClass("ui-status-2")
 						.addClass("ui-status-4");
 				} else {
-					$("<div></div>")
-						.html("{% trans "The hold operation failed" %}")
-						.appendTo("body")
-						.dialog({
-							title: "{% trans "Message" %}",
-							close: function(event, ui){
-								$(this).dialog("destroy").remove();
-							}
-						});
+					display_message(
+						"{% trans "Message" %}",
+						"{% trans "The hold operation failed" %}"
+					);
 				}
 			});
 		}
 		select_reservation($(this));
+		if(elem.hasClass("ui-status-3")){
+			add_button("{% trans "Unbook" %}", function(){
+				$.getJSON("/reservations/"+ r_id +"/unbook/", function(data){
+					if(data.status_ok){
+						elem.removeClass("ui-status-3").addClass("ui-status-2");
+						$(".patient-name", elem).remove();
+						$(".ui-selected", tab).removeClass("ui-selected");
+						$(".act-button", tab).remove();
+					} else {
+						display_message(
+							"{% trans "Message" %}",
+							"{% trans "The hold operation failed" %}"
+						);
+					}
+				});
+
+			});
+		}
 	});
 
 	function make_reservation_item(r, rlist){

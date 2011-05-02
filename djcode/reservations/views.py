@@ -117,7 +117,24 @@ def hold_reservation(request, r_id):
 		response_data = {"status_ok": True}
 	else:
 		response_data = {"status_ok": False}
-		
+
+	response = HttpResponse(json.dumps(response_data), "application/json")
+	response["Cache-Control"] = "no-cache"
+	return response
+
+@login_required
+def unbook_reservation(request, r_id):
+	reservation = get_object_or_404(Visit_reservation, pk=r_id)
+	if reservation.status == 3:
+		reservation.status = 2
+		reservation.patient = None
+		reservation.exam_kind = None
+		reservation.booked_at = None
+		reservation.save()
+		response_data = {"status_ok": True}
+	else:
+		response_data = {"status_ok": False}
+
 	response = HttpResponse(json.dumps(response_data), "application/json")
 	response["Cache-Control"] = "no-cache"
 	return response
