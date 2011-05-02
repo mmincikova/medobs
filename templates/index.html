@@ -139,7 +139,9 @@ $(function() {
 				}
 			});
 		}
+
 		select_reservation($(this));
+
 		if(elem.hasClass("ui-status-3")){
 			add_button("{% trans "Unbook" %}", function(){
 				$.getJSON("/reservations/"+ r_id +"/unbook/", function(data){
@@ -156,6 +158,23 @@ $(function() {
 					}
 				});
 
+			});
+		}
+
+		if(elem.hasClass("ui-status-4")){
+			add_button("{% trans "Unhold" %}", function(){
+				$.getJSON("/reservations/"+ r_id +"/unhold/", function(data){
+					if(data.status_ok){
+						elem.removeClass("ui-status-4").addClass("ui-status-2");
+						$(".ui-selected", tab).removeClass("ui-selected");
+						$(".act-button", tab).remove();
+					} else {
+						display_message(
+							"{% trans "Message" %}",
+							"{% trans "The hold operation failed" %}"
+						);
+					}
+				});
 			});
 		}
 	});
