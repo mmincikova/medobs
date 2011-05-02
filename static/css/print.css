@@ -1,0 +1,7 @@
+form { display: none; }
+li { list-style: none; }
+#footer { display: none; }
+.ui-tabs-nav li { display: none; }
+.ui-tabs-hide { display: none; }
+.ui-status-1 { display: none; }
+.ui-status-3 { color: black !important; }
