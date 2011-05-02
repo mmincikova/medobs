@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.conf.urls.defaults import *
 from django.contrib import admin
+from django.contrib.auth.views import login, logout
 from django.views.generic.list_detail import object_detail
 
 from djcode.reservations.models import Medical_office
@@ -8,6 +9,8 @@ from djcode.reservations.models import Medical_office
 admin.autodiscover()
 urlpatterns = patterns("djcode.reservations.views",
 	(r"^$", "front_page"),
+	(r"^accounts/login/$", login),
+	(r"^accounts/logout/$", logout),
 	(r"^reservations/(?P<for_date>\d{4}-\d{2}-\d{2})/$", "date_reservations"),
 	(r"^booked/(?P<object_id>\d+)/$", object_detail, {
 		"queryset": Medical_office.objects.all(),
