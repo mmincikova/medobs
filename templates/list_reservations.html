@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block head_css %}
+<style>
+	table { border: 1px solid #AAA; }
+	td { border: 1px solid #AAA; padding: 3px 5px; }
+	h2, h3 { margin-bottom: .5em; }
+</style>
+{% endblock %}
+
+{% block page_container %}
+<div class="grid_12">
+<h2>{{ place.name }}</h2>
+<h3>{{ for_date|date:"d.m.Y" }}</h3>
+<table>
+<tbody>
+	{% for r in reservations %}
+	{% if r.status == 3 %}
+	<tr>
+		<td>{{ r.starting_time|date:"H:i" }}</td>
+		<td>{{ r.patient.full_name }}</td>
+		<td>{{ r.patient.phone_number }}</td>
+		<td>{{ r.patient.email }}</td>
+	</tr>
+	{% endif %}
+	{% endfor %}
+</tbody>
+</table>
+</div>
+{% endblock %}

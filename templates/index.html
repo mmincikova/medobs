@@ -21,6 +21,8 @@
 		font-size: 100%;
 	}
 	form ul { list-style: none; }
+	.list-r { margin-bottom: 1em; }
+	.list-r a { color: #00F; }
 	.errorlist { font-size: 80%; color: #F00; margin-left: 10px; }
 	.error-message { color: #F00; }
 	#datepicker { margin-top: 2em; margin-bottom: 1em; }
@@ -67,6 +69,9 @@
 		{% for place in places %}
 		<div id="tab-{{ place.id }}">
 			<h3>Deň: <span class="actual-date">{{ actual_date|date:"d.m.Y" }}</span></h3>
+			{% if user.is_authenticated %}
+			<p class="list-r"><a href="#"><input type="hidden" value="{{ place.id }}" class="place-id" />{% trans "List of reservations" %}</a></p>
+			{% endif %}
 			<ol class="ui-selectable">
 				{% for r in place.reservations %}
 				<li class="ui-widget-content ui-selectee{% if r.id == reservation_id %} ui-selected{% endif %} {% spaceless %}
@@ -99,6 +104,13 @@ $(function() {
 	}
 
 	{% if user.is_authenticated %}
+	$(".list-r a").click(function(){
+		var place = $(".place-id", $(this)).val();
+		var date_str = $.datepicker.formatDate("yy-mm-dd", $("#datepicker").datepicker("getDate"));
+		var url = "/reservations/"+ date_str +"/list/"+ place +"/";
+		$(this).attr("href", url)
+	});
+
 	$(".ui-selectable li").live("click", function(){
 		var elem = $(this);
 		var tab = elem.parent().parent();

@@ -180,3 +180,19 @@ def enable_reservation(request, r_id):
 	response = HttpResponse(json.dumps(response_data), "application/json")
 	response["Cache-Control"] = "no-cache"
 	return response
+
+def list_reservations(request, for_date, place_id):
+	for_date = datetime.strptime(for_date, "%Y-%m-%d").date()
+	place = get_object_or_404(Medical_office, pk=place_id)
+
+	reservations = place.reservations(for_date)
+
+	return render_to_response(
+		"list_reservations.html",
+		{
+			"for_date": for_date,
+			"place": place,
+			"reservations": reservations,
+		},
+		context_instance=RequestContext(request)
+	)
