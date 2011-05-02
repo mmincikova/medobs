@@ -7,7 +7,7 @@ from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
-from djcode.reservations.forms import Patient_form
+from djcode.reservations.forms import Patient_form, Patient_detail_form
 from djcode.reservations.models import Medical_office, Patient, Visit_reservation
 from djcode.reservations.models import get_hexdigest
 
@@ -107,6 +107,31 @@ def date_reservations(request, for_date):
 	response = HttpResponse(json.dumps(response_data), "application/json")
 	response["Cache-Control"] = "no-cache"
 	return response
+
+@login_required
+def patient_details(request):
+	response_data = {
+		"first_name": "",
+		"last_name": "",
+		"phone_number": "",
+		"email": "",
+	}
+
+	if request.method == 'POST':
+		form = Patient_detail_form(request.POST)
+		if form.is_valid():
+			hexdigest = get_hexdigest(form.cleaned_data["ident_hash"])
+			try:
+				patient = Patient.objects.get(ident_hash=hexdigest)
+				response_data = {
+					"first_name": patient.first_name,
+					"last_name": patient.last_name,
+					"phone_number": patient.phone_number,
+					"email": patient.email,
+				}
+			except Patient.DoesNotExist:
+				pass
+	return HttpResponse(json.dumps(response_data), "application/json")
 
 @login_required
 def hold_reservation(request, r_id):

@@ -19,3 +19,6 @@ class Patient_form(forms.ModelForm):
 		queryset=Examination_kind.objects.all(),
 		widget=forms.RadioSelect()
 	)
+
+class Patient_detail_form(forms.Form):
+	ident_hash = CZBirthNumberField()
