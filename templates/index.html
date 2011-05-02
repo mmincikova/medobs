@@ -99,7 +99,7 @@ $(function() {
 	function select_reservation(elem){
 		$(".ui-selected").removeClass("ui-selected");
 		elem.addClass("ui-selected");
-		$("#id_reservation").val($("input[type='hidden']", $(this)).val());
+		$("#id_reservation").val($("input[type='hidden']", elem).val());
 	}
 
 	{% if user.is_authenticated %}
