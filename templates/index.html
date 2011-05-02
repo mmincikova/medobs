@@ -3,6 +3,7 @@
 
 {% block head_css %}
 <style>
+	h3 { margin-bottom: .5em; }
 	fieldset { margin-bottom: 1em; }
 	label {
 		font-weight: normal;
@@ -65,7 +66,7 @@
 		</ul>
 		{% for place in places %}
 		<div id="tab-{{ place.id }}">
-			<h3>Deň: {{ actual_date|date:"d.m.Y" }}</h3>
+			<h3>Deň: <span class="actual-date">{{ actual_date|date:"d.m.Y" }}</span></h3>
 			<ol class="ui-selectable">
 				{% for r in place.reservations %}
 				<li class="ui-widget-content ui-selectee{% if r.id == reservation_id %} ui-selected{% endif %} {% spaceless %}
@@ -252,8 +253,10 @@ $(function() {
 		minDate: "{{ actual_date|date:"Y-m-d" }}",
 		dateFormat: "yy-mm-dd",
 		onSelect: function(dateText, inst){
+			var date_str = $.datepicker.formatDate("dd.mm.yy", $(this).datepicker("getDate"));
 			var url = "/reservations/"+ dateText +"/";
 			$.getJSON(url, function(data){
+				$(".actual-date").html(date_str);
 				$.each(data, function(i, place){
 					var rlist = $("#tab-"+ place.place_id +" .ui-selectable", tabs);
 					rlist.empty();
