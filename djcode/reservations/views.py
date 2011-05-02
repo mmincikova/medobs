@@ -181,6 +181,7 @@ def enable_reservation(request, r_id):
 	response["Cache-Control"] = "no-cache"
 	return response
 
+@login_required
 def list_reservations(request, for_date, place_id):
 	for_date = datetime.strptime(for_date, "%Y-%m-%d").date()
 	place = get_object_or_404(Medical_office, pk=place_id)
