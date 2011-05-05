@@ -17,6 +17,9 @@ class DateInPast(Exception):
 class BadStatus(Exception):
 	pass
 
+class ForbiddenPlace(Exception):
+	pass
+
 def front_page(request):
 	message = None
 	actual_date = date.today() + timedelta(1)
@@ -31,12 +34,14 @@ def front_page(request):
 				actual_date = reservation.starting_time.date()
 				reservation_id = reservation.id
 
-				if request.user.is_authenticated:
+				if request.user.is_authenticated():
 					if reservation.status not in (2, 4):
 						raise BadStatus()
 				else:
 					if reservation.status != 2:
 						raise BadStatus()
+					if not reservation.place.public:
+						raise ForbiddenPlace()
 
 				if reservation.starting_time < datetime_limit:
 					raise DateInPast()
@@ -66,13 +71,21 @@ def front_page(request):
 			except BadStatus:
 				message = _("The reservation has been already booked. Please try again.")
 				reservation_id = 0
+			except ForbiddenPlace:
+				return HttpResponseRedirect("/")
+
 	else:
 		form = Patient_form()
 	
+	if request.user.is_authenticated():
+		places = get_places(actual_date)
+	else:
+		places = get_places(actual_date, public_only=True)
+
 	return render_to_response(
 		"index.html",
 		{
-			"places": get_places(actual_date),
+			"places": places,
 			"form": form,
 			"message": message,
 			"actual_date": actual_date,
@@ -81,8 +94,11 @@ def front_page(request):
 		context_instance=RequestContext(request)
 	)
 
-def get_places(actual_date):
-	offices = Medical_office.objects.order_by("pk")
+def get_places(actual_date, public_only=False):
+	if public_only:
+		offices = Medical_office.objects.filter(public=True).order_by("pk")
+	else:
+		offices = Medical_office.objects.order_by("pk")
 	return [{"id": o.id, "name": o.name, "reservations": o.reservations(actual_date)} for o in offices]
 
 def date_reservations(request, for_date):

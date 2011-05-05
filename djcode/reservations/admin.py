@@ -8,7 +8,7 @@ class Office_phone_Inline(admin.TabularInline):
     model = Office_phone
 
 class Medical_office_Admin(admin.ModelAdmin):
-	list_display = ("name", "street", "zip_code", "city", "email")
+	list_display = ("name", "street", "zip_code", "city", "email", "public")
 	inlines = [Office_phone_Inline,]
 admin.site.register(Medical_office, Medical_office_Admin)
 

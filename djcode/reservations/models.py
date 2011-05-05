@@ -45,6 +45,8 @@ class Medical_office(models.Model):
 	zip_code = models.CharField(_("zip code"), max_length=20)
 	city = models.CharField(_("city"), max_length=100)
 	email = models.EmailField(_("e-mail address"), blank=True)
+	public = models.BooleanField(_("public"),
+		help_text=_("Check if you want to make this medical office accessible for not authorized visitors."))
 
 	class Meta:
 		verbose_name = _("medical office")
