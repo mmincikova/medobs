@@ -5,7 +5,8 @@ from django.core.management.base import NoArgsCommand
 from django.db import transaction
 from django.db.models import Q
 
-from djcode.reservations.models import Visit_disable_rule, Visit_reservation, Visit_template
+from djcode.reservations.models import Day_status, Visit_disable_rule
+from djcode.reservations.models import Visit_reservation, Visit_template
 
 class Command(NoArgsCommand):
 	help = "Pregenerate Visit_reservation records by Visit_template"
@@ -19,17 +20,20 @@ class Command(NoArgsCommand):
 			except Visit_reservation.DoesNotExist:
 				day = datetime.date.today()
 			day += datetime.timedelta(1)
-			
+
 			end_day = datetime.date.today() + datetime.timedelta(settings.MEDOBS_GEN_DAYS)
 
 			while day <= end_day:
+				day_status, day_status_created = Day_status.objects.get_or_create(day=day,
+					defaults={"has_reservations": False})
+
 				templates = Visit_template.objects.filter(day = day.isoweekday())
 				templates = templates.filter(valid_since__lte = day)
 				templates = templates.filter(Q(valid_until__exact=None) | Q(valid_until__gt=day))
 
 				for tmp in templates:
 					starting_time = datetime.datetime.combine(day, tmp.starting_time)
-					
+
 					if Visit_disable_rule.objects.filter(begin__gte=starting_time):
 						status = 1 # disabled
 					else:
@@ -46,4 +50,3 @@ class Command(NoArgsCommand):
 			transaction.savepoint_commit(sid)
 		except ValueError:
 			transaction.savepoint_rollback(sid)
-
