@@ -59,10 +59,7 @@ class Medical_office(models.Model):
 		""" Returns all reservations in office for selected day. """
 		since = datetime.combine(for_date, time(0, 0, 0))
 		until = datetime.combine(for_date, time(23, 59, 59))
-		return self.visit_reservations.filter(
-				starting_time__gte=since,
-				starting_time__lte=until
-			).order_by("starting_time")
+		return self.visit_reservations.filter(starting_time__range=(since, until)).order_by("starting_time")
 
 class Office_phone(models.Model):
 	number = models.CharField(_("number"), max_length=50)
