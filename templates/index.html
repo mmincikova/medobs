@@ -23,8 +23,8 @@
 		margin-bottom: 1em;
 	}
 	form ul { list-style: none; }
-	.list-r { margin-bottom: 1em; }
-	.list-r a { color: #00F; }
+	#list-r { margin-bottom: 1em; }
+	#list-r a { color: #00F; }
 	.errorlist { font-size: 80%; color: #F00; margin-left: 10px; }
 	.error-message { color: #F00; }
 	#datepicker { margin-top: 2em; margin-bottom: 1em; }
@@ -73,7 +73,7 @@
 <div class="grid_7" id="datetime">
 	<h3>{% trans "Day:" %} <span id="actual-date">{{ actual_date|date:"d.m.Y" }}</span></h3>
 	{% if user.is_authenticated %}
-	<p class="list-r"><a href="/reservations/2011-05-09/list/{{ place.id }}/">{% trans "List of reservations" %}</a></p>
+	<p id="list-r"><a href="#">{% trans "List of reservations" %}</a></p>
 	{% endif %}
 	<ol id="ui-selectable">
 		{% for r in place.reservations %}
@@ -129,9 +129,8 @@ $(function() {
 	});
 
 	$("#list-r a").click(function(){
-		var place = $(".place-id", $(this)).val();
 		var date_str = $.datepicker.formatDate("yy-mm-dd", $("#datepicker").datepicker("getDate"));
-		var url = "/reservations/"+ date_str +"/list/"+ place +"/";
+		var url = "/reservations/"+ date_str +"/list/{{ place.id }}/";
 		$(this).attr("href", url)
 	});
 
