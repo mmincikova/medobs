@@ -25,6 +25,10 @@ def front_page(request):
 	message = None
 	actual_date = date.today() + timedelta(1)
 	end_date = actual_date + timedelta(settings.MEDOBS_GEN_DAYS)
+
+	while not is_reservation_on_date(actual_date):
+		actual_date += timedelta(1)
+
 	datetime_limit = datetime.combine(actual_date, time(0, 0))
 	reservation_id = 0
 
@@ -96,6 +100,12 @@ def front_page(request):
 		},
 		context_instance=RequestContext(request)
 	)
+
+def is_reservation_on_date(for_date):
+	""" Checks if reservations exist on selected date. """
+	start = datetime.combine(for_date, time(0, 0, 0))
+	end = datetime.combine(for_date, time(23, 59, 59))
+	return Visit_reservation.objects.filter(starting_time__range=(start, end)).exists()
 
 def get_places(actual_date, public_only=False):
 	if public_only:
