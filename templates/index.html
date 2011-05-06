@@ -3,11 +3,12 @@
 
 {% block head_css %}
 <style>
+	body { font-size: 13px; }
 	h3 { margin-bottom: .5em; }
 	fieldset { margin-bottom: 1em; }
 	label {
 		font-weight: normal;
-		font-size: 80%;
+		font-size: 90%;
 		width: 14ex;
 	}
 	#person_part label {
@@ -27,7 +28,6 @@
 	.errorlist { font-size: 80%; color: #F00; margin-left: 10px; }
 	.error-message { color: #F00; }
 	#datepicker { margin-top: 2em; margin-bottom: 1em; }
-	.ui-tabs-nav { font-size: 80%; }
 	#ui-selectable { list-style-type: none; margin: 0; padding: 0; }
 	#ui-selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
 	#ui-selectable .ui-selected { background: #F39814; color: white; }
@@ -211,6 +211,14 @@ $(function() {
 		{% endif %}
 
 		if(elem.hasClass("ui-status-3")){
+			$.getJSON("/reservations/"+ r_id +"/details/", function(data){
+				var person_part = $("#person_part");
+				$("#id_first_name", person_part).val(data.first_name);
+				$("#id_last_name", person_part).val(data.last_name);
+				$("#id_phone_number", person_part).val(data.phone_number);
+				$("#id_email", person_part).val(data.email);
+				$("input[type='radio'][value='"+ data.exam_kind +"']").click();
+			});
 			add_button("{% trans "Unbook" %}", function(){
 				$.getJSON("/reservations/"+ r_id +"/unbook/", function(data){
 					if(data.status_ok){

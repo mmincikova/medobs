@@ -245,3 +245,18 @@ def list_reservations(request, for_date, place_id):
 		},
 		context_instance=RequestContext(request)
 	)
+
+@login_required
+def reservation_details(request, r_id):
+	reservation = get_object_or_404(Visit_reservation, pk=r_id)
+	response_data = {
+		"first_name": reservation.patient.first_name,
+		"last_name": reservation.patient.last_name,
+		"phone_number": reservation.patient.phone_number,
+		"email": reservation.patient.email,
+		"exam_kind": reservation.exam_kind_id,
+	}
+
+	response = HttpResponse(json.dumps(response_data), "application/json")
+	response["Cache-Control"] = "no-cache"
+	return response
