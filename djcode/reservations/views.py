@@ -1,6 +1,6 @@
 from datetime import datetime, date, time, timedelta
 import simplejson as json
-from view_utils import get_last_day, get_places, is_reservation_on_date
+from view_utils import get_places, is_reservation_on_date
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -26,9 +26,6 @@ def front_page(request):
 	message = None
 	actual_date = date.today() + timedelta(1)
 	end_date = actual_date + timedelta(settings.MEDOBS_GEN_DAYS)
-
-	while not is_reservation_on_date(actual_date):
-		actual_date += timedelta(1)
 
 	datetime_limit = datetime.combine(actual_date, time(0, 0))
 	reservation_id = 0
@@ -98,7 +95,6 @@ def front_page(request):
 			"actual_date": actual_date,
 			"end_date": end_date,
 			"reservation_id": reservation_id,
-			"days_statuses": Day_status.objects.filter(day__range=(actual_date, get_last_day(actual_date)))
 		},
 		context_instance=RequestContext(request)
 	)

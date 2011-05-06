@@ -1,4 +1,4 @@
-from datetime import datetime, date, time
+from datetime import datetime, date, time, timedelta
 
 from django.conf import settings
 from django.db import models
@@ -60,6 +60,28 @@ class Medical_office(models.Model):
 		since = datetime.combine(for_date, time(0, 0, 0))
 		until = datetime.combine(for_date, time(23, 59, 59))
 		return self.visit_reservations.filter(starting_time__range=(since, until)).order_by("starting_time")
+
+	def disabled_days(self, start_date):
+		""" Returns list of disabled days from start date to end of month. """
+		status_set = self.day_status_set.filter(day__range=(start_date, self._get_last_day(start_date)))
+		return [self._date2str(d.day) for d in status_set if not d.has_reservations]
+
+	def _date2str(self, actual_date):
+		""" Returns date as string yyyy-m-d (without leading zeros in month and day. """
+		return "%d-%d-%d" % (
+				int(actual_date.strftime("%Y")),
+				int(actual_date.strftime("%m")),
+				int(actual_date.strftime("%d")),
+			)
+
+	def _get_first_day(self, dt, d_years=0, d_months=0):
+		# d_years, d_months are "deltas" to apply to dt
+		y, m = dt.year + d_years, dt.month + d_months
+		a, m = divmod(m-1, 12)
+		return date(y+a, m+1, 1)
+
+	def _get_last_day(self, dt):
+		return self._get_first_day(dt, 0, 1) + timedelta(-1)
 
 class Office_phone(models.Model):
 	number = models.CharField(_("number"), max_length=50)
@@ -147,12 +169,14 @@ class Visit_reservation(models.Model):
 		return _("%s at %s") % (self.starting_time, self.place.name)
 
 class Day_status(models.Model):
-	day = models.DateField(_("day"), db_index=True, unique=True)
+	day = models.DateField(_("day"))
+	place = models.ForeignKey(Medical_office, verbose_name=_("place"))
 	has_reservations = models.BooleanField(_("has reservations"))
 
 	class Meta:
 		verbose_name = _("day status")
 		verbose_name_plural = _("days statuses")
+		unique_together = (("day", "place"),)
 
 	def __unicode__(self):
 		return self.day.__str__()
@@ -160,7 +184,9 @@ class Day_status(models.Model):
 def enable_day_status(sender, instance, created, **kwargs):
 	for_date = instance.starting_time.date()
 	if created:
-		day_status, day_status_created = Day_status.objects.get_or_create(day=for_date,
+		day_status, day_status_created = Day_status.objects.get_or_create(
+			day=for_date,
+			place=instance.place,
 			defaults={"has_reservations": True})
 		if not day_status_created:
 			day_status.has_reservations = True
@@ -172,8 +198,10 @@ def update_day_status(sender, instance, **kwargs):
 	end = datetime.combine(for_date, time(23, 59, 59))
 	status = Visit_reservation.objects.filter(starting_time__range=(start, end)).exists()
 	if not status:
-		day_status, day_status_created = Day_status.objects.get_or_create(day=for_date,
-			defaults={"has_reservations": False})
+		day_status, day_status_created = Day_status.objects.get_or_create(
+			day=for_date,
+			place=instance.place,
+			defaults={"has_reservations": False, "place": instance.place})
 		if not day_status_created:
 			day_status.has_reservations = False
 			day_status.save()

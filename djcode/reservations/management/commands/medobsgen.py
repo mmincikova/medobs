@@ -5,7 +5,7 @@ from django.core.management.base import NoArgsCommand
 from django.db import transaction
 from django.db.models import Q
 
-from djcode.reservations.models import Day_status, Visit_disable_rule
+from djcode.reservations.models import Day_status, Medical_office, Visit_disable_rule
 from djcode.reservations.models import Visit_reservation, Visit_template
 
 class Command(NoArgsCommand):
@@ -24,8 +24,11 @@ class Command(NoArgsCommand):
 			end_day = datetime.date.today() + datetime.timedelta(settings.MEDOBS_GEN_DAYS)
 
 			while day <= end_day:
-				day_status, day_status_created = Day_status.objects.get_or_create(day=day,
-					defaults={"has_reservations": False})
+				for office in Medical_office.objects.all():
+					day_status, day_status_created = Day_status.objects.get_or_create(
+						day=day,
+						place=office,
+						defaults={"has_reservations": False})
 
 				templates = Visit_template.objects.filter(day = day.isoweekday())
 				templates = templates.filter(valid_since__lte = day)
