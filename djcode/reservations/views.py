@@ -1,6 +1,7 @@
 from datetime import datetime, date, time, timedelta
 import simplejson as json
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -23,6 +24,7 @@ class ForbiddenPlace(Exception):
 def front_page(request):
 	message = None
 	actual_date = date.today() + timedelta(1)
+	end_date = actual_date + timedelta(settings.MEDOBS_GEN_DAYS)
 	datetime_limit = datetime.combine(actual_date, time(0, 0))
 	reservation_id = 0
 
@@ -89,6 +91,7 @@ def front_page(request):
 			"form": form,
 			"message": message,
 			"actual_date": actual_date,
+			"end_date": end_date,
 			"reservation_id": reservation_id,
 		},
 		context_instance=RequestContext(request)

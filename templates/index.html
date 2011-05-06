@@ -298,6 +298,7 @@ $(function() {
 	$("#datepicker").datepicker({
 		defaultDate: "{{ actual_date|date:"Y-m-d" }}",
 		minDate: "{{ actual_date|date:"Y-m-d" }}",
+		maxDate: "{{ end_date|date:"Y-m-d" }}",
 		dateFormat: "yy-mm-dd",
 		onSelect: function(dateText, inst){
 			var date_str = $.datepicker.formatDate("dd.mm.yy", $(this).datepicker("getDate"));
