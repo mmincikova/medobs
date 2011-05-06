@@ -96,6 +96,11 @@
 
 {% block footer_js_page %}
 <script type="text/javascript">
+var disabled_days = [{% spaceless %}
+	{% for d in days_statuses %}
+		{% if not d.has_reservations %}"{{ d.day|date:"Y-n-j" }}"{% if not forloop.last %},{% endif %}{% endif %}
+	{% endfor %}
+{% endspaceless %}];
 $(function() {
 	function select_reservation(elem){
 		$(".ui-selected").removeClass("ui-selected");
@@ -313,6 +318,11 @@ $(function() {
 					});
 				});
 			});
+		},
+		beforeShowDay: function(date) {
+			var date_str = date.getFullYear() +"-"+ (date.getMonth()+1) +"-"+ date.getDate();
+			if($.inArray(date_str, disabled_days) != -1){ return [false]; }
+			return [true];
 		}
 	});
 });

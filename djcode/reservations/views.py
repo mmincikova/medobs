@@ -1,5 +1,6 @@
 from datetime import datetime, date, time, timedelta
 import simplejson as json
+from view_utils import get_last_day, get_places, is_reservation_on_date
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -9,7 +10,7 @@ from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 
 from djcode.reservations.forms import Patient_form, Patient_detail_form
-from djcode.reservations.models import Medical_office, Patient, Visit_reservation
+from djcode.reservations.models import Day_status, Medical_office, Patient, Visit_reservation
 from djcode.reservations.models import get_hexdigest
 
 class DateInPast(Exception):
@@ -97,22 +98,10 @@ def front_page(request):
 			"actual_date": actual_date,
 			"end_date": end_date,
 			"reservation_id": reservation_id,
+			"days_statuses": Day_status.objects.filter(day__range=(actual_date, get_last_day(actual_date)))
 		},
 		context_instance=RequestContext(request)
 	)
-
-def is_reservation_on_date(for_date):
-	""" Checks if reservations exist on selected date. """
-	start = datetime.combine(for_date, time(0, 0, 0))
-	end = datetime.combine(for_date, time(23, 59, 59))
-	return Visit_reservation.objects.filter(starting_time__range=(start, end)).exists()
-
-def get_places(actual_date, public_only=False):
-	if public_only:
-		offices = Medical_office.objects.filter(public=True).order_by("pk")
-	else:
-		offices = Medical_office.objects.order_by("pk")
-	return [{"id": o.id, "name": o.name, "reservations": o.reservations(actual_date)} for o in offices]
 
 def date_reservations(request, for_date):
 	for_date = datetime.strptime(for_date, "%Y-%m-%d").date()
