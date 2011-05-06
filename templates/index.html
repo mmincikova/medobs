@@ -15,10 +15,11 @@
 		display: block;
 		line-height: 22px;
 	}
-	input[type="submit"] {
+	button {
 		padding: 5px 7px;
 		font-weight: bold;
 		font-size: 100%;
+		margin-bottom: 1em;
 	}
 	form ul { list-style: none; }
 	.list-r { margin-bottom: 1em; }
@@ -27,21 +28,30 @@
 	.error-message { color: #F00; }
 	#datepicker { margin-top: 2em; margin-bottom: 1em; }
 	.ui-tabs-nav { font-size: 80%; }
-	.ui-selectable { list-style-type: none; margin: 0; padding: 0; }
-	.ui-selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
-	.ui-selectable .ui-selected { background: #F39814; color: white; }
+	#ui-selectable { list-style-type: none; margin: 0; padding: 0; }
+	#ui-selectable li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 30px; }
+	#ui-selectable .ui-selected { background: #F39814; color: white; }
 	{% if user.is_authenticated %}
-	.ui-selectable .ui-status-1 { color: #CCC; }
-	.ui-selectable .ui-status-3 { color: #0A0; }
-	.ui-selectable .ui-status-4 { color: #A00; }
+	#ui-selectable .ui-status-1 { color: #CCC; }
+	#ui-selectable .ui-status-3 { color: #0A0; }
+	#ui-selectable .ui-status-4 { color: #A00; }
 	{% else %}
-	.ui-selectable .ui-disabled { color: #CCC; }
+	#ui-selectable .ui-disabled { color: #CCC; }
 	{% endif %}
 </style>
 {% endblock %}
 
 
 {% block page_container %}
+<div class="grid_12 ui-tabs ui-widget ui-widget-content ui-corner-all">
+<ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
+{% for p in places %}
+	<li class="ui-state-default ui-corner-top{% if p.id == place.id %} ui-tabs-selected ui-state-active{% endif %}">
+		<a href="/place/{{ p.id }}/">{{ p.name }}</a>
+	</li>
+{% endfor %}
+</ul>
+<div class="ui-tabs-panel ui-widget-content ui-corner-bottom">
 <form class="grid_4" action="." method="post">
 	<fieldset id="person_part">
 		{% if message %}<p class="error-message">{{ message }}</p>{% endif %}
@@ -60,47 +70,33 @@
 	<button type="submit">{% trans "Book reservation" %}</button>
 </form>
 
-<div class="grid_8" id="datetime">
-	<div id="tabs">
-		<ul>
-		{% for place in places %}
-			<li><a href="#tab-{{ place.id }}">{{ place.name }}</a></li>
-		{% endfor %}
-		</ul>
-		{% for place in places %}
-		<div id="tab-{{ place.id }}">
-			<h3>Deň: <span class="actual-date">{{ actual_date|date:"d.m.Y" }}</span></h3>
+<div class="grid_7" id="datetime">
+	<h3>{% trans "Day:" %} <span id="actual-date">{{ actual_date|date:"d.m.Y" }}</span></h3>
+	{% if user.is_authenticated %}
+	<p class="list-r"><a href="/reservations/2011-05-09/list/{{ place.id }}/">{% trans "List of reservations" %}</a></p>
+	{% endif %}
+	<ol id="ui-selectable">
+		{% for r in place.reservations %}
+		<li class="ui-widget-content ui-selectee{% if r.id == reservation_id %} ui-selected{% endif %} {% spaceless %}
 			{% if user.is_authenticated %}
-			<p class="list-r"><a href="#"><input type="hidden" value="{{ place.id }}" class="place-id" />{% trans "List of reservations" %}</a></p>
-			{% endif %}
-			<ol class="ui-selectable">
-				{% for r in place.reservations %}
-				<li class="ui-widget-content ui-selectee{% if r.id == reservation_id %} ui-selected{% endif %} {% spaceless %}
-					{% if user.is_authenticated %}
-						ui-status-{{ r.status }}
-					{% else %}
-						{% if r.status != 2 %}ui-disabled{% endif %}
-					{% endif %}{% endspaceless %}">
-					<input type="hidden" value="{{ r.id }}" />
-					{{ r.starting_time|date:"H:i" }}
-					{% if user.is_authenticated and r.status == 3 %} <span class="patient-name">{{ r.patient.full_name }}</span>{% endif %}
-				</li>
-				{% endfor %}
-			</ol>
-		</div>
+				ui-status-{{ r.status }}
+			{% else %}
+				{% if r.status != 2 %}ui-disabled{% endif %}
+			{% endif %}{% endspaceless %}">
+			<input type="hidden" value="{{ r.id }}" />
+			{{ r.starting_time|date:"H:i" }}
+			{% if user.is_authenticated and r.status == 3 %} <span class="patient-name">{{ r.patient.full_name }}</span>{% endif %}
+		</li>
 		{% endfor %}
-	</div>
+	</ol>
 </div>
 
+</div>
+</div>
 {% endblock %}
 
 {% block footer_js_page %}
 <script type="text/javascript">
-var disabled_days = [{% spaceless %}
-	{% for d in days_statuses %}
-		{% if not d.has_reservations %}"{{ d.day|date:"Y-n-j" }}"{% if not forloop.last %},{% endif %}{% endif %}
-	{% endfor %}
-{% endspaceless %}];
 $(function() {
 	function select_reservation(elem){
 		$(".ui-selected").removeClass("ui-selected");
@@ -132,7 +128,7 @@ $(function() {
 		}
 	});
 
-	$(".list-r a").click(function(){
+	$("#list-r a").click(function(){
 		var place = $(".place-id", $(this)).val();
 		var date_str = $.datepicker.formatDate("yy-mm-dd", $("#datepicker").datepicker("getDate"));
 		var url = "/reservations/"+ date_str +"/list/"+ place +"/";
@@ -151,7 +147,7 @@ $(function() {
 		}
 	});
 
-	$(".ui-selectable li").live("click", function(){
+	$("#ui-selectable li").live("click", function(){
 		var elem = $(this);
 		var tab = elem.parent().parent();
 		var r_id = $("input[type='hidden']", elem).val();
@@ -210,7 +206,6 @@ $(function() {
 						);
 					}
 				});
-
 			});
 		}
 		{% endif %}
@@ -281,7 +276,7 @@ $(function() {
 			.append(" "+ r.patient);
 	}
 	{% else %}
-	$(".ui-selectable li").live("click", function(){
+	$("#ui-selectable li").live("click", function(){
 		if(!$(this).hasClass("ui-disabled")){ select_reservation($(this)); }
 	});
 
@@ -298,7 +293,8 @@ $(function() {
 	}
 	{% endif %}
 
-	var tabs = $("#tabs").tabs();
+	var disabled_days = new Array();
+	disabled_days = ["{{ place.disabled_days|join:'","' }}"];
 
 	$("#datepicker").datepicker({
 		defaultDate: "{{ actual_date|date:"Y-m-d" }}",
@@ -307,15 +303,14 @@ $(function() {
 		dateFormat: "yy-mm-dd",
 		onSelect: function(dateText, inst){
 			var date_str = $.datepicker.formatDate("dd.mm.yy", $(this).datepicker("getDate"));
-			var url = "/reservations/"+ dateText +"/";
+			var url = "/reservations/"+ dateText +"/{{ place.id }}/";
 			$.getJSON(url, function(data){
-				$(".actual-date").html(date_str);
-				$.each(data, function(i, place){
-					var rlist = $("#tab-"+ place.place_id +" .ui-selectable", tabs);
-					rlist.empty();
-					$.each(place.reservations, function(i, r){
-						make_reservation_item(r, rlist);
-					});
+				$("#actual-date").html(date_str);
+
+				var rlist = $("#ui-selectable");
+				rlist.empty();
+				$.each(data, function(i, r){
+					make_reservation_item(r, rlist);
 				});
 			});
 		},
@@ -325,6 +320,7 @@ $(function() {
 			return [true];
 		}
 	});
+
 });
 </script>
 {% endblock %}

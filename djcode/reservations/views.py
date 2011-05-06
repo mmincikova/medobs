@@ -13,19 +13,31 @@ from djcode.reservations.forms import Patient_form, Patient_detail_form
 from djcode.reservations.models import Day_status, Medical_office, Patient, Visit_reservation
 from djcode.reservations.models import get_hexdigest
 
+def front_page(request):
+	if request.user.is_authenticated():
+		place = Medical_office.objects.order_by("pk")[0]
+	else:
+		place = Medical_office.objects.filter(public=True).order_by("pk")[0]
+	return HttpResponseRedirect("/place/%d/" % place.id)
+
 class DateInPast(Exception):
 	pass
 
 class BadStatus(Exception):
 	pass
 
-class ForbiddenPlace(Exception):
-	pass
+def place_page(request, place_id):
+	place = get_object_or_404(Medical_office, pk=place_id)
 
-def front_page(request):
+	if not request.user.is_authenticated() and not place.public: # forbidden place
+		return HttpResponseRedirect("/")
+
 	message = None
 	actual_date = date.today() + timedelta(1)
-	end_date = actual_date + timedelta(settings.MEDOBS_GEN_DAYS)
+	end_date = actual_date + timedelta(settings.MEDOBS_GEN_DAYS-1)
+
+	while not is_reservation_on_date(actual_date, place):
+		actual_date += timedelta(1)
 
 	datetime_limit = datetime.combine(actual_date, time(0, 0))
 	reservation_id = 0
@@ -44,8 +56,6 @@ def front_page(request):
 				else:
 					if reservation.status != 2:
 						raise BadStatus()
-					if not reservation.place.public:
-						raise ForbiddenPlace()
 
 				if reservation.starting_time < datetime_limit:
 					raise DateInPast()
@@ -75,21 +85,21 @@ def front_page(request):
 			except BadStatus:
 				message = _("The reservation has been already booked. Please try again.")
 				reservation_id = 0
-			except ForbiddenPlace:
-				return HttpResponseRedirect("/")
-
 	else:
 		form = Patient_form()
-	
-	if request.user.is_authenticated():
-		places = get_places(actual_date)
-	else:
-		places = get_places(actual_date, public_only=True)
+
+	place_data = {
+		"id": place.id,
+		"name": place.name,
+		"reservations": place.reservations(actual_date),
+		"disabled_days": place.disabled_days(actual_date, end_date)
+	}
 
 	return render_to_response(
 		"index.html",
 		{
-			"places": places,
+			"places": get_places(request.user),
+			"place": place_data,
 			"form": form,
 			"message": message,
 			"actual_date": actual_date,
@@ -99,28 +109,23 @@ def front_page(request):
 		context_instance=RequestContext(request)
 	)
 
-def date_reservations(request, for_date):
+def date_reservations(request, for_date, place_id):
+	place = get_object_or_404(Medical_office, pk=place_id)
 	for_date = datetime.strptime(for_date, "%Y-%m-%d").date()
-	response_data = []
 
-	for place in Medical_office.objects.all():
-		if request.user.is_authenticated():
-			reservations = [{
-				"id": r.id,
-				"time": r.starting_time.time().strftime("%H:%M"),
-				"status": r.status,
-				"patient": r.patient.full_name if r.patient else "",
-			} for r in place.reservations(for_date)]
-		else:
-			reservations = [{
-				"id": r.id,
-				"time": r.starting_time.time().strftime("%H:%M"),
-				"disabled": True if r.status != 2 else False,
-			} for r in place.reservations(for_date)]
-		response_data.append({
-			"place_id": place.id,
-			"reservations": reservations
-		})
+	if request.user.is_authenticated():
+		response_data = [{
+			"id": r.id,
+			"time": r.starting_time.time().strftime("%H:%M"),
+			"status": r.status,
+			"patient": r.patient.full_name if r.patient else "",
+		} for r in place.reservations(for_date)]
+	else:
+		response_data = [{
+			"id": r.id,
+			"time": r.starting_time.time().strftime("%H:%M"),
+			"disabled": True if r.status != 2 else False,
+		} for r in place.reservations(for_date)]
 
 	response = HttpResponse(json.dumps(response_data), "application/json")
 	response["Cache-Control"] = "no-cache"
