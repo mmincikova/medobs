@@ -111,3 +111,16 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 # How many day to future medobsgen generate visit reservation.
 MEDOBS_GEN_DAYS = 14
+
+# Admin App/Model Custom Ordering
+# from http://djangosnippets.org/snippets/1939/
+ADMIN_REORDER = (
+	("reservations", (
+		"Visit_reservation",
+		"Patient",
+		"Visit_template",
+		"Visit_disable_rule",
+		"Medical_office",
+		"Examination_kind",
+	)),
+)
