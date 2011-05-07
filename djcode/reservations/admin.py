@@ -12,10 +12,6 @@ class Medical_office_Admin(admin.ModelAdmin):
 	inlines = [Office_phone_Inline,]
 admin.site.register(Medical_office, Medical_office_Admin)
 
-class Office_phone_Admin(admin.ModelAdmin):
-	list_display = ("number", "office")
-admin.site.register(Office_phone, Office_phone_Admin)
-
 class Patient_Admin(admin.ModelAdmin):
 	list_display = ("full_name", "phone_number", "email", "ident_hash", "has_reservation")
 	search_fields = ("last_name",)
