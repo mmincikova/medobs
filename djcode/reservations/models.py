@@ -196,15 +196,19 @@ def update_day_status(sender, instance, **kwargs):
 	for_date = instance.starting_time.date()
 	start = datetime.combine(for_date, time(0, 0, 0))
 	end = datetime.combine(for_date, time(23, 59, 59))
-	status = Visit_reservation.objects.filter(starting_time__range=(start, end)).exists()
-	if not status:
-		day_status, day_status_created = Day_status.objects.get_or_create(
-			day=for_date,
-			place=instance.place,
-			defaults={"has_reservations": False, "place": instance.place})
-		if not day_status_created:
-			day_status.has_reservations = False
-			day_status.save()
+
+	status = Visit_reservation.objects.filter(
+			starting_time__range=(start, end),
+			place=instance.place
+		).exists()
+
+	day_status, day_status_created = Day_status.objects.get_or_create(
+		day=for_date,
+		place=instance.place,
+		defaults={"has_reservations": status})
+	if not day_status_created:
+		day_status.has_reservations = status
+		day_status.save()
 
 models.signals.post_save.connect(enable_day_status, sender=Visit_reservation)
 models.signals.post_delete.connect(update_day_status, sender=Visit_reservation)
