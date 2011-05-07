@@ -1,6 +1,6 @@
 from datetime import datetime, date, time, timedelta
 import simplejson as json
-from view_utils import get_places, is_reservation_on_date
+from view_utils import get_places, is_reservation_on_date, send_notification
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -87,6 +87,9 @@ def place_page(request, place_id):
 				reservation.status = 3
 				reservation.booked_at = datetime.now()
 				reservation.save()
+
+				if patient.email:
+					send_notification(reservation)
 
 				return HttpResponseRedirect("/booked/%d/" % reservation.place_id)
 			except DateInPast:

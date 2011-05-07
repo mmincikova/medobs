@@ -1,5 +1,10 @@
 from datetime import date, timedelta
 
+from django.conf import settings
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.translation import ugettext_lazy as _
+
 from djcode.reservations.models import Day_status, Medical_office
 
 def is_reservation_on_date(for_date, place):
@@ -14,3 +19,15 @@ def get_places(user):
 		return Medical_office.objects.order_by("pk")
 	else:
 		return Medical_office.objects.filter(public=True).order_by("pk")
+
+def send_notification(reservation):
+	send_mail(
+		_("Visit reservation confirmation"),
+		render_to_string(
+			"email/first_notification.txt",
+			{"reservation": reservation}
+		),
+		settings.DEFAULT_FROM_EMAIL,
+		[reservation.patient.email],
+		fail_silently=False
+	)
