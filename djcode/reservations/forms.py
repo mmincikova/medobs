@@ -20,5 +20,17 @@ class Patient_form(forms.ModelForm):
 		widget=forms.RadioSelect()
 	)
 
+	def clean_ident_hash(self):
+		data = self.cleaned_data["ident_hash"]
+		if data[6] == "/":
+			data = data[:6] + data[7:]
+		return data
+
 class Patient_detail_form(forms.Form):
 	ident_hash = CZBirthNumberField()
+
+	def clean_ident_hash(self):
+		data = self.cleaned_data["ident_hash"]
+		if data[6] == "/":
+			data = data[:6] + data[7:]
+		return data
