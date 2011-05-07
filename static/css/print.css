@@ -5,3 +5,5 @@ li { list-style: none; }
 .ui-tabs-hide { display: none; }
 .ui-status-1 { display: none; }
 .ui-status-3 { color: black !important; }
+.ui-status-4 { display: none; }
+#list-r { display: none; }
