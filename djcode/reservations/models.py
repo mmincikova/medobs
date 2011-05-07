@@ -212,3 +212,17 @@ def update_day_status(sender, instance, **kwargs):
 
 models.signals.post_save.connect(enable_day_status, sender=Visit_reservation)
 models.signals.post_delete.connect(update_day_status, sender=Visit_reservation)
+
+def gen_days_statuses(sender, instance, created, **kwargs):
+	if created:
+		actual_date = date.today()
+		end_date = actual_date + timedelta(settings.MEDOBS_GEN_DAYS)
+
+		while actual_date <= end_date:
+			day_status, day_status_created = Day_status.objects.get_or_create(
+				day=actual_date,
+				place=instance,
+				defaults={"has_reservations": False})
+			actual_date += timedelta(1)
+
+models.signals.post_save.connect(gen_days_statuses, sender=Medical_office)
