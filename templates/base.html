@@ -1,43 +1,20 @@
-{% block dtd %}<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">{% endblock %}
-{% block html_tag %}<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">{% endblock %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-US" lang="en-US">
 {% load i18n %}
-{% block head %}
 <head>
 	<title>{% block title %}{% trans "Medobs &ndash; medical reservation system" %}{% endblock %}</title>
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="author" content="Peter Hyben; e-mail: hugis@tag.sk" />
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/960.css" type="text/css" media="screen, projection">
 	<link rel="stylesheet" href="{{ MEDIA_URL }}css/cupertino/jquery-ui.css" type="text/css" media="screen, projection" />
+	<link rel="stylesheet" href="{{ MEDIA_URL }}css/style.css" type="text/css" media="screen, projection" />
 	{% if user.is_authenticated %}<link rel="stylesheet" href="{{ MEDIA_URL }}css/print.css" type="text/css" media="print" />{% endif %}
-	<style type="text/css">
-		body {
-			font-size: 90%;
-			font-family: Verdana;
-		}
-		h1 {
-			border-bottom: 1px solid #DFE2E1;
-			margin-bottom: 1em;
-			font-family: Georgia, Times New Roman, Serif;
-			font-size: 200%;
-			font-variant: small-caps;
-			font-style: italic;
-			font-weight: normal;
-		}
-		#footer {
-			margin-top: 1em;
-			border-top: 1px solid #DFE2E1;
-			text-align: center;
-			font-size: 75%;
-		}
-	</style>
 	{% block head_css %}{% endblock %}
 	{% block head_section %}{% endblock %}
 	{% block head_page %}{% endblock %}
 </head>
-{% endblock %}
 
-{% block body %}
 <body>
 <div class="container_12">
 <h1 class="grid_12">{% trans "Medical Reservation System" %}</h1>
@@ -52,7 +29,6 @@
 	{% endif %}
 </div>
 </div>
-{% endblock %}
 
 {% block footer %}
 {% block footer_js_site %}
