@@ -71,15 +71,16 @@ def place_page(request, place_id):
 							"phone_number": form.cleaned_data["phone_number"],
 							"email": form.cleaned_data["email"],
 						})
+
+				if not patient_created and patient.has_reservation():
+					return HttpResponseRedirect("/cancel/%d/" % reservation.place_id)
+
 				if not patient_created:
 					patient.first_name = form.cleaned_data["first_name"]
 					patient.last_name = form.cleaned_data["last_name"]
 					patient.phone_number = form.cleaned_data["phone_number"]
 					patient.email = form.cleaned_data["email"]
 					patient.save()
-
-				if not patient_created and patient.has_reservation():
-					return HttpResponseRedirect("/cancel/%d/" % reservation.place_id)
 
 				reservation.patient = patient
 				reservation.exam_kind = form.cleaned_data["exam_kind"]
