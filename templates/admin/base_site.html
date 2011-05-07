@@ -1,9 +1,10 @@
 {% extends "admin/base.html" %}
-{% load i18n %}
+{% load i18n admin_reorder_tag %}
 
 {% block title %}{{ title }} | {% trans 'Medobs site admin' %}{% endblock %}
 
 {% block branding %}
+{% admin_reorder %}
 <h1 id="site-name">{% trans 'Medobs administration' %}</h1>
 {% endblock %}
 
