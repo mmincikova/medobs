@@ -103,7 +103,8 @@ $(function() {
 	$("#list-r a").click(function(){
 		var date_str = $.datepicker.formatDate("yy-mm-dd", $("#datepicker").datepicker("getDate"));
 		var url = "/reservations/"+ date_str +"/list/{{ place.id }}/";
-		$(this).attr("href", url)
+		window.open(url, "");
+		return false;
 	});
 
 	$("#id_ident_hash").focusout(function(){
