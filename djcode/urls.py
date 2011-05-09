@@ -21,6 +21,7 @@ urlpatterns = patterns("djcode.reservations.views",
 	(r"^reservations/(?P<r_id>\d+)/enable/$", "enable_reservation"),
 	(r"^reservations/(?P<r_id>\d+)/details/$", "reservation_details"),
 	(r"^patient/$", "patient_details"),
+	(r"^patient/reservations/$", "patient_reservations"),
 	(r"^booked/(?P<object_id>\d+)/$", object_detail, {
 		"queryset": Medical_office.objects.all(),
 		"template_object_name": "place",

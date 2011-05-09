@@ -1,0 +1,19 @@
+{% load i18n %}
+<table id="patient-reservations">
+<tbody>
+	<tr>
+		<th>{% trans "Date" %}</th>
+		<th>{% trans "Time" %}</th>
+		<th>{% trans "Medical office" %}</th>
+		<th>{% trans "Examination kind" %}</th>
+	</tr>
+{% for r in patient.visit_reservations.all %}
+	<tr{% if not r.passed %} class="future"{% endif %}>
+		<td>{{ r.starting_time.date }}</td>
+		<td>{{ r.starting_time.time }}</td>
+		<td>{{ r.place.name }}</td>
+		<td>{{ r.exam_kind.title }}</td>
+	</tr>
+{% endfor %}
+</tbody>
+</table>

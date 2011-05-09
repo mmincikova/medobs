@@ -7,6 +7,34 @@
 	#ui-selectable .ui-status-1 { color: #CCC; }
 	#ui-selectable .ui-status-3 { color: #0A0; }
 	#ui-selectable .ui-status-4 { color: #A00; }
+	#person_part {
+		position: relative;
+	}
+	#patient-reservations {
+		border-collapse: collapse;
+		border: 2px solid #999;
+		width: 100%;
+	}
+	#patient-reservations th, td {
+		border-collapse: collapse;
+		border: 1px solid #999;
+		padding: 3px;
+	}
+	#patient-reservations th { font-weight: bold; background-color: #DDD; }
+
+	.future td {
+		background-color: #e5ffe5;
+		color: #0A0;
+	}
+	#all-reservations {
+		position: absolute;
+		padding: 2px;
+		right: 45px;
+		top: 0px;
+		border: none;
+		background: none;
+		display: none;
+	}
 	{% else %}
 	#ui-selectable .ui-disabled { color: #CCC; }
 	{% endif %}
@@ -29,6 +57,7 @@
 		{% if message %}<p class="error-message">{{ message }}</p>{% endif %}
 		{% csrf_token %}
 		{{ form.ident_hash.label_tag }}{{ form.ident_hash }}{{ form.ident_hash.errors }}
+		{% if user.is_authenticated %}<button id="all-reservations"><img src="{{ MEDIA_URL }}images/table.png" /></button>{% endif %}
 		{{ form.first_name.label_tag }}{{ form.first_name }}{{ form.first_name.errors }}
 		{{ form.last_name.label_tag }}{{ form.last_name }}{{ form.last_name.errors }}
 		{{ form.phone_number.label_tag }}{{ form.phone_number }}{{ form.phone_number.errors }}
@@ -100,6 +129,29 @@ $(function() {
 		}
 	});
 
+
+	$("#all-reservations").click(function(){
+		var ident_hash = $("#id_ident_hash").val();
+		if(ident_hash != ""){
+			$.post("/patient/reservations/", {ident_hash: ident_hash}, function(data){
+				var title = $("#id_first_name").val() +" "+ $("#id_last_name").val();
+
+				$("<div></div>")
+					.html(data)
+					.appendTo("body")
+					.dialog({
+						width: 530,
+						height: 200,
+						title: title,
+						close: function(event, ui){
+							$(this).dialog("destroy").remove();
+						}
+					});
+			}, "html");
+		}
+		return false;
+	});
+
 	$("#list-r a").click(function(){
 		var date_str = $.datepicker.formatDate("yy-mm-dd", $("#datepicker").datepicker("getDate"));
 		var url = "/reservations/"+ date_str +"/list/{{ place.id }}/";
@@ -111,7 +163,10 @@ $(function() {
 		var ident_hash = $(this).val();
 		if(ident_hash != ""){
 			$.post("/patient/", {ident_hash: ident_hash}, function(data){
-				if(data.first_name) $("#id_first_name").val(data.first_name);
+				if(data.first_name){
+					$("#id_first_name").val(data.first_name);
+					$("#all-reservations").show();
+				}
 				if(data.last_name) $("#id_last_name").val(data.last_name);
 				if(data.phone_number) $("#id_phone_number").val(data.phone_number);
 				if(data.email) $("#id_email").val(data.email);

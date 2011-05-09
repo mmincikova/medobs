@@ -164,9 +164,17 @@ class Visit_reservation(models.Model):
 	class Meta:
 		verbose_name = _("visit reservation")
 		verbose_name_plural = _("visit reservations")
+		ordering = ("-starting_time",)
 
 	def __unicode__(self):
 		return _("%s at %s") % (self.starting_time, self.place.name)
+
+	def _passed(self):
+		if self.starting_time < datetime.now():
+			return True
+		else:
+			return False
+	passed = property(_passed)
 
 class Day_status(models.Model):
 	day = models.DateField(_("day"))

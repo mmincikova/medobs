@@ -23,13 +23,42 @@ fieldset { margin-bottom: 1em; }
 label {
 	font-weight: normal;
 	font-size: 90%;
-	width: 15ex;
+	width: 105px;
 }
+input[type="text"] { width: 144px; }
 
+#person_part {
+	position: relative;
+}
 #person_part label {
 	float: left;
 	display: block;
 	line-height: 22px;
+}
+#patient-reservations {
+	border-collapse: collapse;
+	border: 2px solid #999;
+	width: 100%;
+}
+#patient-reservations th, td {
+	border-collapse: collapse;
+	border: 1px solid #999;
+	padding: 3px;
+}
+#patient-reservations th { font-weight: bold; background-color: #DDD; }
+
+.future td {
+	background-color: #e5ffe5;
+	color: #0A0;
+}
+#all-reservations {
+	position: absolute;
+	padding: 2px;
+	right: 45px;
+	top: 0px;
+	border: none;
+	background: none;
+	display: none;
 }
 button {
 	padding: 5px 7px;

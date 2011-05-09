@@ -283,3 +283,19 @@ def reservation_details(request, r_id):
 	response = HttpResponse(json.dumps(response_data), "application/json")
 	response["Cache-Control"] = "no-cache"
 	return response
+
+@login_required
+def patient_reservations(request):
+	response_data = {"patient": None}
+
+	if request.method == 'POST':
+		form = Patient_detail_form(request.POST)
+		if form.is_valid():
+			hexdigest = get_hexdigest(form.cleaned_data["ident_hash"])
+			try:
+				response_data["patient"] = Patient.objects.get(ident_hash=hexdigest)
+			except Patient.DoesNotExist:
+				pass
+
+	return render_to_response("patient_reservations.html", response_data,
+		context_instance=RequestContext(request))
