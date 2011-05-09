@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block head_css %}
+<style type="text/css">
+	h2 { color: #900; }
+</style>
+{% endblock %}
+
+{% block page_container %}
+<div class="grid_12">
+<h2>{% trans "Missing basic configuration." %}</h2>
+</div>
+{% endblock %}

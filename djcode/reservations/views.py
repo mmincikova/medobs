@@ -14,10 +14,15 @@ from djcode.reservations.models import Day_status, Medical_office, Patient, Visi
 from djcode.reservations.models import get_hexdigest
 
 def front_page(request):
-	if request.user.is_authenticated():
-		place = Medical_office.objects.order_by("pk")[0]
-	else:
-		place = Medical_office.objects.filter(public=True).order_by("pk")[0]
+	try:
+		if request.user.is_authenticated():
+			place = Medical_office.objects.order_by("pk")[0]
+		else:
+			place = Medical_office.objects.filter(public=True).order_by("pk")[0]
+	except IndexError:
+		return render_to_response( "missing_config.html", {},
+			context_instance=RequestContext(request))
+
 	return HttpResponseRedirect("/place/%d/" % place.id)
 
 class DateInPast(Exception):
