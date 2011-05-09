@@ -1,5 +1,5 @@
 form { display: none; }
-li { list-style: none; }
+li { list-style: none; font-size: 18pt; margin-bottom: 1em; }
 #footer { display: none; }
 .ui-tabs-nav li { display: none; }
 .ui-tabs-hide { display: none; }
