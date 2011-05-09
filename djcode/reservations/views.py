@@ -4,9 +4,11 @@ from view_utils import get_places, is_reservation_on_date, send_notification
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.utils.translation import ugettext_lazy as _
 
 from djcode.reservations.forms import Patient_form, Patient_detail_form
@@ -78,6 +80,10 @@ def place_page(request, place_id):
 						})
 
 				if not patient_created and patient.has_reservation():
+					messages.error(request, render_to_string("messages/cancel.html", {
+							"reservation": patient.visit_reservations.get(starting_time__gte=datetime.now()),
+							"user": request.user,
+						}))
 					return HttpResponseRedirect("/cancel/%d/" % reservation.place_id)
 
 				if not patient_created:

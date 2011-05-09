@@ -1,0 +1,5 @@
+{% if user.is_authenticated %}
+The reservation is on <strong>{{ reservation.starting_time.date }}</strong> at <strong>{{ reservation.starting_time.time }}</strong>.
+{% else %}
+Your reservation is on <strong>{{ reservation.starting_time.date }}</strong> at <strong>{{ reservation.starting_time.time }}</strong>.
+{% endif %}
