@@ -105,14 +105,14 @@ class Visit_template(models.Model):
 		(6, _("Saturday")),
 		(7, _("Sunday")),
 	)
-	day = models.PositiveSmallIntegerField(_("day"), choices=DAYS)
+	place = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
+			related_name="templates")
+	day = models.PositiveSmallIntegerField(_("week day"), choices=DAYS)
 	starting_time = models.TimeField(_("starting time"))
 	valid_since = models.DateField(_("valid since"),
 			help_text=_("This date is included into interval."))
 	valid_until = models.DateField(_("valid until"), null=True, blank=True,
 			help_text=_("This date is not included into interval."))
-	place = models.ForeignKey(Medical_office, verbose_name=_("place"),
-			related_name="templates")
 
 	class Meta:
 		verbose_name = _("visit template")
@@ -122,10 +122,10 @@ class Visit_template(models.Model):
 		return _("%s at %s") % (self.get_day_display(), self.starting_time)
 
 class Visit_disable_rule(models.Model):
+	place = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
+			related_name="disables")
 	begin = models.DateTimeField(_("begin"))
 	end = models.DateTimeField(_("end"))
-	place = models.ForeignKey(Medical_office, verbose_name=_("place"),
-			related_name="disables")
 
 	class Meta:
 		verbose_name = _("visit disable rule")
