@@ -7,6 +7,7 @@ from djcode.reservations.models import Visit_disable_rule, Visit_reservation, Vi
 class Visit_reservation_Admin(admin.ModelAdmin):
 	list_display = ("starting_time", "place", "status")
 	list_filter = ("status", "place", "starting_time")
+	ordering = ("starting_time", "place")
 	fieldsets = (
 		(None, {"fields": ("place", "starting_time", "status")}),
 		(_("Booking data"), {"fields": ("patient", "exam_kind", "booked_at")}),
@@ -16,16 +17,19 @@ admin.site.register(Visit_reservation, Visit_reservation_Admin)
 class Patient_Admin(admin.ModelAdmin):
 	list_display = ("full_name", "phone_number", "email", "ident_hash", "has_reservation")
 	search_fields = ("last_name",)
+	ordering = ("last_name", "first_name")
 admin.site.register(Patient, Patient_Admin)
 
 class Visit_template_Admin(admin.ModelAdmin):
 	list_display = ("__unicode__", "place", "valid_since", "valid_until")
 	list_filter = ("place", "day")
+	ordering = ("day", "starting_time", "place")
 admin.site.register(Visit_template, Visit_template_Admin)
 
 class Visit_disable_rule_Admin(admin.ModelAdmin):
 	list_display = ("begin", "end", "place")
 	list_filter = ("place", "begin")
+	ordering = ("begin", "place")
 admin.site.register(Visit_disable_rule, Visit_disable_rule_Admin)
 
 class Office_phone_Inline(admin.TabularInline):
@@ -34,6 +38,7 @@ class Office_phone_Inline(admin.TabularInline):
 class Medical_office_Admin(admin.ModelAdmin):
 	list_display = ("name", "street", "zip_code", "city", "email", "public")
 	inlines = [Office_phone_Inline,]
+	ordering = ("name",)
 	fieldsets = (
 		(None, {"fields": ("name", "street", "zip_code", "city", "email")}),
 		(_("Settings"), {"fields": ("order", "public")}),
@@ -42,4 +47,5 @@ admin.site.register(Medical_office, Medical_office_Admin)
 
 class Examination_kind_Admin(admin.ModelAdmin):
 	list_display = ("title", "order")
+	ordering = ("title",)
 admin.site.register(Examination_kind, Examination_kind_Admin)
