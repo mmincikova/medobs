@@ -16,9 +16,9 @@ def is_reservation_on_date(for_date, place):
 
 def get_places(user):
 	if user.is_authenticated():
-		return Medical_office.objects.order_by("pk")
+		return Medical_office.objects.all()
 	else:
-		return Medical_office.objects.filter(public=True).order_by("pk")
+		return Medical_office.objects.filter(public=True)
 
 def send_notification(reservation):
 	send_mail(
