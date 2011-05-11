@@ -280,7 +280,7 @@ $(function() {
 				type: "hidden",
 				value: r.id
 			}))
-			.append(" "+ r.patient);
+			.append($("<span></span>").addClass("patient-name").html(" "+ r.patient));
 	}
 	{% else %}
 	$("#ui-selectable li").live("click", function(){
