@@ -138,7 +138,7 @@ class Visit_disable_rule(models.Model):
 
 class Examination_kind(models.Model):
 	title = models.TextField(_("title"))
-	order = models.PositiveIntegerField(_("order"))
+	order = models.PositiveIntegerField(_("order"), help_text=_("Order of examination kinds in patient input form."))
 
 	class Meta:
 		verbose_name = _("examination kind")
