@@ -102,6 +102,9 @@ def place_page(request, place_id):
 				if patient.email:
 					send_notification(reservation)
 
+				messages.success(request, render_to_string("messages/booked.html", {
+						"reservation": reservation,
+					}))
 				return HttpResponseRedirect("/booked/%d/" % reservation.place_id)
 			except DateInPast:
 				message = _("You cannot make reservation for today or date in the past.")
