@@ -18,9 +18,9 @@ from djcode.reservations.models import get_hexdigest
 def front_page(request):
 	try:
 		if request.user.is_authenticated():
-			place = Medical_office.objects.order_by("pk")[0]
+			place = Medical_office.objects.all()[0]
 		else:
-			place = Medical_office.objects.filter(public=True).order_by("pk")[0]
+			place = Medical_office.objects.filter(public=True)[0]
 	except IndexError:
 		return render_to_response( "missing_config.html", {},
 			context_instance=RequestContext(request))

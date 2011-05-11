@@ -34,7 +34,10 @@ class Office_phone_Inline(admin.TabularInline):
 class Medical_office_Admin(admin.ModelAdmin):
 	list_display = ("name", "street", "zip_code", "city", "email", "public")
 	inlines = [Office_phone_Inline,]
-	ordering = ["id",]
+	fieldsets = (
+		(None, {"fields": ("name", "street", "zip_code", "city", "email")}),
+		(_("Settings"), {"fields": ("order", "public")}),
+	)
 admin.site.register(Medical_office, Medical_office_Admin)
 
 class Examination_kind_Admin(admin.ModelAdmin):
