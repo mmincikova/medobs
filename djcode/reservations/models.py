@@ -136,10 +136,12 @@ class Visit_disable_rule(models.Model):
 
 class Examination_kind(models.Model):
 	title = models.TextField(_("title"))
+	order = models.PositiveIntegerField(_("order"))
 
 	class Meta:
 		verbose_name = _("examination kind")
 		verbose_name_plural = _("examinations kinds")
+		ordering = ("order",)
 
 	def __unicode__(self):
 		return self.title

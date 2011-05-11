@@ -1,10 +1,16 @@
 from django.contrib import admin
+from django.utils.translation import ugettext_lazy as _
+
 from djcode.reservations.models import Examination_kind, Medical_office, Office_phone, Patient
 from djcode.reservations.models import Visit_disable_rule, Visit_reservation, Visit_template
 
 class Visit_reservation_Admin(admin.ModelAdmin):
 	list_display = ("starting_time", "place", "status")
 	list_filter = ("status", "place", "starting_time")
+	fieldsets = (
+		(None, {"fields": ("place", "starting_time", "status")}),
+		(_("Booking data"), {"fields": ("patient", "exam_kind", "booked_at")}),
+	)
 admin.site.register(Visit_reservation, Visit_reservation_Admin)
 
 class Patient_Admin(admin.ModelAdmin):
@@ -31,4 +37,6 @@ class Medical_office_Admin(admin.ModelAdmin):
 	ordering = ["id",]
 admin.site.register(Medical_office, Medical_office_Admin)
 
-admin.site.register(Examination_kind)
+class Examination_kind_Admin(admin.ModelAdmin):
+	list_display = ("title", "order")
+admin.site.register(Examination_kind, Examination_kind_Admin)
