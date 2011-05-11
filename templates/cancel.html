@@ -10,10 +10,10 @@
 {% block page_container %}
 <div class="grid_12">
 {% if user.is_authenticated %}
-	<h2>{% trans "Reservation for this patient has been already booked." %}</h2>
+	<h2>{% trans "This patient has already booked reservation." %}</h2>
 	{% for message in messages %}<p>{{ message|safe }}</p>{% endfor %}
 {% else %}
-	<h2>{% trans "You have been already booked." %}</h2>
+	<h2>{% trans "You have already booked reservation." %}</h2>
 	{% for message in messages %}<p>{{ message|safe }}</p>{% endfor %}
 	<p>{% trans "If you want to change or cancel your reservation call us on phone number:" %}</p>
 
