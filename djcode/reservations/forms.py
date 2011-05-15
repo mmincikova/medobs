@@ -17,7 +17,8 @@ class Patient_form(forms.ModelForm):
 	exam_kind = forms.ModelChoiceField(
 		empty_label=None,
 		queryset=Examination_kind.objects.all(),
-		widget=forms.RadioSelect()
+		widget=forms.RadioSelect(),
+		label=_("Examination kind")
 	)
 
 	def clean_ident_hash(self):
