@@ -121,7 +121,10 @@ class Visit_template(models.Model):
 		verbose_name_plural = _("visit templates")
 
 	def __unicode__(self):
-		return _("%s at %s") % (self.get_day_display(), self.starting_time)
+		return _("%(day_name)s at %(time)s") % {
+			"day_name": self.get_day_display(),
+			"time": self.starting_time,
+		}
 
 class Visit_disable_rule(models.Model):
 	place = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
@@ -134,7 +137,10 @@ class Visit_disable_rule(models.Model):
 		verbose_name_plural = _("visit disable rules")
 
 	def __unicode__(self):
-		return _("From %s to %s") % (self.begin, self.end)
+		return _("From %(begin)s to %(end)s") % {
+			"begin": self.begin,
+			"end": self.end
+		}
 
 class Examination_kind(models.Model):
 	title = models.TextField(_("title"))
@@ -171,7 +177,10 @@ class Visit_reservation(models.Model):
 		ordering = ("-starting_time",)
 
 	def __unicode__(self):
-		return _("%s at %s") % (self.starting_time, self.place.name)
+		return _("%(starting_time)s at %(place_name)s") % {
+			"starting_time": self.starting_time,
+			"place_name": self.place.name
+		}
 
 	def _passed(self):
 		if self.starting_time < datetime.now():
