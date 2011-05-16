@@ -69,6 +69,7 @@
 {% endblock %}
 
 {% block footer_js_page %}
+{% if DATEPICKER_I18N_FILE %}<script type="text/javascript" src="{{ MEDIA_URL }}{{ DATEPICKER_I18N_FILE }}"></script>{% endif %}
 <script type="text/javascript">
 $(function() {
 	function select_reservation(elem){
