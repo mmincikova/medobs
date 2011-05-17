@@ -63,10 +63,10 @@ class Medical_office(models.Model):
 		until = datetime.combine(for_date, time(23, 59, 59))
 		return self.visit_reservations.filter(starting_time__range=(since, until)).order_by("starting_time")
 
-	def disabled_days(self, start_date, end_date):
-		""" Returns list of disabled days from start date to end of month. """
+	def days_status(self, start_date, end_date):
+		""" Returns dict with day and status for day from start date to end date. """
 		status_set = self.day_status_set.filter(day__range=(start_date, end_date))
-		return [self._date2str(d.day) for d in status_set if not d.has_reservations]
+		return dict([(self._date2str(d.day), d.has_reservations) for d in status_set])
 
 	def _date2str(self, actual_date):
 		""" Returns date as string yyyy-m-d (without leading zeros in month and day. """
