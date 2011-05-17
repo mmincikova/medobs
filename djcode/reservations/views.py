@@ -344,5 +344,14 @@ def logout(request):
 
 @login_required
 def list_places(request):
-	data = [{"name": office.name, "street": office.street, "zip_code": office.zip_code, "city": office.city} for office in Medical_office.objects.all()]
-	return HttpResponse(json.dumps(data), "application/json")
+	response_data = [{
+			"name": place.name,
+			"street": place.street,
+			"zip_code": place.zip_code,
+			"city": place.city,
+			"email": place.email,
+			"order": place.order,
+			"public": place.public,
+			"phones": [phone.number for phone in place.phone_numbers.all()],
+		} for place in Medical_office.objects.all()]
+	return HttpResponse(json.dumps(response_data), "application/json")
