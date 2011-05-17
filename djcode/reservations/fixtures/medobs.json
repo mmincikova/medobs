@@ -1,0 +1,89 @@
+[
+    {
+        "pk": 1, 
+        "model": "reservations.medical_office", 
+        "fields": {
+            "city": "My Town", 
+            "name": "My first office", 
+            "email": "myfirstoffice@medobs.me", 
+            "public": true, 
+            "street": "Main Street 1, My Town, My Country", 
+            "order": 10, 
+            "zip_code": "000001"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "reservations.medical_office", 
+        "fields": {
+            "city": "My Town", 
+            "name": "My second office", 
+            "email": "mysecondoffice@medobs.me", 
+            "public": true, 
+            "street": "Main Street 2, My Town, My Country", 
+            "order": 20, 
+            "zip_code": "000002"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "reservations.medical_office", 
+        "fields": {
+            "city": "My Town", 
+            "name": "My third non-public office", 
+            "email": "mythirdoffice@medobs.me", 
+            "public": false, 
+            "street": "Main Street 3, My Town, My Country", 
+            "order": 30, 
+            "zip_code": "000003"
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "reservations.office_phone", 
+        "fields": {
+            "number": "0000000001", 
+            "office": 1
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "reservations.office_phone", 
+        "fields": {
+            "number": "0000000002", 
+            "office": 2
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "reservations.office_phone", 
+        "fields": {
+            "number": "0000000003", 
+            "office": 3
+        }
+    }, 
+    {
+        "pk": 1, 
+        "model": "reservations.examination_kind", 
+        "fields": {
+            "order": 10, 
+            "title": "First examination"
+        }
+    }, 
+    {
+        "pk": 2, 
+        "model": "reservations.examination_kind", 
+        "fields": {
+            "order": 20, 
+            "title": "Second examination"
+        }
+    }, 
+    {
+        "pk": 3, 
+        "model": "reservations.examination_kind", 
+        "fields": {
+            "order": 30, 
+            "title": "Third examination"
+        }
+    } 
+]
