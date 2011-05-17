@@ -120,7 +120,7 @@ def place_page(request, place_id):
 		"id": place.id,
 		"name": place.name,
 		"reservations": place.reservations(actual_date),
-		"disabled_days": place.disabled_days(actual_date, end_date)
+		"disabled_days": json.dumps(place.days_status(actual_date, end_date))
 	}
 
 	return render_to_response(
@@ -304,6 +304,22 @@ def patient_reservations(request):
 
 	return render_to_response("patient_reservations.html", response_data,
 		context_instance=RequestContext(request))
+
+def days_status(request, year, month, place_id):
+	place = get_object_or_404(Medical_office, pk=place_id)
+	year = int(year)
+	month = int(month)
+
+	start_date = date(year, month, 1)
+	if month == 12:
+		end_date = date(year+1, 1, 31)
+	else:
+		end_date = date(year, month + 1, 1) - timedelta(1)
+	response_data = place.days_status(start_date, end_date)
+
+	response = HttpResponse(json.dumps(response_data), "application/json")
+	response["Cache-Control"] = "no-cache"
+	return response
 
 @csrf_exempt
 def login(request):

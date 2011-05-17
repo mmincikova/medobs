@@ -107,10 +107,18 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	"django.core.context_processors.static",
 	"django.contrib.messages.context_processors.messages",
 	"djcode.context_processors.version",
+	"djcode.context_processors.datepicker_i18n_file",
 )
 
 # How many day to future medobsgen generate visit reservation.
 MEDOBS_GEN_DAYS = 14
+
+# jQuery UI datepicker localization file name
+# The localization files are also available in the UI svn:
+# http://jquery-ui.googlecode.com/svn/trunk/ui/i18n/
+# Base path is MEDIA_ROOT.
+# Example: "js/i18n/jquery.ui.datepicker-sk.js"
+DATEPICKER_I18N_FILE = ""
 
 # Admin App/Model Custom Ordering
 # from http://djangosnippets.org/snippets/1939/

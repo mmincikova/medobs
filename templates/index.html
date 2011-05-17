@@ -69,6 +69,7 @@
 {% endblock %}
 
 {% block footer_js_page %}
+{% if DATEPICKER_I18N_FILE %}<script type="text/javascript" src="{{ MEDIA_URL }}{{ DATEPICKER_I18N_FILE }}"></script>{% endif %}
 <script type="text/javascript">
 $(function() {
 	function select_reservation(elem){
@@ -300,8 +301,7 @@ $(function() {
 	}
 	{% endif %}
 
-	var disabled_days = new Array();
-	disabled_days = ["{{ place.disabled_days|join:'","' }}"];
+	var day_status = {{ place.disabled_days|safe }};
 
 	$("#datepicker").datepicker({
 		defaultDate: "{{ actual_date|date:"Y-m-d" }}",
@@ -323,8 +323,10 @@ $(function() {
 		},
 		beforeShowDay: function(date) {
 			var date_str = date.getFullYear() +"-"+ (date.getMonth()+1) +"-"+ date.getDate();
-			if($.inArray(date_str, disabled_days) != -1){ return [false]; }
-			return [true];
+			var dstat = day_status[date_str];
+
+			if(dstat == undefined) return [false];
+			return [dstat];
 		}
 	});
 

@@ -63,10 +63,10 @@ class Medical_office(models.Model):
 		until = datetime.combine(for_date, time(23, 59, 59))
 		return self.visit_reservations.filter(starting_time__range=(since, until)).order_by("starting_time")
 
-	def disabled_days(self, start_date, end_date):
-		""" Returns list of disabled days from start date to end of month. """
+	def days_status(self, start_date, end_date):
+		""" Returns dict with day and status for day from start date to end date. """
 		status_set = self.day_status_set.filter(day__range=(start_date, end_date))
-		return [self._date2str(d.day) for d in status_set if not d.has_reservations]
+		return dict([(self._date2str(d.day), d.has_reservations) for d in status_set])
 
 	def _date2str(self, actual_date):
 		""" Returns date as string yyyy-m-d (without leading zeros in month and day. """
@@ -204,14 +204,13 @@ class Day_status(models.Model):
 
 def enable_day_status(sender, instance, created, **kwargs):
 	for_date = instance.starting_time.date()
-	if created:
-		day_status, day_status_created = Day_status.objects.get_or_create(
-			day=for_date,
-			place=instance.place,
-			defaults={"has_reservations": True})
-		if not day_status_created:
-			day_status.has_reservations = True
-			day_status.save()
+	day_status, day_status_created = Day_status.objects.get_or_create(
+		day=for_date,
+		place=instance.place,
+		defaults={"has_reservations": True})
+	if not day_status_created:
+		day_status.has_reservations = True
+		day_status.save()
 
 def update_day_status(sender, instance, **kwargs):
 	for_date = instance.starting_time.date()
@@ -231,6 +230,29 @@ def update_day_status(sender, instance, **kwargs):
 		day_status.has_reservations = status
 		day_status.save()
 
+def moved_day_status(sender, instance, **kwargs):
+	if instance.pk:
+		actual_record = Visit_reservation.objects.get(pk=instance.pk)
+
+		for_date = actual_record.starting_time.date()
+		start = datetime.combine(for_date, time(0, 0, 0))
+		end = datetime.combine(for_date, time(23, 59, 59))
+
+		reservation_count = Visit_reservation.objects.filter(
+				starting_time__range=(start, end),
+				place=actual_record.place
+			).count()
+
+		if reservation_count == 1:
+			day_status, day_status_created = Day_status.objects.get_or_create(
+				day=for_date,
+				place=actual_record.place,
+				defaults={"has_reservations": False})
+			if not day_status_created:
+				day_status.has_reservations = False
+				day_status.save()
+
+models.signals.pre_save.connect(moved_day_status, sender=Visit_reservation)
 models.signals.post_save.connect(enable_day_status, sender=Visit_reservation)
 models.signals.post_delete.connect(update_day_status, sender=Visit_reservation)
 

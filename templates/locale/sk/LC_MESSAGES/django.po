@@ -1,0 +1,132 @@
+# This file is distributed under the same license as the Medobs package.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Medobs\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-05-16 15:45+0200\n"
+"PO-Revision-Date: 2011-05-15 13:25+0200\n"
+"Last-Translator: Peter Hyben <hugis@tag.sk>\n"
+"Language-Team: Slovak <None>\n"
+"Language: sk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
+
+#: base.html:6
+msgid "Medobs &ndash; medical reservation system"
+msgstr "Medobs &ndash; medicínsky rezervačný systém"
+
+#: base.html:20
+msgid "Medical Reservation System"
+msgstr "Medicínsky rezervačný systém"
+
+#: base.html:26
+msgid "logout"
+msgstr "odhlásiť"
+
+#: base.html:28
+msgid "login"
+msgstr "prihlásiť sa"
+
+#: booked.html:15 cancel.html:18
+msgid ""
+"If you want to change or cancel your reservation call us on phone number:"
+msgstr ""
+"Ak si želáte zmeniť alebo zrušiť vašu rezerváciu zavolajte na naše telefónne "
+"čísla:"
+
+#: booked.html:22 cancel.html:24
+msgid "Back to front page"
+msgstr "Späť na úvodnú stranu"
+
+#: cancel.html:13
+msgid "This patient has already booked reservation."
+msgstr "Tento pacient už má rezervovaný termín."
+
+#: cancel.html:16
+msgid "You have already booked reservation."
+msgstr "Už máte rezervovaný termín."
+
+#: index.html:43
+msgid "Book reservation"
+msgstr "Rezervovať temín"
+
+#: index.html:47
+msgid "Day:"
+msgstr "Deň:"
+
+#: index.html:49
+msgid "List of reservations"
+msgstr "Zoznam rezervovaných termínov"
+
+#: index.html:185 index.html.py:204 index.html.py:231 index.html.py:249
+#: index.html:264
+msgid "Message"
+msgstr "Správa"
+
+#: index.html:186
+msgid "The hold operation failed"
+msgstr "Pokus o podržanie termínu zlyhal."
+
+#: index.html:196
+msgid "Enable"
+msgstr "Zapnúť"
+
+#: index.html:205
+msgid "The enable operation failed"
+msgstr "Zapnutie termínu zlyhalo."
+
+#: index.html:222
+msgid "Unbook"
+msgstr "Zrušiť rezerváciu"
+
+#: index.html:232
+msgid "The unbook operation failed"
+msgstr "Zrušenie rezervácie zlyhalo"
+
+#: index.html:241
+msgid "Unhold"
+msgstr "Zrušiť podržanie"
+
+#: index.html:250
+msgid "The unhold operation failed"
+msgstr "Zručenie podržania zlyhalo"
+
+#: index.html:256
+msgid "Disable"
+msgstr "Vypnúť"
+
+#: index.html:265
+msgid "The disable operation failed"
+msgstr "Vypnutie termínu zlyhalo"
+
+#: missing_config.html:12
+msgid "Missing basic configuration."
+msgstr "Chýba základná konfigurácia."
+
+#: patient_reservations.html:5
+msgid "Date"
+msgstr "Dátum"
+
+#: patient_reservations.html:6
+msgid "Time"
+msgstr "Čas"
+
+#: patient_reservations.html:7
+msgid "Medical office"
+msgstr "Ambulancia"
+
+#: patient_reservations.html:8
+msgid "Examination kind"
+msgstr "Typ vyšetrenia"
+
+#: admin/base_site.html:4
+msgid "Medobs site admin"
+msgstr "Administrácia webu Medobs"
+
+#: admin/base_site.html:8
+msgid "Medobs administration"
+msgstr "Medobs administrácia"
