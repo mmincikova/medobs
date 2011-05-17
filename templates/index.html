@@ -301,7 +301,7 @@ $(function() {
 	}
 	{% endif %}
 
-	var day_status = {{ place.disabled_days|safe }};
+	var day_status = {{ place.days_status|safe }};
 
 	$("#datepicker").datepicker({
 		defaultDate: "{{ actual_date|date:"Y-m-d" }}",

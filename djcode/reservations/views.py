@@ -120,7 +120,7 @@ def place_page(request, place_id):
 		"id": place.id,
 		"name": place.name,
 		"reservations": place.reservations(actual_date),
-		"disabled_days": json.dumps(place.days_status(actual_date, end_date))
+		"days_status": json.dumps(place.days_status(actual_date, end_date))
 	}
 
 	return render_to_response(
