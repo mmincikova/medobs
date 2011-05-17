@@ -11,6 +11,8 @@ urlpatterns = patterns("djcode.reservations.views",
 	(r"^$", "front_page"),
 	(r"^accounts/login/$", login),
 	(r"^accounts/logout/$", logout),
+	(r"^android/login/$", "login"),
+	(r"^android/logout/$", "logout"),
 	(r"^place/(?P<place_id>\d+)/$", "place_page"),
 	(r"^reservations/(?P<for_date>\d{4}-\d{2}-\d{2})/(?P<place_id>\d+)/$", "date_reservations"),
 	(r"^reservations/(?P<for_date>\d{4}-\d{2}-\d{2})/list/(?P<place_id>\d+)/$", "list_reservations"),
@@ -32,6 +34,7 @@ urlpatterns = patterns("djcode.reservations.views",
 		"template_object_name": "place",
 		"template_name": "cancel.html",
 	}),
+	(r"^places/$", "list_places"),
 )
 
 if settings.DEBUG:

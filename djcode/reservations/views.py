@@ -4,6 +4,8 @@ from view_utils import get_places, is_reservation_on_date, send_notification
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login as django_login, logout as django_logout
+from django.views.decorators.csrf import csrf_exempt
 from django.contrib import messages
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import render_to_response, get_object_or_404
@@ -302,3 +304,29 @@ def patient_reservations(request):
 
 	return render_to_response("patient_reservations.html", response_data,
 		context_instance=RequestContext(request))
+
+@csrf_exempt
+def login(request):
+	try:
+		if request.POST:
+			username = request.POST["username"]
+			password = request.POST["password"]
+			
+			if username and password:
+				user = authenticate(username=username, password=password)
+				if user and user.is_authenticated():
+					django_login(request, user)
+					return HttpResponse(status=200)
+	except:
+		pass
+	return HttpResponse(status=401)
+
+@login_required
+def logout(request):
+	django_logout(request)
+	return HttpResponse(status=200)
+
+@login_required
+def list_places(request):
+	data = [{"name": office.name, "street": office.street, "zip_code": office.zip_code, "city": office.city} for office in Medical_office.objects.all()]
+	return HttpResponse(json.dumps(data), "application/json")
