@@ -204,14 +204,13 @@ class Day_status(models.Model):
 
 def enable_day_status(sender, instance, created, **kwargs):
 	for_date = instance.starting_time.date()
-	if created:
-		day_status, day_status_created = Day_status.objects.get_or_create(
-			day=for_date,
-			place=instance.place,
-			defaults={"has_reservations": True})
-		if not day_status_created:
-			day_status.has_reservations = True
-			day_status.save()
+	day_status, day_status_created = Day_status.objects.get_or_create(
+		day=for_date,
+		place=instance.place,
+		defaults={"has_reservations": True})
+	if not day_status_created:
+		day_status.has_reservations = True
+		day_status.save()
 
 def update_day_status(sender, instance, **kwargs):
 	for_date = instance.starting_time.date()
@@ -231,6 +230,29 @@ def update_day_status(sender, instance, **kwargs):
 		day_status.has_reservations = status
 		day_status.save()
 
+def moved_day_status(sender, instance, **kwargs):
+	if instance.pk:
+		actual_record = Visit_reservation.objects.get(pk=instance.pk)
+
+		for_date = actual_record.starting_time.date()
+		start = datetime.combine(for_date, time(0, 0, 0))
+		end = datetime.combine(for_date, time(23, 59, 59))
+
+		reservation_count = Visit_reservation.objects.filter(
+				starting_time__range=(start, end),
+				place=actual_record.place
+			).count()
+
+		if reservation_count == 1:
+			day_status, day_status_created = Day_status.objects.get_or_create(
+				day=for_date,
+				place=actual_record.place,
+				defaults={"has_reservations": False})
+			if not day_status_created:
+				day_status.has_reservations = False
+				day_status.save()
+
+models.signals.pre_save.connect(moved_day_status, sender=Visit_reservation)
 models.signals.post_save.connect(enable_day_status, sender=Visit_reservation)
 models.signals.post_delete.connect(update_day_status, sender=Visit_reservation)
 
