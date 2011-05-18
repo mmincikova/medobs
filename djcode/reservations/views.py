@@ -345,6 +345,7 @@ def logout(request):
 @login_required
 def list_places(request):
 	response_data = [{
+			"id": place.pk,
 			"name": place.name,
 			"street": place.street,
 			"zip_code": place.zip_code,
