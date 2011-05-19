@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Medobs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-16 15:45+0200\n"
+"POT-Creation-Date: 2011-05-19 14:28+0200\n"
 "PO-Revision-Date: 2011-05-15 13:25+0200\n"
 "Last-Translator: Peter Hyben <hugis@tag.sk>\n"
 "Language-Team: Slovak <None>\n"
@@ -54,52 +54,56 @@ msgstr "Už máte rezervovaný termín."
 msgid "Book reservation"
 msgstr "Rezervovať temín"
 
-#: index.html:47
+#: index.html:44
+msgid "Reset"
+msgstr "Vynulovať"
+
+#: index.html:48
 msgid "Day:"
 msgstr "Deň:"
 
-#: index.html:49
+#: index.html:50
 msgid "List of reservations"
 msgstr "Zoznam rezervovaných termínov"
 
-#: index.html:185 index.html.py:204 index.html.py:231 index.html.py:249
-#: index.html:264
+#: index.html:187 index.html.py:206 index.html.py:233 index.html.py:251
+#: index.html:266
 msgid "Message"
 msgstr "Správa"
 
-#: index.html:186
+#: index.html:188
 msgid "The hold operation failed"
 msgstr "Pokus o podržanie termínu zlyhal."
 
-#: index.html:196
+#: index.html:198
 msgid "Enable"
 msgstr "Zapnúť"
 
-#: index.html:205
+#: index.html:207
 msgid "The enable operation failed"
 msgstr "Zapnutie termínu zlyhalo."
 
-#: index.html:222
+#: index.html:224
 msgid "Unbook"
 msgstr "Zrušiť rezerváciu"
 
-#: index.html:232
+#: index.html:234
 msgid "The unbook operation failed"
 msgstr "Zrušenie rezervácie zlyhalo"
 
-#: index.html:241
+#: index.html:243
 msgid "Unhold"
 msgstr "Zrušiť podržanie"
 
-#: index.html:250
+#: index.html:252
 msgid "The unhold operation failed"
 msgstr "Zručenie podržania zlyhalo"
 
-#: index.html:256
+#: index.html:258
 msgid "Disable"
 msgstr "Vypnúť"
 
-#: index.html:265
+#: index.html:267
 msgid "The disable operation failed"
 msgstr "Vypnutie termínu zlyhalo"
 

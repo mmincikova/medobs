@@ -41,6 +41,7 @@
 	</fieldset>
 	<div id="datepicker"></div>
 	<button type="submit">{% trans "Book reservation" %}</button>
+	<button type="reset">{% trans "Reset" %}</button>
 </form>
 
 <div class="grid_7" id="datetime">
@@ -301,6 +302,13 @@ $(function() {
 			}));
 	}
 	{% endif %}
+
+	$("button[type='reset']").click(function(){
+		$("#id_reservation").val("");
+		$(".ui-selected").removeClass("ui-selected");
+		$(".act-button").remove();
+
+	});
 
 	var day_status = {{ place.days_status|safe }};
 
