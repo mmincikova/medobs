@@ -189,6 +189,7 @@ def hold_reservation(request, r_id):
 	reservation = get_object_or_404(Visit_reservation, pk=r_id)
 	if reservation.status == 2:
 		reservation.status = 4
+		reservation.booked_at = datetime.now()
 		reservation.save()
 		response_data = {"status_ok": True}
 	else:
@@ -203,6 +204,7 @@ def unhold_reservation(request, r_id):
 	reservation = get_object_or_404(Visit_reservation, pk=r_id)
 	if reservation.status == 4:
 		reservation.status = 2
+		reservation.booked_at = None
 		reservation.save()
 		response_data = {"status_ok": True}
 	else:
