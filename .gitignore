@@ -1,3 +1,4 @@
 *.pyc
 djcode/settings.py
 djcode/manage.py
+djcode/medobs.wsgi
