@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Medobs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-19 10:04+0200\n"
+"POT-Creation-Date: 2011-05-19 11:13+0200\n"
 "PO-Revision-Date: 2011-05-19 10:04+0200\n"
 "Last-Translator: Peter Hyben <hugis@tag.sk>\n"
 "Language-Team: Slovak <None>\n"
@@ -27,8 +27,11 @@ msgstr "Nastavenia"
 msgid "Birth number"
 msgstr "Rodné číslo"
 
-#: forms.py:21
-#, fuzzy
+#: forms.py:16
+msgid "Please select time of visit reservation"
+msgstr "Zvoľte termín rezervácie"
+
+#: forms.py:22
 msgid "Examination kind"
 msgstr "Typ vyšetrenia"
 

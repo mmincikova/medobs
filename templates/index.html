@@ -36,7 +36,7 @@
 		{{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}
 	</fieldset>
 	<fieldset id="visit_part">
-		{{ form.reservation }}{{ form.reservation.errors }}
+		{{ form.reservation }}
 		{{ form.exam_kind.label_tag }}{{ form.exam_kind }}{{ form.exam_kind.errors }}
 	</fieldset>
 	<div id="datepicker"></div>
@@ -48,6 +48,7 @@
 	{% if user.is_authenticated %}
 	<p id="list-r"><a href="#">{% trans "List of reservations" %}</a></p>
 	{% endif %}
+	{{ form.reservation.errors }}
 	<ol id="ui-selectable">
 		{% for r in place.reservations %}
 		<li class="ui-widget-content ui-selectee{% if r.id == reservation_id %} ui-selected{% endif %} {% spaceless %}

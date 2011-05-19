@@ -12,7 +12,8 @@ class Patient_form(forms.ModelForm):
 	ident_hash = CZBirthNumberField(label=_("Birth number"))
 	reservation = forms.ModelChoiceField(
 		queryset=Visit_reservation.objects.all(),
-		widget=forms.HiddenInput()
+		widget=forms.HiddenInput(),
+		error_messages={"required": _("Please select time of visit reservation")}
 	)
 	exam_kind = forms.ModelChoiceField(
 		empty_label=None,

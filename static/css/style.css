@@ -78,6 +78,10 @@ form ul { list-style: none; }
 	margin-left: 10px;
 }
 .error-message { color: #F00; }
+#datetime .errorlist {
+	list-style: none;
+	font-size: 14px;
+}
 
 #datepicker { margin-top: 2em; margin-bottom: 1em; }
 
