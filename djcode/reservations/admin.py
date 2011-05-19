@@ -41,7 +41,7 @@ class Medical_office_Admin(admin.ModelAdmin):
 	inlines = [Office_phone_Inline,]
 	ordering = ("name",)
 	fieldsets = (
-		(None, {"fields": ("name", "street", "zip_code", "city", "email")}),
+		(None, {"fields": ("name", "street", "zip_code", "city", "email", "note")}),
 		(_("Settings"), {"fields": ("order", "public")}),
 	)
 admin.site.register(Medical_office, Medical_office_Admin)
