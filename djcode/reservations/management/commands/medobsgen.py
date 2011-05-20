@@ -41,7 +41,8 @@ class Command(NoArgsCommand):
 						status = 1 # disabled
 					else:
 						status = 2 # enabled
-
+					
+					print 'I: Creating reservation: %s %s' % (tmp.place.name, starting_time)
 					Visit_reservation.objects.create(
 						starting_time=starting_time,
 						place=tmp.place,
