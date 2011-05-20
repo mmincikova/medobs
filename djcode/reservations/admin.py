@@ -17,6 +17,7 @@ admin.site.register(Visit_reservation, Visit_reservation_Admin)
 
 class Patient_Admin(admin.ModelAdmin):
 	list_display = ("full_name", "phone_number", "email", "ident_hash", "has_reservation")
+	readonly_fields = ("ident_hash",)
 	search_fields = ("last_name",)
 	ordering = ("last_name", "first_name")
 admin.site.register(Patient, Patient_Admin)
