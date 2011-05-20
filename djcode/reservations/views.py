@@ -147,6 +147,8 @@ def date_reservations(request, for_date, place_id):
 			"time": r.starting_time.time().strftime("%H:%M"),
 			"status": r.status,
 			"patient": r.patient.full_name if r.patient else "",
+			"phone_number": r.patient.phone_number.replace(" ", "") if r.patient else "",
+			"email": r.patient.email if r.patient else ""
 		} for r in place.reservations(for_date)]
 	else:
 		response_data = [{
