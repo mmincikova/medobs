@@ -8,6 +8,7 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
+DEFAULT_FROM_EMAIL = 'medobs@localhost'
 
 DATABASES = {
 	'default': {
