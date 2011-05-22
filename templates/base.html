@@ -20,7 +20,7 @@
 <h1 class="grid_12">{% trans "Medical Reservation System" %}</h1>
 {% block page_container %}{% endblock %}
 <div id="footer" class="grid_12">
-	Medobs v{{ VERSION }} |
+	Medobs {{ VERSION }} |
 	<a href="http://www.urologia-presov.sk/">Urologická ambulancia</a>, Doc. MUDr. Ivan Minčík, PhD. |
 	{% if user.is_authenticated %}
 	{{ user.get_full_name }} | <a href="/accounts/logout/?next=/">{% trans "logout" %}</a>
