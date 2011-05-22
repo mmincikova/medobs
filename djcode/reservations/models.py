@@ -48,7 +48,7 @@ class Medical_office(models.Model):
 	order = models.PositiveIntegerField(_("order"), help_text=_("Order of medical offices tabs on the webpage."))
 	public = models.BooleanField(_("public"),
 		help_text=_("Check if you want to make this medical office accessible for not authorized visitors."))
-	note = models.TextField(_("note"), blank=True, null=True)
+	note = models.TextField(_("note"), blank=True)
 
 	class Meta:
 		verbose_name = _("medical office")
@@ -116,7 +116,7 @@ class Visit_template(models.Model):
 			help_text=_("This date is included into interval."))
 	valid_until = models.DateField(_("valid until"), null=True, blank=True,
 			help_text=_("This date is not included into interval."))
-	note = models.TextField(_("note"), blank=True, null=True)
+	note = models.TextField(_("note"), blank=True)
 
 	class Meta:
 		verbose_name = _("visit template")
@@ -133,7 +133,7 @@ class Visit_disable_rule(models.Model):
 			related_name="disables")
 	begin = models.DateTimeField(_("begin"))
 	end = models.DateTimeField(_("end"))
-	note = models.TextField(_("note"), blank=True, null=True)
+	note = models.TextField(_("note"), blank=True)
 
 	class Meta:
 		verbose_name = _("visit disable rule")
@@ -148,7 +148,7 @@ class Visit_disable_rule(models.Model):
 class Examination_kind(models.Model):
 	title = models.TextField(_("title"))
 	order = models.PositiveIntegerField(_("order"), help_text=_("Order of examination kinds in patient input form."))
-	note = models.TextField(_("note"), blank=True, null=True)
+	note = models.TextField(_("note"), blank=True)
 
 	class Meta:
 		verbose_name = _("examination kind")
