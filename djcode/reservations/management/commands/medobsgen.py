@@ -37,7 +37,9 @@ class Command(NoArgsCommand):
 				for tmp in templates:
 					starting_time = datetime.datetime.combine(day, tmp.starting_time)
 
-					if Visit_disable_rule.objects.filter(begin__gte=starting_time):
+					if Visit_disable_rule.objects.filter(
+						begin__lte=starting_time,
+						end__gte=starting_time):
 						status = 1 # disabled
 					else:
 						status = 2 # enabled
