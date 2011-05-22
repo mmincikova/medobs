@@ -89,7 +89,10 @@ form ul { list-style: none; }
 #ui-selectable {
 	list-style-type: none;
 	margin: 0;
+	margin-bottom: 1em;
 	padding: 0;
+	max-height: 510px;
+	overflow: auto;
 }
 #ui-selectable li {
 	margin: 3px;
