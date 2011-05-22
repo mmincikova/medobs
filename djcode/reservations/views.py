@@ -42,15 +42,16 @@ def place_page(request, place_id):
 		return HttpResponseRedirect("/")
 
 	message = None
-	actual_date = date.today() + timedelta(1)
-	end_date = actual_date + timedelta(settings.MEDOBS_GEN_DAYS-1)
+	actual_date = date.today()
+	end_date = actual_date + timedelta(settings.MEDOBS_GEN_DAYS)
 
-	while not is_reservation_on_date(actual_date, place):
+	if not request.user.is_authenticated():
 		actual_date += timedelta(1)
-		if actual_date == end_date:
-			break
+		while not is_reservation_on_date(actual_date, place):
+			actual_date += timedelta(1)
+			if actual_date == end_date:
+				break
 
-	datetime_limit = datetime.combine(actual_date, time(0, 0))
 	reservation_id = 0
 
 	if request.method == 'POST':
@@ -68,6 +69,7 @@ def place_page(request, place_id):
 					if reservation.status != 2:
 						raise BadStatus()
 
+				datetime_limit = datetime.combine(date.today() + timedelta(1), time(0, 0))
 				if reservation.starting_time < datetime_limit:
 					raise DateInPast()
 

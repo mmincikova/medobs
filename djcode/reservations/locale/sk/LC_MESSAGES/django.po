@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: Medobs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-05-19 11:13+0200\n"
-"PO-Revision-Date: 2011-05-19 10:04+0200\n"
+"PO-Revision-Date: 2011-05-22 11:36+0200\n"
 "Last-Translator: Peter Hyben <hugis@tag.sk>\n"
 "Language-Team: Slovak <None>\n"
 "Language: sk\n"
@@ -286,7 +286,7 @@ msgstr "Potvrdenie rezervacie termínu"
 
 #: views.py:112
 msgid "You cannot make reservation for today or date in the past."
-msgstr "Nemôžete si rezervovať termín na dnes alebo na deň v minulosti."
+msgstr "Nemôžete rezervovať termín na dnes alebo na deň v minulosti."
 
 #: views.py:114
 msgid "The reservation has been already booked. Please try again."
