@@ -7,6 +7,7 @@
 	#ui-selectable .ui-status-1 { color: #CCC; }
 	#ui-selectable .ui-status-3 { color: #0A0; }
 	#ui-selectable .ui-status-4 { color: #A00; }
+	#reload { position: absolute; top: 0; right: 0; }
 	{% else %}
 	#ui-selectable .ui-disabled { color: #CCC; }
 	{% endif %}
@@ -48,6 +49,7 @@
 	<h3>{% trans "Day:" %} <span id="actual-date">{{ actual_date|date:"d.m.Y" }}</span></h3>
 	{% if user.is_authenticated %}
 	<p id="list-r"><a href="#">{% trans "List of reservations" %}</a></p>
+	<button id="reload">{% trans "Reload" %}</button>
 	{% endif %}
 	{{ form.reservation.errors }}
 	<ol id="ui-selectable">
@@ -103,7 +105,6 @@ $(function() {
 			xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
 		}
 	});
-
 
 	$("#all-reservations").click(function(){
 		var ident_hash = $("#id_ident_hash").val();
@@ -285,7 +286,26 @@ $(function() {
 			}))
 			.append($("<span></span>").addClass("patient-name").html(" "+ r.patient));
 	}
+
+	$("#reload").button({
+		icons: {primary: "ui-icon-refresh"},
+		text: false
+	}).click(function(){
+		var date_str = $.datepicker.formatDate("yy-mm-dd", $("#datepicker").datepicker("getDate"));
+		var url = "/reservations/"+ date_str +"/{{ place.id }}/";
+		$.getJSON(url, function(data){
+			var rlist = $("#ui-selectable");
+			rlist.empty();
+			$.each(data, function(i, r){
+				make_reservation_item(r, rlist);
+			});
+
+			$(".act-button", $("#datetime")).remove();
+		});
+	});
+
 	{% else %}
+
 	$("#ui-selectable li").live("click", function(){
 		if(!$(this).hasClass("ui-disabled")){ select_reservation($(this)); }
 	});

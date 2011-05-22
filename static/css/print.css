@@ -1,6 +1,7 @@
 form { display: none; }
 li { list-style: none; font-size: 18pt; margin-bottom: 1em; }
-#footer { display: none; }
+button { display: none; }
+#footer, #reload { display: none; }
 .ui-tabs-nav li { display: none; }
 .ui-tabs-hide { display: none; }
 .ui-status-1 { display: none; }

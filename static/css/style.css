@@ -82,6 +82,7 @@ form ul { list-style: none; }
 	list-style: none;
 	font-size: 14px;
 }
+#datetime { position: relative; }
 
 #datepicker { margin-top: 2em; margin-bottom: 1em; }
 
