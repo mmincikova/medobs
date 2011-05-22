@@ -91,7 +91,7 @@ form ul { list-style: none; }
 	margin: 0;
 	margin-bottom: 1em;
 	padding: 0;
-	max-height: 510px;
+	max-height: 360px;
 	overflow: auto;
 }
 #ui-selectable li {
