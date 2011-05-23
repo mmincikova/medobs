@@ -42,15 +42,17 @@ def place_page(request, place_id):
 		return HttpResponseRedirect("/")
 
 	message = None
-	actual_date = date.today()
-	end_date = actual_date + timedelta(settings.MEDOBS_GEN_DAYS)
+	start_date = date.today()
+	end_date = start_date + timedelta(settings.MEDOBS_GEN_DAYS)
 
 	if not request.user.is_authenticated():
-		actual_date += timedelta(1)
-		while not is_reservation_on_date(actual_date, place):
-			actual_date += timedelta(1)
-			if actual_date == end_date:
+		start_date += timedelta(1)
+		while not is_reservation_on_date(start_date, place):
+			start_date += timedelta(1)
+			if start_date == end_date:
 				break
+
+	actual_date = start_date
 
 	reservation_id = 0
 
@@ -115,6 +117,11 @@ def place_page(request, place_id):
 			except BadStatus:
 				message = _("The reservation has been already booked. Please try again.")
 				reservation_id = 0
+		else:
+			r_val = form["reservation"].value()
+			if r_val:
+				reservation_id = int(r_val)
+				actual_date = Visit_reservation.objects.get(pk=reservation_id).starting_time.date()
 	else:
 		form = Patient_form()
 
@@ -122,7 +129,7 @@ def place_page(request, place_id):
 		"id": place.id,
 		"name": place.name,
 		"reservations": place.reservations(actual_date),
-		"days_status": json.dumps(place.days_status(actual_date, end_date))
+		"days_status": json.dumps(place.days_status(start_date, end_date))
 	}
 
 	return render_to_response(
@@ -132,6 +139,7 @@ def place_page(request, place_id):
 			"place": place_data,
 			"form": form,
 			"message": message,
+			"start_date": start_date,
 			"actual_date": actual_date,
 			"end_date": end_date,
 			"reservation_id": reservation_id,
