@@ -30,17 +30,19 @@
 		{% if message %}<p class="error-message">{{ message }}</p>{% endif %}
 		{% if form.errors %}<p class="error-message">{% trans "Fill all required fields to complete reservation" %}</p>{% endif %}
 		{% csrf_token %}
-		{{ form.ident_hash.label_tag }}{{ form.ident_hash }}{{ form.ident_hash.errors }}
+		<span class="req"><label for="id_ident_hash">{{ form.ident_hash.label }} <span class="astr">*</span></label>{{ form.ident_hash }}{{ form.ident_hash.errors }}</span>
 		{% if user.is_authenticated %}<button id="all-reservations"><img src="{{ MEDIA_URL }}images/table.png" /></button>{% endif %}
-		{{ form.first_name.label_tag }}{{ form.first_name }}{{ form.first_name.errors }}
-		{{ form.last_name.label_tag }}{{ form.last_name }}{{ form.last_name.errors }}
-		{{ form.phone_number.label_tag }}{{ form.phone_number }}{{ form.phone_number.errors }}
+		<span class="req"><label for="id_first_name">{{ form.first_name.label }} <span class="astr">*</span></label>{{ form.first_name }}{{ form.first_name.errors }}</span>
+		<span class="req"><label for="id_last_name">{{ form.last_name.label }} <span class="astr">*</span></label>{{ form.last_name }}{{ form.last_name.errors }}</span>
+		<span class="req"><label for="id_phone_number">{{ form.phone_number.label }} <span class="astr">*</span></label>{{ form.phone_number }}{{ form.phone_number.errors }}</span>
 		{{ form.email.label_tag }}{{ form.email }}{{ form.email.errors }}
 	</fieldset>
 	<fieldset id="visit_part">
 		{{ form.reservation }}
-		{{ form.exam_kind.label_tag }}{{ form.exam_kind }}{{ form.exam_kind.errors }}
+		<label for="id_exam_kind">{{ form.exam_kind.label }} <span class="astr">*</span></label>
+		{{ form.exam_kind }}{{ form.exam_kind.errors }}
 	</fieldset>
+	<p><span class="astr">*</span> {% trans "Required fields" %}</p>
 	<div id="datepicker"></div>
 	<button type="submit">{% trans "Book reservation" %}</button>
 	<button type="reset">{% trans "Reset" %}</button>

@@ -25,16 +25,22 @@ label {
 	font-size: 90%;
 	width: 105px;
 }
-input[type="text"] { width: 144px; }
-
-#person_part {
-	position: relative;
+input[type="text"] {
+	width: 144px;
+	border: 1px solid #AAA;
+	margin: 1px 0;
 }
+
+form p { font-size: 90%; }
+.req input { background-color: #FFD; }
+
+#person_part { position: relative; }
 #person_part label {
 	float: left;
 	display: block;
 	line-height: 22px;
 }
+.astr { color: #F00; }
 #patient-reservations {
 	border-collapse: collapse;
 	border: 2px solid #999;
