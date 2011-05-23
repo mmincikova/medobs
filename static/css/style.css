@@ -77,7 +77,7 @@ form ul { list-style: none; }
 	color: #F00;
 	margin-left: 10px;
 }
-.error-message { color: #F00; }
+.error-message { color: #F00; margin-bottom: 5px; }
 #datetime .errorlist {
 	list-style: none;
 	font-size: 14px;

@@ -28,6 +28,7 @@
 <form class="grid_4" action="." method="post">
 	<fieldset id="person_part">
 		{% if message %}<p class="error-message">{{ message }}</p>{% endif %}
+		{% if form.errors %}<p class="error-message">{% trans "Fill all required fields to complete reservation" %}</p>{% endif %}
 		{% csrf_token %}
 		{{ form.ident_hash.label_tag }}{{ form.ident_hash }}{{ form.ident_hash.errors }}
 		{% if user.is_authenticated %}<button id="all-reservations"><img src="{{ MEDIA_URL }}images/table.png" /></button>{% endif %}
