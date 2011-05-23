@@ -63,6 +63,7 @@
 			<input type="hidden" value="{{ r.id }}" />
 			{{ r.starting_time|date:"H:i" }}
 			{% if user.is_authenticated and r.status == 3 %} <span class="patient-name">{{ r.patient.full_name }}</span>{% endif %}
+			{% if not user.is_authenticated and r.status != 2 %} <span class="term-info">{% trans "Appointment already booked or unavailable" %}</span>{% endif %}
 		</li>
 		{% endfor %}
 	</ol>
@@ -312,7 +313,7 @@ $(function() {
 
 	function make_reservation_item(r, rlist){
 		var disabled_class = r.disabled ? " ui-disabled" : "";
-		$("<li></li>")
+		var ritem = $("<li></li>")
 			.addClass("ui-widget-content ui-selectee"+ disabled_class)
 			.html(r.time)
 			.appendTo(rlist)
@@ -320,6 +321,12 @@ $(function() {
 				type: "hidden",
 				value: r.id
 			}));
+		if(r.disabled){
+			ritem.append($("<span></span>")
+				.addClass("term-info")
+				.html(" {% trans "Appointment already booked or unavailable" %}")
+			);
+		}
 	}
 	{% endif %}
 

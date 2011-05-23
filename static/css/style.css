@@ -102,4 +102,6 @@ form ul { list-style: none; }
 }
 #ui-selectable .ui-selected { background: #F39814; color: white; }
 
+.term-info { font-size: 14px;  }
+
 #phones { margin: .5em 2em; font-size: 14px; }
