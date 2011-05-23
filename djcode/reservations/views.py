@@ -35,7 +35,7 @@ class DateInPast(Exception):
 class BadStatus(Exception):
 	pass
 
-def place_page(request, place_id):
+def place_page(request, place_id, for_date=None):
 	place = get_object_or_404(Medical_office, pk=place_id)
 
 	if not request.user.is_authenticated() and not place.public: # forbidden place
@@ -51,8 +51,12 @@ def place_page(request, place_id):
 			start_date += timedelta(1)
 			if start_date == end_date:
 				break
-
-	actual_date = start_date
+	if for_date:
+		actual_date = datetime.strptime(for_date, "%Y-%m-%d").date()
+		if actual_date < start_date:
+			actual_date = start_date
+	else:
+		actual_date = start_date
 
 	reservation_id = 0
 
@@ -111,7 +115,9 @@ def place_page(request, place_id):
 				messages.success(request, render_to_string("messages/booked.html", {
 						"reservation": reservation,
 					}))
-				return HttpResponseRedirect("/booked/%d/" % reservation.place_id)
+				return HttpResponseRedirect("/booked/%d/%s/" % (
+							reservation.place_id,
+							actual_date.strftime("%Y-%m-%d")))
 			except DateInPast:
 				message = _("You cannot make reservation for today or date in the past.")
 			except BadStatus:
@@ -170,6 +176,14 @@ def date_reservations(request, for_date, place_id):
 	response = HttpResponse(json.dumps(response_data), "application/json")
 	response["Cache-Control"] = "no-cache"
 	return response
+
+def booked(request, place_id, for_date):
+	place = get_object_or_404(Medical_office, pk=place_id)
+	return render_to_response(
+		"booked.html",
+		{"place": place, "for_date": for_date},
+		context_instance=RequestContext(request)
+	)
 
 @login_required
 def patient_details(request):
