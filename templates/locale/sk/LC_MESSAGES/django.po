@@ -5,8 +5,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Medobs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-23 20:40+0200\n"
-"PO-Revision-Date: 2011-05-23 20:32+0200\n"
+"POT-Creation-Date: 2011-05-23 21:43+0200\n"
+"PO-Revision-Date: 2011-05-23 22:32+0200\n"
 "Last-Translator: Peter Hyben <hugis@tag.sk>\n"
 "Language-Team: Slovak <None>\n"
 "Language: sk\n"
@@ -55,67 +55,71 @@ msgid "Fill all required fields to complete reservation"
 msgstr "Vyplňte všetky povinné polia pre dokončenie rezervácie"
 
 #: index.html:45
+msgid "Required fields"
+msgstr "Povinné polia"
+
+#: index.html:47
 msgid "Book reservation"
 msgstr "Rezervovať temín"
 
-#: index.html:46
+#: index.html:48
 msgid "Reset"
 msgstr "Vynulovať"
 
-#: index.html:50
+#: index.html:52
 msgid "Day:"
 msgstr "Deň:"
 
-#: index.html:52
+#: index.html:54
 msgid "List of reservations"
 msgstr "Zoznam rezervovaných termínov"
 
-#: index.html:53
+#: index.html:55
 msgid "Reload"
 msgstr "Obnoviť"
 
-#: index.html:67 index.html.py:328
+#: index.html:69 index.html.py:330
 msgid "Appointment already booked or unavailable"
 msgstr "Termín je už obsadený alebo nedostupný"
 
-#: index.html:190 index.html.py:209 index.html.py:236 index.html.py:254
-#: index.html:269
+#: index.html:192 index.html.py:211 index.html.py:238 index.html.py:256
+#: index.html:271
 msgid "Message"
 msgstr "Správa"
 
-#: index.html:191
+#: index.html:193
 msgid "The hold operation failed"
 msgstr "Pokus o podržanie termínu zlyhal."
 
-#: index.html:201
+#: index.html:203
 msgid "Enable"
 msgstr "Zapnúť"
 
-#: index.html:210
+#: index.html:212
 msgid "The enable operation failed"
 msgstr "Zapnutie termínu zlyhalo."
 
-#: index.html:227
+#: index.html:229
 msgid "Unbook"
 msgstr "Zrušiť rezerváciu"
 
-#: index.html:237
+#: index.html:239
 msgid "The unbook operation failed"
 msgstr "Zrušenie rezervácie zlyhalo"
 
-#: index.html:246
+#: index.html:248
 msgid "Unhold"
 msgstr "Zrušiť podržanie"
 
-#: index.html:255
+#: index.html:257
 msgid "The unhold operation failed"
 msgstr "Zručenie podržania zlyhalo"
 
-#: index.html:261
+#: index.html:263
 msgid "Disable"
 msgstr "Vypnúť"
 
-#: index.html:270
+#: index.html:272
 msgid "The disable operation failed"
 msgstr "Vypnutie termínu zlyhalo"
 
