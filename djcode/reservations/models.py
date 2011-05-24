@@ -40,7 +40,7 @@ class Patient(models.Model):
 		super(Patient, self).save(*args, **kwargs)
 
 class Medical_office(models.Model):
-	name = models.CharField(_("name"), max_length=100)
+	name = models.CharField(_("name"), max_length=100, unique=True)
 	street = models.TextField(_("street"))
 	zip_code = models.CharField(_("zip code"), max_length=20)
 	city = models.CharField(_("city"), max_length=100)
@@ -121,6 +121,7 @@ class Visit_template(models.Model):
 	class Meta:
 		verbose_name = _("visit template")
 		verbose_name_plural = _("visit templates")
+		unique_together = (("office", "day", "starting_time", "valid_since", "valid_until"),)
 
 	def __unicode__(self):
 		return _("%(day_name)s at %(time)s") % {
@@ -138,6 +139,7 @@ class Visit_disable_rule(models.Model):
 	class Meta:
 		verbose_name = _("visit disable rule")
 		verbose_name_plural = _("visit disable rules")
+		unique_together = (("office", "begin", "end"),)
 
 	def __unicode__(self):
 		return _("From %(begin)s to %(end)s") % {
@@ -146,7 +148,7 @@ class Visit_disable_rule(models.Model):
 		}
 
 class Examination_kind(models.Model):
-	title = models.TextField(_("title"))
+	title = models.TextField(_("title"), unique=True)
 	order = models.PositiveIntegerField(_("order"), help_text=_("Order of examination kinds in patient input form."))
 	note = models.TextField(_("note"), blank=True)
 
@@ -180,6 +182,7 @@ class Visit_reservation(models.Model):
 		verbose_name = _("visit reservation")
 		verbose_name_plural = _("visit reservations")
 		ordering = ("-starting_time",)
+		unique_together = (("starting_time", "office"),)
 
 	def __unicode__(self):
 		return _("%(starting_time)s at %(office_name)s") % {
