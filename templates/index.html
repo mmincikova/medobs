@@ -293,7 +293,7 @@ $(function() {
 			}))
 			.append($("<span></span>").addClass("patient-name").html(" "+ r.patient));
 
-		if(r.booked_by != "" || r.booked_at){
+		if(r.booked_by != "" || r.booked_at != ""){
 			ritem.append($("<span></span>")
 				.addClass("term-info")
 				.html(" [ "+ r.booked_by +" "+ r.booked_at +" ]")
