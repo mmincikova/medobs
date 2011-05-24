@@ -174,6 +174,7 @@ class Visit_reservation(models.Model):
 			null=True, blank=True)
 	status = models.PositiveSmallIntegerField(_("status"), default=2, choices=STATUS_CHOICES)
 	booked_at = models.DateTimeField(_("booked at"), null=True, blank=True)
+	booked_by = models.CharField(_("booked by"), max_length=100, blank=True)
 
 	class Meta:
 		verbose_name = _("visit reservation")

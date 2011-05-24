@@ -107,6 +107,7 @@ def place_page(request, place_id, for_date=None):
 				reservation.exam_kind = form.cleaned_data["exam_kind"]
 				reservation.status = 3
 				reservation.booked_at = datetime.now()
+				reservation.booked_by = request.user.username
 				reservation.save()
 
 				if patient.email:
@@ -216,6 +217,7 @@ def hold_reservation(request, r_id):
 	if reservation.status == 2:
 		reservation.status = 4
 		reservation.booked_at = datetime.now()
+		reservation.booked_by = request.user.username
 		reservation.save()
 		response_data = {"status_ok": True}
 	else:
@@ -231,6 +233,7 @@ def unhold_reservation(request, r_id):
 	if reservation.status == 4:
 		reservation.status = 2
 		reservation.booked_at = None
+		reservation.booked_by = ""
 		reservation.save()
 		response_data = {"status_ok": True}
 	else:
@@ -248,6 +251,7 @@ def unbook_reservation(request, r_id):
 		reservation.patient = None
 		reservation.exam_kind = None
 		reservation.booked_at = None
+		reservation.booked_by = ""
 		reservation.save()
 		response_data = {"status_ok": True}
 	else:
@@ -311,6 +315,7 @@ def reservation_details(request, r_id):
 		"phone_number": reservation.patient.phone_number,
 		"email": reservation.patient.email,
 		"exam_kind": reservation.exam_kind_id,
+		"booked_by": reservation.booked_by
 	}
 
 	response = HttpResponse(json.dumps(response_data), "application/json")

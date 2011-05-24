@@ -6,12 +6,13 @@ from djcode.reservations.models import Visit_disable_rule, Visit_reservation, Vi
 
 class Visit_reservation_Admin(admin.ModelAdmin):
 	list_display = ("starting_time", "place", "status", "patient")
+	readonly_fields = ("booked_by",)
 	list_filter = ("status", "place", "starting_time")
 	ordering = ("starting_time", "place")
 	search_fields = ["^patient__first_name", "^patient__last_name"]
 	fieldsets = (
 		(None, {"fields": ("place", "starting_time", "status")}),
-		(_("Booking data"), {"fields": ("patient", "exam_kind", "booked_at")}),
+		(_("Booking data"), {"fields": ("patient", "exam_kind", "booked_at", "booked_by")}),
 	)
 admin.site.register(Visit_reservation, Visit_reservation_Admin)
 
