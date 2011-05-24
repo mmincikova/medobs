@@ -284,6 +284,8 @@ def enable_reservation(request, r_id):
 	reservation = get_object_or_404(Visit_reservation, pk=r_id)
 	if reservation.status == 1 and request.user.is_staff:
 		reservation.status = 2
+		reservation.booked_at = None
+		reservation.booked_by = ""
 		reservation.save()
 		response_data = {"status_ok": True}
 	else:
