@@ -110,6 +110,10 @@ TEMPLATE_DIRS = (
 	# Don't forget to use absolute paths, not relative paths.
 )
 
+LOCALE_PATHS = (
+	# Same as TEMPLATE_DIRS to enable translation of templates 
+)
+
 INSTALLED_APPS = (
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -143,7 +147,7 @@ MEDOBS_GEN_DAYS = 14
 # jQuery UI datepicker localization file name
 # The localization files are also available in the UI svn:
 # http://jquery-ui.googlecode.com/svn/trunk/ui/i18n/
-# Base path is MEDIA_ROOT.
+# Base path is STATIC_ROOT.
 # Example: "js/i18n/jquery.ui.datepicker-sk.js"
 DATEPICKER_I18N_FILE = ""
 
