@@ -10,6 +10,12 @@ class Patient_form(forms.ModelForm):
 		model = Patient
 
 	ident_hash = CZBirthNumberField(label=_("Birth number"))
+	phone_number = forms.RegexField(
+		min_length=5,
+		max_length=100,
+		regex = r"\d+",
+		error_messages={"invalid": _(u"Enter a valid 'phone number' consisting of numbers only.")}
+	)
 	reservation = forms.ModelChoiceField(
 		queryset=Visit_reservation.objects.all(),
 		widget=forms.HiddenInput(),
