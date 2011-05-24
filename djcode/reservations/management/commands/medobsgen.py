@@ -39,7 +39,8 @@ class Command(NoArgsCommand):
 
 					if Visit_disable_rule.objects.filter(
 						begin__lte=starting_time,
-						end__gte=starting_time):
+						end__gte=starting_time,
+						office=tmp.office):
 						status = 1 # disabled
 					else:
 						status = 2 # enabled
