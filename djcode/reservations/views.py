@@ -165,7 +165,9 @@ def date_reservations(request, for_date, office_id):
 			"status": r.status,
 			"patient": r.patient.full_name if r.patient else "",
 			"phone_number": r.patient.phone_number.replace(" ", "") if r.patient else "",
-			"email": r.patient.email if r.patient else ""
+			"email": r.patient.email if r.patient else "",
+			"booked_by": r.booked_by,
+			"booked_at": r.booked_at.strftime("%d.%m.%Y %H:%M") if r.booked_at else None,
 		} for r in office.reservations(for_date)]
 	else:
 		response_data = [{
@@ -315,7 +317,6 @@ def reservation_details(request, r_id):
 		"phone_number": reservation.patient.phone_number,
 		"email": reservation.patient.email,
 		"exam_kind": reservation.exam_kind_id,
-		"booked_by": reservation.booked_by
 	}
 
 	response = HttpResponse(json.dumps(response_data), "application/json")
