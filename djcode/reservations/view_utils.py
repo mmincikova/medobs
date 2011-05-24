@@ -24,7 +24,7 @@ def send_notification(reservation):
 	send_mail(
 		_("Visit reservation confirmation"),
 		render_to_string(
-			"email/first_notification.txt",
+			"email/first_notification.html",
 			{"reservation": reservation}
 		),
 		settings.DEFAULT_FROM_EMAIL,

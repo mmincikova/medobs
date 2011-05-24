@@ -1,5 +1,10 @@
+{% load i18n %}
 {% if user.is_authenticated %}
-The reservation is on <strong>{{ reservation.starting_time.date }}</strong> at <strong>{{ reservation.starting_time.time }}</strong>.
+{% blocktrans with r_date=reservation.starting_time|date:"d.m.Y" r_time=reservation.starting_time|date:"H.i" %}
+The reservation is on <strong>{{ r_date }}</strong> at <strong>{{ r_time }}</strong>.
+{% endblocktrans %}
 {% else %}
-Your reservation is on <strong>{{ reservation.starting_time.date }}</strong> at <strong>{{ reservation.starting_time.time }}</strong>.
+{% blocktrans with r_date=reservation.starting_time|date:"d.m.Y" r_time=reservation.starting_time|date:"H.i" %}
+Your reservation is on <strong>{{ r_date }}</strong> at <strong>{{ r_time }}</strong>.
+{% endblocktrans %}
 {% endif %}

@@ -1,2 +1,5 @@
-The reservation on <strong>{{ reservation.starting_time.date }}</strong> at <strong>{{ reservation.starting_time.time }}</strong>
-for <strong>{{ reservation.patient }}</strong> has been booked.
+{% load i18n %}
+{% blocktrans with r_date=reservation.starting_time|date:"d.m.Y" r_time=reservation.starting_time|date:"H.i" r_patient=reservation.patient %}
+The reservation on <strong>{{ r_date }}</strong> at <strong>{{ r_time }}</strong>
+for <strong>{{ r_patient }}</strong> has been booked.
+{% endblocktrans %}
