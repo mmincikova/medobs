@@ -268,6 +268,8 @@ def disable_reservation(request, r_id):
 	reservation = get_object_or_404(Visit_reservation, pk=r_id)
 	if reservation.status in (2, 4) and request.user.is_staff:
 		reservation.status = 1
+		reservation.booked_at = datetime.now()
+		reservation.booked_by = request.user.username
 		reservation.save()
 		response_data = {"status_ok": True}
 	else:
