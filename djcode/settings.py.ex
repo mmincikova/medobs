@@ -111,7 +111,7 @@ TEMPLATE_DIRS = (
 )
 
 LOCALE_PATHS = (
-	# Same as TEMPLATE_DIRS to enable translation of templates 
+	# Add TEMPLATE_DIRS paths + 'locale/' to enable translation of templates
 )
 
 INSTALLED_APPS = (
