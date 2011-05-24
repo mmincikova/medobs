@@ -1,9 +1,9 @@
 {% load i18n %}
-** {{ reservation.place.name }} **
+** {{ reservation.office.name }} **
 {% blocktrans with reservation.starting_time|date:"d.m.Y" as rdate and reservation.starting_time|date:"H.i" as rtime %}
 Your reservation has been booked on {{ rdate }} at {{ rtime }}.
 {% endblocktrans %}
 {% trans "If you want to change or cancel your reservation call us on phone number:" %}
-{% for n in reservation.place.phone_numbers.all %}
+{% for n in reservation.office.phone_numbers.all %}
  - {{ n }}
 {% endfor %}

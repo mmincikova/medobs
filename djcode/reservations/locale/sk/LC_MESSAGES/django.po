@@ -5,21 +5,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Medobs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-19 11:13+0200\n"
-"PO-Revision-Date: 2011-05-22 11:36+0200\n"
+"POT-Creation-Date: 2011-05-24 11:48+0200\n"
+"PO-Revision-Date: 2011-05-24 11:48+0200\n"
 "Last-Translator: Peter Hyben <hugis@tag.sk>\n"
 "Language-Team: Slovak <None>\n"
-"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: sk\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2\n"
 
-#: admin.py:14
+#: admin.py:15
 msgid "Booking data"
 msgstr "Ǔdaje rezervácie"
 
-#: admin.py:45
+#: admin.py:47
 msgid "Settings"
 msgstr "Nastavenia"
 
@@ -101,7 +101,7 @@ msgstr "Ak je zaštrtnuté, ambulancia je dostupná aj bez prihlásenia."
 msgid "note"
 msgstr "poznámka"
 
-#: models.py:54 models.py:91 models.py:111 models.py:132
+#: models.py:54 models.py:91 models.py:111 models.py:132 models.py:169
 msgid "medical office"
 msgstr "ambulancia"
 
@@ -239,10 +239,6 @@ msgstr "rezervovaný"
 msgid "in held"
 msgstr "podržaný"
 
-#: models.py:169 models.py:198
-msgid "place"
-msgstr "miesto"
-
 #: models.py:175
 msgid "status"
 msgstr "stav"
@@ -251,32 +247,39 @@ msgstr "stav"
 msgid "booked at"
 msgstr "rezervovaný o"
 
-#: models.py:179
+#: models.py:177
+msgid "booked by"
+msgstr "rezervovaný"
+
+#: models.py:180
 msgid "visit reservation"
 msgstr "termín rezervácie"
 
-#: models.py:180
+#: models.py:181
 msgid "visit reservations"
 msgstr "termíny rezervácií"
 
-#: models.py:184
-#, python-format
-msgid "%(starting_time)s at %(place_name)s"
-msgstr "%(starting_time)s v %(place_name)s"
+#: models.py:185
+msgid "%(starting_time)s at %(office_name)s"
+msgstr "%(starting_time)s v %(office_name)s"
 
-#: models.py:197
+#: models.py:198
 msgid "day"
 msgstr "deň"
 
 #: models.py:199
+msgid "office"
+msgstr "ambulancia"
+
+#: models.py:200
 msgid "has reservations"
 msgstr "má termíny"
 
-#: models.py:202
+#: models.py:203
 msgid "day status"
 msgstr "stav dňa"
 
-#: models.py:203
+#: models.py:204
 msgid "days statuses"
 msgstr "stavy dňa"
 
@@ -284,11 +287,11 @@ msgstr "stavy dňa"
 msgid "Visit reservation confirmation"
 msgstr "Potvrdenie rezervacie termínu"
 
-#: views.py:112
+#: views.py:123
 msgid "You cannot make reservation for today or date in the past."
 msgstr "Nemôžete rezervovať termín na dnes alebo na deň v minulosti."
 
-#: views.py:114
+#: views.py:125
 msgid "The reservation has been already booked. Please try again."
 msgstr "Tento termín je už obsadený. Skúste prosím ešte raz."
 

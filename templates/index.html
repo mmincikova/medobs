@@ -18,9 +18,9 @@
 {% block page_container %}
 <div class="grid_12 ui-tabs ui-widget ui-widget-content ui-corner-all">
 <ul class="ui-tabs-nav ui-helper-reset ui-helper-clearfix ui-widget-header ui-corner-all">
-{% for p in places %}
-	<li class="ui-state-default ui-corner-top{% if p.id == place.id %} ui-tabs-selected ui-state-active{% endif %}">
-		<a href="/place/{{ p.id }}/">{{ p.name }}</a>
+{% for o in offices %}
+	<li class="ui-state-default ui-corner-top{% if o.id == office.id %} ui-tabs-selected ui-state-active{% endif %}">
+		<a href="/office/{{ o.id }}/">{{ o.name }}</a>
 	</li>
 {% endfor %}
 </ul>
@@ -56,7 +56,7 @@
 	{% endif %}
 	{{ form.reservation.errors }}
 	<ol id="ui-selectable">
-		{% for r in place.reservations %}
+		{% for r in office.reservations %}
 		<li class="ui-widget-content ui-selectee{% if r.id == reservation_id %} ui-selected{% endif %} {% spaceless %}
 			{% if user.is_authenticated %}
 				ui-status-{{ r.status }}
@@ -134,7 +134,7 @@ $(function() {
 
 	$("#list-r a").click(function(){
 		var date_str = $.datepicker.formatDate("yy-mm-dd", $("#datepicker").datepicker("getDate"));
-		var url = "/reservations/"+ date_str +"/list/{{ place.id }}/";
+		var url = "/reservations/"+ date_str +"/list/{{ office.id }}/";
 		window.open(url, "");
 		return false;
 	});
@@ -296,7 +296,7 @@ $(function() {
 		text: false
 	}).click(function(){
 		var date_str = $.datepicker.formatDate("yy-mm-dd", $("#datepicker").datepicker("getDate"));
-		var url = "/reservations/"+ date_str +"/{{ place.id }}/";
+		var url = "/reservations/"+ date_str +"/{{ office.id }}/";
 		$.getJSON(url, function(data){
 			var rlist = $("#ui-selectable");
 			rlist.empty();
@@ -340,7 +340,7 @@ $(function() {
 
 	});
 
-	var day_status = {{ place.days_status|safe }};
+	var day_status = {{ office.days_status|safe }};
 
 	$("#datepicker").datepicker({
 		defaultDate: "{{ actual_date|date:"Y-m-d" }}",
@@ -349,7 +349,7 @@ $(function() {
 		dateFormat: "yy-mm-dd",
 		onSelect: function(dateText, inst){
 			var date_str = $.datepicker.formatDate("dd.mm.yy", $(this).datepicker("getDate"));
-			var url = "/reservations/"+ dateText +"/{{ place.id }}/";
+			var url = "/reservations/"+ dateText +"/{{ office.id }}/";
 			$.getJSON(url, function(data){
 				$("#actual-date").html(date_str);
 

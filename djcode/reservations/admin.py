@@ -5,13 +5,13 @@ from djcode.reservations.models import Examination_kind, Medical_office, Office_
 from djcode.reservations.models import Visit_disable_rule, Visit_reservation, Visit_template
 
 class Visit_reservation_Admin(admin.ModelAdmin):
-	list_display = ("starting_time", "place", "status", "patient")
+	list_display = ("starting_time", "office", "status", "patient")
 	readonly_fields = ("booked_by",)
-	list_filter = ("status", "place", "starting_time")
-	ordering = ("starting_time", "place")
+	list_filter = ("status", "office", "starting_time")
+	ordering = ("starting_time", "office")
 	search_fields = ["^patient__first_name", "^patient__last_name"]
 	fieldsets = (
-		(None, {"fields": ("place", "starting_time", "status")}),
+		(None, {"fields": ("office", "starting_time", "status")}),
 		(_("Booking data"), {"fields": ("patient", "exam_kind", "booked_at", "booked_by")}),
 	)
 admin.site.register(Visit_reservation, Visit_reservation_Admin)
@@ -24,15 +24,15 @@ class Patient_Admin(admin.ModelAdmin):
 admin.site.register(Patient, Patient_Admin)
 
 class Visit_template_Admin(admin.ModelAdmin):
-	list_display = ("__unicode__", "place", "valid_since", "valid_until")
-	list_filter = ("place", "day")
-	ordering = ("day", "starting_time", "place")
+	list_display = ("__unicode__", "office", "valid_since", "valid_until")
+	list_filter = ("office", "day")
+	ordering = ("day", "starting_time", "office")
 admin.site.register(Visit_template, Visit_template_Admin)
 
 class Visit_disable_rule_Admin(admin.ModelAdmin):
-	list_display = ("begin", "end", "place")
-	list_filter = ("place", "begin")
-	ordering = ("begin", "place")
+	list_display = ("begin", "end", "office")
+	list_filter = ("office", "begin")
+	ordering = ("begin", "office")
 admin.site.register(Visit_disable_rule, Visit_disable_rule_Admin)
 
 class Office_phone_Inline(admin.TabularInline):

@@ -1,6 +1,6 @@
 from datetime import datetime, date, time, timedelta
 import simplejson as json
-from view_utils import get_places, is_reservation_on_date, send_notification
+from view_utils import get_offices, is_reservation_on_date, send_notification
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -20,14 +20,14 @@ from djcode.reservations.models import get_hexdigest
 def front_page(request):
 	try:
 		if request.user.is_authenticated():
-			place = Medical_office.objects.all()[0]
+			office = Medical_office.objects.all()[0]
 		else:
-			place = Medical_office.objects.filter(public=True)[0]
+			office = Medical_office.objects.filter(public=True)[0]
 	except IndexError:
 		return render_to_response( "missing_config.html", {},
 			context_instance=RequestContext(request))
 
-	return HttpResponseRedirect("/place/%d/" % place.id)
+	return HttpResponseRedirect("/office/%d/" % office.id)
 
 class DateInPast(Exception):
 	pass
@@ -35,10 +35,10 @@ class DateInPast(Exception):
 class BadStatus(Exception):
 	pass
 
-def place_page(request, place_id, for_date=None):
-	place = get_object_or_404(Medical_office, pk=place_id)
+def office_page(request, office_id, for_date=None):
+	office = get_object_or_404(Medical_office, pk=office_id)
 
-	if not request.user.is_authenticated() and not place.public: # forbidden place
+	if not request.user.is_authenticated() and not office.public: # forbidden office
 		return HttpResponseRedirect("/")
 
 	message = None
@@ -47,7 +47,7 @@ def place_page(request, place_id, for_date=None):
 
 	if not request.user.is_authenticated():
 		start_date += timedelta(1)
-		while not is_reservation_on_date(start_date, place):
+		while not is_reservation_on_date(start_date, office):
 			start_date += timedelta(1)
 			if start_date == end_date:
 				break
@@ -94,7 +94,7 @@ def place_page(request, place_id, for_date=None):
 							"reservation": patient.visit_reservations.get(starting_time__gte=datetime.now()),
 							"user": request.user,
 						}))
-					return HttpResponseRedirect("/cancel/%d/" % reservation.place_id)
+					return HttpResponseRedirect("/cancel/%d/" % reservation.office_id)
 
 				if not patient_created:
 					patient.first_name = form.cleaned_data["first_name"]
@@ -117,7 +117,7 @@ def place_page(request, place_id, for_date=None):
 						"reservation": reservation,
 					}))
 				return HttpResponseRedirect("/booked/%d/%s/" % (
-							reservation.place_id,
+							reservation.office_id,
 							actual_date.strftime("%Y-%m-%d")))
 			except DateInPast:
 				message = _("You cannot make reservation for today or date in the past.")
@@ -132,18 +132,18 @@ def place_page(request, place_id, for_date=None):
 	else:
 		form = Patient_form()
 
-	place_data = {
-		"id": place.id,
-		"name": place.name,
-		"reservations": place.reservations(actual_date),
-		"days_status": json.dumps(place.days_status(start_date, end_date))
+	office_data = {
+		"id": office.id,
+		"name": office.name,
+		"reservations": office.reservations(actual_date),
+		"days_status": json.dumps(office.days_status(start_date, end_date))
 	}
 
 	return render_to_response(
 		"index.html",
 		{
-			"places": get_places(request.user),
-			"place": place_data,
+			"offices": get_offices(request.user),
+			"office": office_data,
 			"form": form,
 			"message": message,
 			"start_date": start_date,
@@ -154,8 +154,8 @@ def place_page(request, place_id, for_date=None):
 		context_instance=RequestContext(request)
 	)
 
-def date_reservations(request, for_date, place_id):
-	place = get_object_or_404(Medical_office, pk=place_id)
+def date_reservations(request, for_date, office_id):
+	office = get_object_or_404(Medical_office, pk=office_id)
 	for_date = datetime.strptime(for_date, "%Y-%m-%d").date()
 
 	if request.user.is_authenticated():
@@ -166,23 +166,23 @@ def date_reservations(request, for_date, place_id):
 			"patient": r.patient.full_name if r.patient else "",
 			"phone_number": r.patient.phone_number.replace(" ", "") if r.patient else "",
 			"email": r.patient.email if r.patient else ""
-		} for r in place.reservations(for_date)]
+		} for r in office.reservations(for_date)]
 	else:
 		response_data = [{
 			"id": r.id,
 			"time": r.starting_time.time().strftime("%H:%M"),
 			"disabled": True if r.status != 2 else False,
-		} for r in place.reservations(for_date)]
+		} for r in office.reservations(for_date)]
 
 	response = HttpResponse(json.dumps(response_data), "application/json")
 	response["Cache-Control"] = "no-cache"
 	return response
 
-def booked(request, place_id, for_date):
-	place = get_object_or_404(Medical_office, pk=place_id)
+def booked(request, office_id, for_date):
+	office = get_object_or_404(Medical_office, pk=office_id)
 	return render_to_response(
 		"booked.html",
-		{"place": place, "for_date": for_date},
+		{"office": office, "for_date": for_date},
 		context_instance=RequestContext(request)
 	)
 
@@ -290,17 +290,17 @@ def enable_reservation(request, r_id):
 	return response
 
 @login_required
-def list_reservations(request, for_date, place_id):
+def list_reservations(request, for_date, office_id):
 	for_date = datetime.strptime(for_date, "%Y-%m-%d").date()
-	place = get_object_or_404(Medical_office, pk=place_id)
+	office = get_object_or_404(Medical_office, pk=office_id)
 
-	reservations = place.reservations(for_date)
+	reservations = office.reservations(for_date)
 
 	return render_to_response(
 		"list_reservations.html",
 		{
 			"for_date": for_date,
-			"place": place,
+			"office": office,
 			"reservations": reservations,
 		},
 		context_instance=RequestContext(request)
@@ -338,8 +338,8 @@ def patient_reservations(request):
 	return render_to_response("patient_reservations.html", response_data,
 		context_instance=RequestContext(request))
 
-def days_status(request, year, month, place_id):
-	place = get_object_or_404(Medical_office, pk=place_id)
+def days_status(request, year, month, office_id):
+	office = get_object_or_404(Medical_office, pk=office_id)
 	year = int(year)
 	month = int(month)
 
@@ -348,7 +348,7 @@ def days_status(request, year, month, place_id):
 		end_date = date(year+1, 1, 31)
 	else:
 		end_date = date(year, month + 1, 1) - timedelta(1)
-	response_data = place.days_status(start_date, end_date)
+	response_data = office.days_status(start_date, end_date)
 
 	response = HttpResponse(json.dumps(response_data), "application/json")
 	response["Cache-Control"] = "no-cache"
@@ -376,16 +376,16 @@ def logout(request):
 	return HttpResponse(status=200)
 
 @login_required
-def list_places(request):
+def list_offices(request):
 	response_data = [{
-			"id": place.pk,
-			"name": place.name,
-			"street": place.street,
-			"zip_code": place.zip_code,
-			"city": place.city,
-			"email": place.email,
-			"order": place.order,
-			"public": place.public,
-			"phones": [phone.number for phone in place.phone_numbers.all()],
-		} for place in Medical_office.objects.all()]
+			"id": office.pk,
+			"name": office.name,
+			"street": office.street,
+			"zip_code": office.zip_code,
+			"city": office.city,
+			"email": office.email,
+			"order": office.order,
+			"public": office.public,
+			"phones": [phone.number for phone in office.phone_numbers.all()],
+		} for office in Medical_office.objects.all()]
 	return HttpResponse(json.dumps(response_data), "application/json")

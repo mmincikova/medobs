@@ -15,10 +15,10 @@
 <p>{% trans "If you want to change or cancel your reservation call us on phone number:" %}</p>
 
 <ul id="phones">
-	{% for n in place.phone_numbers.all %}<li>{{ n }}</li>{% endfor %}
+	{% for n in office.phone_numbers.all %}<li>{{ n }}</li>{% endfor %}
 </ul>
 
 {% endif %}
-<p><a href="/place/{{ place.id }}/{{ for_date }}/">{% trans "Back to front page" %}</a></p>
+<p><a href="/office/{{ office.id }}/{{ for_date }}/">{% trans "Back to front page" %}</a></p>
 </div>
 {% endblock %}

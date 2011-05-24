@@ -108,7 +108,7 @@ class Visit_template(models.Model):
 		(6, _("Saturday")),
 		(7, _("Sunday")),
 	)
-	place = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
+	office = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
 			related_name="templates")
 	day = models.PositiveSmallIntegerField(_("week day"), choices=DAYS)
 	starting_time = models.TimeField(_("starting time"))
@@ -129,7 +129,7 @@ class Visit_template(models.Model):
 		}
 
 class Visit_disable_rule(models.Model):
-	place = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
+	office = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
 			related_name="disables")
 	begin = models.DateTimeField(_("begin"))
 	end = models.DateTimeField(_("end"))
@@ -166,7 +166,7 @@ class Visit_reservation(models.Model):
 		(4, _("in held")),
 	)
 	starting_time = models.DateTimeField(_("starting time"))
-	place = models.ForeignKey(Medical_office, verbose_name=_("place"),
+	office = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
 			related_name="visit_reservations")
 	patient = models.ForeignKey(Patient, verbose_name=_("patient"), null=True, blank=True,
 			related_name="visit_reservations")
@@ -182,9 +182,9 @@ class Visit_reservation(models.Model):
 		ordering = ("-starting_time",)
 
 	def __unicode__(self):
-		return _("%(starting_time)s at %(place_name)s") % {
+		return _("%(starting_time)s at %(office_name)s") % {
 			"starting_time": self.starting_time,
-			"place_name": self.place.name
+			"office_name": self.office.name
 		}
 
 	def _passed(self):
@@ -196,13 +196,13 @@ class Visit_reservation(models.Model):
 
 class Day_status(models.Model):
 	day = models.DateField(_("day"))
-	place = models.ForeignKey(Medical_office, verbose_name=_("place"))
+	office = models.ForeignKey(Medical_office, verbose_name=_("office"))
 	has_reservations = models.BooleanField(_("has reservations"))
 
 	class Meta:
 		verbose_name = _("day status")
 		verbose_name_plural = _("days statuses")
-		unique_together = (("day", "place"),)
+		unique_together = (("day", "office"),)
 
 	def __unicode__(self):
 		return self.day.__str__()
@@ -211,7 +211,7 @@ def enable_day_status(sender, instance, created, **kwargs):
 	for_date = instance.starting_time.date()
 	day_status, day_status_created = Day_status.objects.get_or_create(
 		day=for_date,
-		place=instance.place,
+		office=instance.office,
 		defaults={"has_reservations": True})
 	if not day_status_created:
 		day_status.has_reservations = True
@@ -224,12 +224,12 @@ def update_day_status(sender, instance, **kwargs):
 
 	status = Visit_reservation.objects.filter(
 			starting_time__range=(start, end),
-			place=instance.place
+			office=instance.office
 		).exists()
 
 	day_status, day_status_created = Day_status.objects.get_or_create(
 		day=for_date,
-		place=instance.place,
+		office=instance.office,
 		defaults={"has_reservations": status})
 	if not day_status_created:
 		day_status.has_reservations = status
@@ -245,13 +245,13 @@ def moved_day_status(sender, instance, **kwargs):
 
 		reservation_count = Visit_reservation.objects.filter(
 				starting_time__range=(start, end),
-				place=actual_record.place
+				office=actual_record.office
 			).count()
 
 		if reservation_count == 1:
 			day_status, day_status_created = Day_status.objects.get_or_create(
 				day=for_date,
-				place=actual_record.place,
+				office=actual_record.office,
 				defaults={"has_reservations": False})
 			if not day_status_created:
 				day_status.has_reservations = False
@@ -269,7 +269,7 @@ def gen_days_statuses(sender, instance, created, **kwargs):
 		while actual_date <= end_date:
 			day_status, day_status_created = Day_status.objects.get_or_create(
 				day=actual_date,
-				place=instance,
+				office=instance,
 				defaults={"has_reservations": False})
 			actual_date += timedelta(1)
 

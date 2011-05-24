@@ -1,7 +1,7 @@
 {% load i18n %}
-** {{ reservation.place.name }} **
+** {{ reservation.office.name }} **
 {% blocktrans with rtime=reservation.starting_time|date:"H.i" %}We are waiting for you tomorrow at {{ rtime }} in the medical office.{% endblocktrans %}
 {% trans "If you want to change or cancel your reservation, call us on phone number:" %}
-{% for n in reservation.place.phone_numbers.all %}
+{% for n in reservation.office.phone_numbers.all %}
  - {{ n }}
 {% endfor %}

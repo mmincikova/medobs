@@ -27,7 +27,7 @@ class Command(NoArgsCommand):
 				for office in Medical_office.objects.all():
 					day_status, day_status_created = Day_status.objects.get_or_create(
 						day=day,
-						place=office,
+						office=office,
 						defaults={"has_reservations": False})
 
 				templates = Visit_template.objects.filter(day = day.isoweekday())
@@ -44,10 +44,10 @@ class Command(NoArgsCommand):
 					else:
 						status = 2 # enabled
 					
-					print 'I: Creating reservation: %s %s' % (tmp.place.name, starting_time)
+					print 'I: Creating reservation: %s %s' % (tmp.office.name, starting_time)
 					Visit_reservation.objects.create(
 						starting_time=starting_time,
-						place=tmp.place,
+						office=tmp.office,
 						status=status
 					)
 

@@ -11,7 +11,7 @@
 	<tr{% if not r.passed %} class="future"{% endif %}>
 		<td>{{ r.starting_time.date }}</td>
 		<td>{{ r.starting_time.time }}</td>
-		<td>{{ r.place.name }}</td>
+		<td>{{ r.office.name }}</td>
 		<td>{{ r.exam_kind.title }}</td>
 	</tr>
 {% endfor %}

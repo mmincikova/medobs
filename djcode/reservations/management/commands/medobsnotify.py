@@ -13,8 +13,8 @@ class Command(NoArgsCommand):
 
 	def handle_noargs(self, **options):
 		actual_date = date.today() + timedelta(1)
-		for place in Medical_office.objects.all():
-			for r in place.reservations(actual_date):
+		for office in Medical_office.objects.all():
+			for r in office.reservations(actual_date):
 				if r.status == 3 and r.patient.email:
 					send_mail(
 						_("Notification about upcoming visit reservation"),
