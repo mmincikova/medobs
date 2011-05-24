@@ -1,8 +1,10 @@
+from os.path import abspath, dirname
 from subprocess import Popen, PIPE
 
 def get_version():
 	""" Returns project version as string from 'git describe' command. """
-	pipe = Popen('git describe', stdout=PIPE, shell=True)
+	script_path = abspath(__file__)
+	pipe = Popen('git --git-dir=%s/.git describe' % dirname(dirname(script_path)), stdout=PIPE, shell=True)
 	version = pipe.stdout.read()
 	
 	if version:
