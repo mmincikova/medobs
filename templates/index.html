@@ -31,7 +31,7 @@
 		{% if form.errors %}<p class="error-message">{% trans "Fill all required fields to complete reservation" %}</p>{% endif %}
 		{% csrf_token %}
 		<span class="req"><label for="id_ident_hash"><span class="astr">*</span> {{ form.ident_hash.label }}</label>{{ form.ident_hash }}{{ form.ident_hash.errors }}</span>
-		{% if user.is_authenticated %}<button id="all-reservations"><img src="{{ MEDIA_URL }}images/table.png" /></button>{% endif %}
+		{% if user.is_authenticated %}<button id="all-reservations"><img src="{{ STATIC_URL }}images/table.png" /></button>{% endif %}
 		<span class="req"><label for="id_first_name"><span class="astr">*</span> {{ form.first_name.label }}</label>{{ form.first_name }}{{ form.first_name.errors }}</span>
 		<span class="req"><label for="id_last_name"><span class="astr">*</span> {{ form.last_name.label }}</label>{{ form.last_name }}{{ form.last_name.errors }}</span>
 		<span class="req"><label for="id_phone_number"><span class="astr">*</span> {{ form.phone_number.label }}</label>{{ form.phone_number }}{{ form.phone_number.errors }}</span>
@@ -80,7 +80,7 @@
 {% endblock %}
 
 {% block footer_js_page %}
-{% if DATEPICKER_I18N_FILE %}<script type="text/javascript" src="{{ MEDIA_URL }}{{ DATEPICKER_I18N_FILE }}"></script>{% endif %}
+{% if DATEPICKER_I18N_FILE %}<script type="text/javascript" src="{{ STATIC_URL }}{{ DATEPICKER_I18N_FILE }}"></script>{% endif %}
 <script type="text/javascript">
 $(function() {
 	function select_reservation(elem){
