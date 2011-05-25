@@ -60,8 +60,8 @@ msgid "phone number"
 msgstr "telefón"
 
 #: models.py:16 models.py:47
-msgid "e-mail address"
-msgstr "e-mail adresa"
+msgid "e-mail"
+msgstr "e-mail"
 
 #: models.py:19 models.py:173
 msgid "patient"
