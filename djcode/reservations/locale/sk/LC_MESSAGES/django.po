@@ -303,3 +303,9 @@ msgstr "Tento termín je už obsadený. Skúste prosím ešte raz."
 #: management/commands/medobsnotify.py:20
 msgid "Notification about upcoming visit reservation"
 msgstr "Upozornenie na blížiaci sa termín"
+
+
+### Django Admin
+#: templates/admin/login.html:33
+msgid "Username:"
+msgstr "Meno:"
