@@ -123,6 +123,7 @@ INSTALLED_APPS = (
 	'django.contrib.messages',
 	'djcode.reservations',
 	'django.contrib.admin',
+	'django.contrib.localflavor',
 )
 
 if DEBUG:
