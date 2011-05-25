@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Medobs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-24 13:31+0200\n"
+"POT-Creation-Date: 2011-05-25 08:15-0500\n"
 "PO-Revision-Date: 2011-05-24 13:32+0200\n"
 "Last-Translator: Peter Hyben <hugis@tag.sk>\n"
 "Language-Team: Slovak <None>\n"
@@ -27,15 +27,19 @@ msgstr "Nastavenia"
 msgid "Birth number"
 msgstr "Rodné číslo"
 
-#: forms.py:17
+#: forms.py:14
+msgid "Phone number"
+msgstr "Telefón"
+
+#: forms.py:18
 msgid "Enter a valid 'phone number' consisting of numbers only."
 msgstr "Vložte správne 'telefónne číslo' obsahujúce iba čísla."
 
-#: forms.py:22
+#: forms.py:23
 msgid "Please select time of visit reservation"
 msgstr "Zvoľte termín rezervácie"
 
-#: forms.py:28
+#: forms.py:29
 msgid "Examination kind"
 msgstr "Typ vyšetrenia"
 
@@ -300,12 +304,10 @@ msgstr "Nemôžete rezervovať termín na dnes alebo na deň v minulosti."
 msgid "The reservation has been already booked. Please try again."
 msgstr "Tento termín je už obsadený. Skúste prosím ešte raz."
 
-#: management/commands/medobsnotify.py:20
+#: management/commands/medobsnotify.py:22
 msgid "Notification about upcoming visit reservation"
 msgstr "Upozornenie na blížiaci sa termín"
 
-
-### Django Admin
-#: templates/admin/login.html:33
-msgid "Username:"
-msgstr "Meno:"
+# ## Django Admin
+#~ msgid "Username:"
+#~ msgstr "Meno:"

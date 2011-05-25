@@ -11,6 +11,7 @@ class Patient_form(forms.ModelForm):
 
 	ident_hash = CZBirthNumberField(label=_("Birth number"))
 	phone_number = forms.RegexField(
+		label=_("Phone number"),
 		min_length=5,
 		max_length=100,
 		regex = r"\d+",
