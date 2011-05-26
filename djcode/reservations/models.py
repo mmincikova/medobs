@@ -111,7 +111,7 @@ class Visit_template(models.Model):
 	office = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
 			related_name="templates")
 	day = models.PositiveSmallIntegerField(_("week day"), choices=DAYS)
-	starting_time = models.TimeField(_("starting time"))
+	starting_time = models.TimeField(_("time"))
 	valid_since = models.DateField(_("valid since"),
 			help_text=_("This date is included into interval."))
 	valid_until = models.DateField(_("valid until"), null=True, blank=True,
@@ -169,7 +169,7 @@ class Visit_reservation(models.Model):
 		(3, _("booked")),
 		(4, _("in held")),
 	)
-	starting_time = models.DateTimeField(_("starting time"))
+	starting_time = models.DateTimeField(_("time"))
 	office = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
 			related_name="visit_reservations")
 	patient = models.ForeignKey(Patient, verbose_name=_("patient"), null=True, blank=True,

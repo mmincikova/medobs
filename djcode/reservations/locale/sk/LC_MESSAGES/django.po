@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Medobs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-26 14:44+0200\n"
+"POT-Creation-Date: 2011-05-26 14:58+0200\n"
 "PO-Revision-Date: 2011-05-24 13:32+0200\n"
 "Last-Translator: Peter Hyben <hugis@tag.sk>\n"
 "Language-Team: Slovak <None>\n"
@@ -162,8 +162,8 @@ msgid "week day"
 msgstr "deň týždňa"
 
 #: models.py:114 models.py:172
-msgid "starting time"
-msgstr "Začiatok"
+msgid "time"
+msgstr "čas"
 
 #: models.py:115
 msgid "valid since"
@@ -309,5 +309,5 @@ msgid "Notification about upcoming visit reservation"
 msgstr "Upozornenie na blížiaci sa termín"
 
 # ## Django Admin
-#~ msgid "Username:"
-#~ msgstr "Meno:"
+msgid "Username:"
+msgstr "Meno:"
