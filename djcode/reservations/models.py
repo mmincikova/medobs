@@ -132,8 +132,10 @@ class Visit_template(models.Model):
 class Visit_disable_rule(models.Model):
 	office = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
 			related_name="disables")
-	begin = models.DateTimeField(_("begin"))
-	end = models.DateTimeField(_("end"))
+	begin = models.DateTimeField(_("begin"),
+			help_text=_("This date is included into interval."))
+	end = models.DateTimeField(_("end"),
+			help_text=_("This date is included into interval."))
 	note = models.TextField(_("note"), blank=True)
 
 	class Meta:
