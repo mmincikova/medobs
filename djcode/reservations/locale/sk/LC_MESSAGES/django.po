@@ -257,7 +257,7 @@ msgstr "rezervovaný o"
 
 #: models.py:181
 msgid "booked by"
-msgstr "rezervovaný"
+msgstr "vykonal"
 
 #: models.py:184
 msgid "visit reservation"
