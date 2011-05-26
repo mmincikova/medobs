@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Medobs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-05-25 08:15-0500\n"
+"POT-Creation-Date: 2011-05-26 14:44+0200\n"
 "PO-Revision-Date: 2011-05-24 13:32+0200\n"
 "Last-Translator: Peter Hyben <hugis@tag.sk>\n"
 "Language-Team: Slovak <None>\n"
@@ -63,7 +63,7 @@ msgstr "telefón"
 msgid "e-mail"
 msgstr "e-mail"
 
-#: models.py:19 models.py:173
+#: models.py:19 models.py:175
 msgid "patient"
 msgstr "pacient"
 
@@ -87,7 +87,7 @@ msgstr "PSČ"
 msgid "city"
 msgstr "mesto"
 
-#: models.py:48 models.py:152
+#: models.py:48 models.py:154
 msgid "order"
 msgstr "poradie"
 
@@ -105,11 +105,11 @@ msgid ""
 "visitors."
 msgstr "Ak je zaštrtnuté, ambulancia je dostupná aj bez prihlásenia."
 
-#: models.py:51 models.py:119 models.py:137 models.py:153
+#: models.py:51 models.py:119 models.py:139 models.py:155
 msgid "note"
 msgstr "poznámka"
 
-#: models.py:54 models.py:91 models.py:111 models.py:133 models.py:171
+#: models.py:54 models.py:91 models.py:111 models.py:133 models.py:173
 msgid "medical office"
 msgstr "ambulancia"
 
@@ -161,7 +161,7 @@ msgstr "Nedeľa"
 msgid "week day"
 msgstr "deň týždňa"
 
-#: models.py:114 models.py:170
+#: models.py:114 models.py:172
 msgid "starting time"
 msgstr "Začiatok"
 
@@ -169,7 +169,7 @@ msgstr "Začiatok"
 msgid "valid since"
 msgstr "platné od"
 
-#: models.py:116
+#: models.py:116 models.py:136 models.py:138
 msgid "This date is included into interval."
 msgstr "Tento dátum je zahrnutý do intervalu."
 
@@ -198,97 +198,97 @@ msgstr "%(day_name)s o %(time)s"
 msgid "begin"
 msgstr "začiatok"
 
-#: models.py:136
+#: models.py:137
 msgid "end"
 msgstr "koniec"
 
-#: models.py:140
+#: models.py:142
 msgid "visit disable rule"
 msgstr "pravidlo vypnutia termínu"
 
-#: models.py:141
+#: models.py:143
 msgid "visit disable rules"
 msgstr "pravidlá vypnutia temínu"
 
-#: models.py:145
+#: models.py:147
 #, python-format
 msgid "From %(begin)s to %(end)s"
 msgstr "Od %(begin)s do %(end)s"
 
-#: models.py:151
+#: models.py:153
 msgid "title"
 msgstr "názov"
 
-#: models.py:152
+#: models.py:154
 msgid "Order of examination kinds in patient input form."
 msgstr "Poradie typov vyšetrenia vo vstupnom formuláry pacienta."
 
-#: models.py:156 models.py:175
+#: models.py:158 models.py:177
 msgid "examination kind"
 msgstr "typ vyšetrenia"
 
-#: models.py:157
+#: models.py:159
 msgid "examinations kinds"
 msgstr "typy vyšetrenia"
 
-#: models.py:165
+#: models.py:167
 msgid "disabled"
 msgstr "vypnutý"
 
-#: models.py:166
+#: models.py:168
 msgid "enabled"
 msgstr "zapnutý"
 
-#: models.py:167
+#: models.py:169
 msgid "booked"
 msgstr "rezervovaný"
 
-#: models.py:168
+#: models.py:170
 msgid "in held"
 msgstr "podržaný"
 
-#: models.py:177
+#: models.py:179
 msgid "status"
 msgstr "stav"
 
-#: models.py:178
+#: models.py:180
 msgid "booked at"
 msgstr "rezervovaný o"
 
-#: models.py:179
+#: models.py:181
 msgid "booked by"
 msgstr "rezervovaný"
 
-#: models.py:182
+#: models.py:184
 msgid "visit reservation"
 msgstr "termín rezervácie"
 
-#: models.py:183
+#: models.py:185
 msgid "visit reservations"
 msgstr "termíny rezervácií"
 
-#: models.py:188
+#: models.py:190
 #, python-format
 msgid "%(starting_time)s at %(office_name)s"
 msgstr "%(starting_time)s v %(office_name)s"
 
-#: models.py:201
+#: models.py:203
 msgid "day"
 msgstr "deň"
 
-#: models.py:202
+#: models.py:204
 msgid "office"
 msgstr "ambulancia"
 
-#: models.py:203
+#: models.py:205
 msgid "has reservations"
 msgstr "má termíny"
 
-#: models.py:206
+#: models.py:208
 msgid "day status"
 msgstr "stav dňa"
 
-#: models.py:207
+#: models.py:209
 msgid "days statuses"
 msgstr "stavy dňa"
 
