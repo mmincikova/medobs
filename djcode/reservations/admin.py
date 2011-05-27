@@ -24,7 +24,7 @@ class Patient_Admin(admin.ModelAdmin):
 admin.site.register(Patient, Patient_Admin)
 
 class Visit_template_Admin(admin.ModelAdmin):
-	list_display = ("__unicode__", "office", "valid_since", "valid_until")
+	list_display = ("__unicode__", "office", "starting_time", "valid_since", "valid_until")
 	list_filter = ("office", "day")
 	ordering = ("day", "starting_time", "office")
 admin.site.register(Visit_template, Visit_template_Admin)
@@ -39,7 +39,7 @@ class Office_phone_Inline(admin.TabularInline):
     model = Office_phone
 
 class Medical_office_Admin(admin.ModelAdmin):
-	list_display = ("name", "street", "zip_code", "city", "email", "public")
+	list_display = ("name", "order", "street", "zip_code", "city", "email", "public")
 	inlines = [Office_phone_Inline,]
 	ordering = ("name",)
 	fieldsets = (
