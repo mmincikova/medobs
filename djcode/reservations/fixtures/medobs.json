@@ -67,7 +67,8 @@
         "model": "reservations.examination_kind", 
         "fields": {
             "order": 10, 
-            "title": "First examination"
+            "title": "First examination",
+	    "office": [1,2,3]
         }
     }, 
     {
@@ -75,7 +76,8 @@
         "model": "reservations.examination_kind", 
         "fields": {
             "order": 20, 
-            "title": "Second examination"
+            "title": "Second examination",
+	    "office": [1,2]
         }
     }, 
     {
@@ -83,7 +85,8 @@
         "model": "reservations.examination_kind", 
         "fields": {
             "order": 30, 
-            "title": "Third examination"
+            "title": "Third examination",
+	    "office": [1]
         }
     } 
 ]

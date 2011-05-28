@@ -62,6 +62,7 @@ def office_page(request, office_id, for_date=None):
 
 	if request.method == 'POST':
 		form = Patient_form(request.POST)
+		form.fields["exam_kind"].queryset = office.exam_kinds.all()
 		if form.is_valid():
 			try:
 				reservation = form.cleaned_data["reservation"]
@@ -131,6 +132,7 @@ def office_page(request, office_id, for_date=None):
 				actual_date = Visit_reservation.objects.get(pk=reservation_id).starting_time.date()
 	else:
 		form = Patient_form()
+		form.fields["exam_kind"].queryset = office.exam_kinds.all()
 
 	office_data = {
 		"id": office.id,
