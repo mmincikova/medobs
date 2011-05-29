@@ -65,9 +65,13 @@
 			{% endif %}{% endspaceless %}">
 			<input type="hidden" value="{{ r.id }}" />
 			{{ r.starting_time|date:"H:i" }}
-			{% if user.is_authenticated and r.status == 3 %} <span class="patient-name">{{ r.patient.full_name }}</span>{% endif %}
+			{% if user.is_authenticated and r.status == 3 %}
+				<span class="patient-name">{{ r.patient.full_name }}</span><span class="term-exam-kind">, {{ r.exam_kind }}</span>
+			{% endif %}
 			{% if user.is_authenticated %}
-				{% if r.booked_by or r.booked_at %}<span class="term-info">[ {{ r.booked_by }} {{ r.booked_at|date:"d.m.Y H:i" }} ]</span>{% endif %}
+			{% if r.booked_by or r.booked_at %}
+				<span class="term-info" title="{{ r.booked_by }} {{ r.booked_at|date:"d.m.Y H:i" }}">[ {{ r.booked_by }} ]</span>
+			{% endif %}
 			{% endif %}
 			{% if not user.is_authenticated and r.status != 2 %} <span class="term-info">{% trans "Appointment already booked or unavailable" %}</span>{% endif %}
 		</li>
@@ -234,6 +238,7 @@ $(function() {
 					if(data.status_ok){
 						elem.removeClass("ui-status-3").addClass("ui-status-2");
 						$(".patient-name", elem).remove();
+						$(".term-exam-kind", elem).remove();
 						$(".ui-selected", tab).removeClass("ui-selected");
 						$(".act-button", tab).remove();
 					} else {
@@ -292,11 +297,19 @@ $(function() {
 				value: r.id
 			}))
 			.append($("<span></span>").addClass("patient-name").html(" "+ r.patient));
+			
+		if(r.exam_kind != ""){
+			ritem.append($("<span></span>")
+				.addClass("term-exam-kind")
+				.html(", " + r.exam_kind)
+			);
+		}
 
 		if(r.booked_by != "" || r.booked_at != ""){
 			ritem.append($("<span></span>")
 				.addClass("term-info")
-				.html(" [ "+ r.booked_by +" "+ r.booked_at +" ]")
+				.html(" [ "+ r.booked_by +" ]")
+				.attr("title", r.booked_by + " " + r.booked_at)
 			);
 		}
 	}

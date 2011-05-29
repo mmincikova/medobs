@@ -3,6 +3,7 @@ form { display: none; }
 li { list-style: none; font-size: 16pt; margin-bottom: 0.2em; border-bottom: 1px solid black; }
 button { display: none; }
 #footer, #reload { display: none; }
+.term-exam-kind { display: none; }
 .term-info { display: none; }
 .ui-tabs-nav li { display: none; }
 .ui-tabs-hide { display: none; }

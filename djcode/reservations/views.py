@@ -168,6 +168,7 @@ def date_reservations(request, for_date, office_id):
 			"patient": r.patient.full_name if r.patient else "",
 			"phone_number": r.patient.phone_number.replace(" ", "") if r.patient else "",
 			"email": r.patient.email if r.patient else "",
+			"exam_kind": r.exam_kind.title if r.exam_kind else "",
 			"booked_by": r.booked_by,
 			"booked_at": r.booked_at.strftime("%d.%m.%Y %H:%M") if r.booked_at else "",
 		} for r in office.reservations(for_date)]
