@@ -16,9 +16,9 @@ def is_reservation_on_date(for_date, office):
 
 def get_offices(user):
 	if user.is_authenticated():
-		return Medical_office.objects.all()
+		return Medical_office.objects.filter(published=True)
 	else:
-		return Medical_office.objects.filter(public=True)
+		return Medical_office.objects.filter(published=True, public=True)
 
 def send_notification(reservation):
 	send_mail(

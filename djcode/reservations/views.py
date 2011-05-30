@@ -20,9 +20,9 @@ from djcode.reservations.models import get_hexdigest
 def front_page(request):
 	try:
 		if request.user.is_authenticated():
-			office = Medical_office.objects.all()[0]
+			office = Medical_office.objects.filter(published=True)[0]
 		else:
-			office = Medical_office.objects.filter(public=True)[0]
+			office = Medical_office.objects.filter(published=True, public=True)[0]
 	except IndexError:
 		return render_to_response( "missing_config.html", {},
 			context_instance=RequestContext(request))
@@ -36,7 +36,7 @@ class BadStatus(Exception):
 	pass
 
 def office_page(request, office_id, for_date=None):
-	office = get_object_or_404(Medical_office, pk=office_id)
+	office = get_object_or_404(Medical_office, published=True, pk=office_id)
 
 	if not request.user.is_authenticated() and not office.public: # forbidden office
 		return HttpResponseRedirect("/")
@@ -395,5 +395,5 @@ def list_offices(request):
 			"order": office.order,
 			"public": office.public,
 			"phones": [phone.number for phone in office.phone_numbers.all()],
-		} for office in Medical_office.objects.all()]
+		} for office in Medical_office.objects.filter(published=True)]
 	return HttpResponse(json.dumps(response_data), "application/json")

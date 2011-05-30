@@ -48,6 +48,8 @@ class Medical_office(models.Model):
 	order = models.PositiveIntegerField(_("order"), help_text=_("Order of medical offices tabs on the webpage."))
 	public = models.BooleanField(_("public"),
 		help_text=_("Check if you want to make this medical office accessible for not authorized visitors."))
+	published = models.BooleanField(_("published"), default=True,
+		help_text=_("Check if you want to make this medical office published."))
 	note = models.TextField(_("note"), blank=True)
 
 	class Meta:
