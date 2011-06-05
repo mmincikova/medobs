@@ -50,6 +50,7 @@ class Medical_office(models.Model):
 		help_text=_("Check if you want to make this medical office accessible for not authorized visitors."))
 	published = models.BooleanField(_("published"), default=True,
 		help_text=_("Check if you want to make this medical office published."))
+	days_to_generate = models.PositiveSmallIntegerField(_("days to generate"), default=7, help_text=_("Number of days to generate."))
 	note = models.TextField(_("note"), blank=True)
 
 	class Meta:
@@ -273,7 +274,7 @@ models.signals.post_delete.connect(update_day_status, sender=Visit_reservation)
 def gen_days_statuses(sender, instance, created, **kwargs):
 	if created:
 		actual_date = date.today()
-		end_date = actual_date + timedelta(settings.MEDOBS_GEN_DAYS)
+		end_date = actual_date + timedelta(instance.days_to_generate)
 
 		while actual_date <= end_date:
 			day_status, day_status_created = Day_status.objects.get_or_create(

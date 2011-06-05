@@ -39,12 +39,12 @@ class Office_phone_Inline(admin.TabularInline):
     model = Office_phone
 
 class Medical_office_Admin(admin.ModelAdmin):
-	list_display = ("name", "order", "street", "zip_code", "city", "email", "published", "public")
+	list_display = ("name", "order", "street", "zip_code", "city", "email", "days_to_generate", "published", "public")
 	inlines = [Office_phone_Inline,]
 	ordering = ("name",)
 	fieldsets = (
 		(None, {"fields": ("name", "street", "zip_code", "city", "email", "note")}),
-		(_("Settings"), {"fields": ("order", "published", "public")}),
+		(_("Settings"), {"fields": ("order", "days_to_generate", "published", "public")}),
 	)
 admin.site.register(Medical_office, Medical_office_Admin)
 

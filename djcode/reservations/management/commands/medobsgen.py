@@ -12,9 +12,13 @@ class Command(NoArgsCommand):
 	help = "Pregenerate Visit_reservation records by Visit_template"
 
 	def handle_noargs(self, **options):
-		end_day = datetime.date.today() + datetime.timedelta(settings.MEDOBS_GEN_DAYS)
 		try:
 			for office in Medical_office.objects.all():
+				print '\nI: Office: %s' % office
+				
+				end_day = datetime.date.today() + datetime.timedelta(office.days_to_generate)
+				print 'I: Days to generate: %d' % office.days_to_generate
+
 				sid = transaction.savepoint()
 
 				try:
@@ -42,7 +46,7 @@ class Command(NoArgsCommand):
 						else:
 							status = 2 # enabled
 
-						print 'I: Creating reservation: %s %s' % (office.name, starting_time)
+						print 'I: Creating reservation: %s' % (starting_time)
 						Visit_reservation.objects.create(
 							starting_time=starting_time,
 							office=office,

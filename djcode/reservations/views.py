@@ -43,7 +43,7 @@ def office_page(request, office_id, for_date=None):
 
 	message = None
 	start_date = date.today()
-	end_date = start_date + timedelta(settings.MEDOBS_GEN_DAYS)
+	end_date = start_date + timedelta(office.days_to_generate)
 
 	if not request.user.is_authenticated():
 		start_date += timedelta(1)

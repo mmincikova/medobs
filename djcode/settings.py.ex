@@ -142,9 +142,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	"djcode.context_processors.datepicker_i18n_file",
 )
 
-# How many day to future medobsgen generate visit reservation.
-MEDOBS_GEN_DAYS = 14
-
 # jQuery UI datepicker localization file name
 # The localization files are also available in the UI svn:
 # http://jquery-ui.googlecode.com/svn/trunk/ui/i18n/

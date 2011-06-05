@@ -9,7 +9,8 @@
             "public": true, 
             "street": "Main Street 1, My Town, My Country", 
             "order": 10, 
-            "zip_code": "000001"
+            "zip_code": "000001",
+            "days_to_generate": 3
         }
     }, 
     {
@@ -22,7 +23,8 @@
             "public": true, 
             "street": "Main Street 2, My Town, My Country", 
             "order": 20, 
-            "zip_code": "000002"
+            "zip_code": "000002",
+            "days_to_generate": 5
         }
     }, 
     {
@@ -35,7 +37,8 @@
             "public": false, 
             "street": "Main Street 3, My Town, My Country", 
             "order": 30, 
-            "zip_code": "000003"
+            "zip_code": "000003",
+            "days_to_generate": 7
         }
     }, 
     {
