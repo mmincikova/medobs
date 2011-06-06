@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.utils.translation import ugettext_lazy as _
 
+from django.contrib.sites.models import Site
+
 from djcode.reservations.models import Examination_kind, Medical_office, Office_phone, Patient
 from djcode.reservations.models import Visit_disable_rule, Visit_reservation, Visit_template
 
@@ -52,3 +54,5 @@ class Examination_kind_Admin(admin.ModelAdmin):
 	list_display = ("title", "order")
 	ordering = ("title",)
 admin.site.register(Examination_kind, Examination_kind_Admin)
+
+admin.site.unregister(Site)
