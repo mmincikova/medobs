@@ -13,7 +13,7 @@ class Visit_reservation_Admin(admin.ModelAdmin):
 	ordering = ("starting_time", "office")
 	search_fields = ["^patient__first_name", "^patient__last_name"]
 	fieldsets = (
-		(None, {"fields": ("office", "starting_time", "status")}),
+		(None, {"fields": ("office", "starting_time", "status", "authenticated_only")}),
 		(_("Booking data"), {"fields": ("patient", "exam_kind", "booked_at", "booked_by")}),
 	)
 admin.site.register(Visit_reservation, Visit_reservation_Admin)
@@ -26,7 +26,7 @@ class Patient_Admin(admin.ModelAdmin):
 admin.site.register(Patient, Patient_Admin)
 
 class Visit_template_Admin(admin.ModelAdmin):
-	list_display = ("__unicode__", "office", "starting_time", "valid_since", "valid_until")
+	list_display = ("__unicode__", "office", "starting_time", "valid_since", "valid_until", "authenticated_only")
 	list_filter = ("office", "day")
 	ordering = ("day", "starting_time", "office")
 admin.site.register(Visit_template, Visit_template_Admin)

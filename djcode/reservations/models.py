@@ -119,6 +119,8 @@ class Visit_template(models.Model):
 			help_text=_("This date is included into interval."))
 	valid_until = models.DateField(_("valid until"), null=True, blank=True,
 			help_text=_("This date is not included into interval."))
+	authenticated_only = models.BooleanField(_("authenticated only"),
+			help_text=_("If true allow reservation only for authenticated users."))
 	note = models.TextField(_("note"), blank=True)
 
 	class Meta:
@@ -177,6 +179,8 @@ class Visit_reservation(models.Model):
 	starting_time = models.DateTimeField(_("time"))
 	office = models.ForeignKey(Medical_office, verbose_name=_("medical office"),
 			related_name="visit_reservations")
+	authenticated_only = models.BooleanField(_("authenticated only"),
+			help_text=_("If true allow reservation only for authenticated users."))
 	patient = models.ForeignKey(Patient, verbose_name=_("patient"), null=True, blank=True,
 			related_name="visit_reservations")
 	exam_kind = models.ForeignKey(Examination_kind, verbose_name=_("examination kind"),

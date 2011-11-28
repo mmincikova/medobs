@@ -176,7 +176,7 @@ def date_reservations(request, for_date, office_id):
 		response_data = [{
 			"id": r.id,
 			"time": r.starting_time.time().strftime("%H:%M"),
-			"disabled": True if r.status != 2 else False,
+			"disabled": True if r.status != 2 or r.authenticated_only else False,
 		} for r in office.reservations(for_date)]
 
 	response = HttpResponse(json.dumps(response_data), "application/json")

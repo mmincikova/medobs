@@ -10,12 +10,13 @@ Users actions
 -------------
 
 ### Unauthorized user (patient)
- - select date and time of visit reservation a book for it if it is empty
+ - select date and time of visit reservation and book for it if it is empty
 
 ### Authorized user (nurse etc.)
  - same as unauthorized user
  - can see visit reservation status
  - can see name of patient on booked reservation
+ - can book patient on "authorized only" reservation
  - click on reservation hold it
  - unbook patient
  - unhold reservation

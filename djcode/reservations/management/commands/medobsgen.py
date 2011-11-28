@@ -50,7 +50,8 @@ class Command(NoArgsCommand):
 						Visit_reservation.objects.create(
 							starting_time=starting_time,
 							office=office,
-							status=status
+							status=status,
+							authenticated_only=tmp.authenticated_only
 						)
 
 					day += datetime.timedelta(1)

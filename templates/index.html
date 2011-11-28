@@ -61,7 +61,7 @@
 			{% if user.is_authenticated %}
 				ui-status-{{ r.status }}
 			{% else %}
-				{% if r.status != 2 %}ui-disabled{% endif %}
+				{% if r.status != 2 or r.authenticated_only %}ui-disabled{% endif %}
 			{% endif %}{% endspaceless %}">
 			<input type="hidden" value="{{ r.id }}" />
 			{{ r.starting_time|date:"H:i" }}
@@ -73,7 +73,11 @@
 				<span class="term-info" title="{{ r.booked_by }} {{ r.booked_at|date:"d.m.Y H:i" }}">[ {{ r.booked_by }} ]</span>
 			{% endif %}
 			{% endif %}
-			{% if not user.is_authenticated and r.status != 2 %} <span class="term-info">{% trans "Appointment already booked or unavailable" %}</span>{% endif %}
+			{% if not user.is_authenticated  %}
+			{% if r.status != 2 or r.authenticated_only %}
+				<span class="term-info">{% trans "Appointment already booked or unavailable" %}</span>
+			{% endif %}
+			{% endif %}
 		</li>
 		{% endfor %}
 	</ol>
