@@ -119,7 +119,7 @@ class Visit_template(models.Model):
 			help_text=_("This date is included into interval."))
 	valid_until = models.DateField(_("valid until"), null=True, blank=True,
 			help_text=_("This date is not included into interval."))
-	authenticated_only = models.BooleanField(_("authenticated only"),
+	authenticated_only = models.BooleanField(_("authenticated only"), default=False,
 			help_text=_("If true allow reservation only for authenticated users."))
 	note = models.TextField(_("note"), blank=True)
 
