@@ -243,6 +243,7 @@ $(function() {
 						elem.removeClass("ui-status-3").addClass("ui-status-2");
 						$(".patient-name", elem).remove();
 						$(".term-exam-kind", elem).remove();
+						$(".term-info", elem).remove();
 						$(".ui-selected", tab).removeClass("ui-selected");
 						$(".act-button", tab).remove();
 					} else {
@@ -261,6 +262,7 @@ $(function() {
 				$.getJSON("/reservations/"+ r_id +"/unhold/", function(data){
 					if(data.status_ok){
 						elem.removeClass("ui-status-4").addClass("ui-status-2");
+						$(".term-info", elem).remove();
 						$(".ui-selected", tab).removeClass("ui-selected");
 						$(".act-button", tab).remove();
 					} else {
