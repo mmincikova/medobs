@@ -59,7 +59,7 @@
 		{% for r in office.reservations %}
 		<li class="ui-widget-content ui-selectee{% if r.id == reservation_id %} ui-selected{% endif %} {% spaceless %}
 			{% if user.is_authenticated %}
-				ui-status-{{ r.status }}
+				ui-status-{{ r.status }}{% if r.authenticated_only %} ui-auth-only{% endif %}
 			{% else %}
 				{% if r.status != 2 or r.authenticated_only %}ui-disabled{% endif %}
 			{% endif %}{% endspaceless %}">
@@ -246,6 +246,7 @@ $(function() {
 						$(".term-info", elem).remove();
 						$(".ui-selected", tab).removeClass("ui-selected");
 						$(".act-button", tab).remove();
+
 					} else {
 						display_message(
 							"{% trans "Message" %}",
@@ -303,7 +304,11 @@ $(function() {
 				value: r.id
 			}))
 			.append($("<span></span>").addClass("patient-name").html(" "+ r.patient));
-			
+
+		if (r.auth_only) {
+			ritem.addClass("ui-auth-only");
+		}
+
 		if(r.exam_kind != ""){
 			ritem.append($("<span></span>")
 				.addClass("term-exam-kind")

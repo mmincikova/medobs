@@ -108,6 +108,8 @@ form ul { list-style: none; }
 }
 #ui-selectable .ui-selected { background: #F39814; color: white; }
 
+.ui-auth-only { border-color: #F00; background: #FEE; }
+
 .term-exam-kind { font-size: 14px; }
 .term-info { font-size: 14px;  }
 

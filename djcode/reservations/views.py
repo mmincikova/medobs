@@ -171,6 +171,7 @@ def date_reservations(request, for_date, office_id):
 			"exam_kind": r.exam_kind.title if r.exam_kind else "",
 			"booked_by": r.booked_by,
 			"booked_at": r.booked_at.strftime("%d.%m.%Y %H:%M") if r.booked_at else "",
+			"auth_only": r.authenticated_only,
 		} for r in office.reservations(for_date)]
 	else:
 		response_data = [{
