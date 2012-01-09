@@ -398,3 +398,29 @@ def list_offices(request):
 			"phones": [phone.number for phone in office.phone_numbers.all()],
 		} for office in Medical_office.objects.filter(published=True)]
 	return HttpResponse(json.dumps(response_data), "application/json")
+
+
+@login_required
+def enable_auth_only(request, r_id):
+	reservation = get_object_or_404(Visit_reservation, pk=r_id)
+	reservation.authenticated_only = True
+	reservation.save()
+
+	response_data = {"status_ok": True}
+
+	response = HttpResponse(json.dumps(response_data), "application/json")
+	response["Cache-Control"] = "no-cache"
+	return response
+
+
+@login_required
+def disable_auth_only(request, r_id):
+	reservation = get_object_or_404(Visit_reservation, pk=r_id)
+	reservation.authenticated_only = False
+	reservation.save()
+
+	response_data = {"status_ok": True}
+
+	response = HttpResponse(json.dumps(response_data), "application/json")
+	response["Cache-Control"] = "no-cache"
+	return response
