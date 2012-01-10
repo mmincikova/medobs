@@ -7,7 +7,7 @@ from djcode.reservations.models import Examination_kind, Medical_office, Office_
 from djcode.reservations.models import Visit_disable_rule, Visit_reservation, Visit_template
 
 class Visit_reservation_Admin(admin.ModelAdmin):
-	list_display = ("starting_time", "office", "status", "patient")
+	list_display = ("starting_time", "office", "status", "authenticated_only", "patient")
 	readonly_fields = ("booked_by",)
 	list_filter = ("status", "office", "starting_time")
 	ordering = ("starting_time", "office")
