@@ -170,7 +170,7 @@ $(function() {
 		var tab = elem.parent().parent();
 		var r_id = $("input[type='hidden']", elem).val();
 
-		if (e.ctrlKey) {
+		if (e.metaKey) {
 			if (elem.hasClass("ui-auth-only")) {
 				$.getJSON("/reservations/"+ r_id +"/auth-off/", function(data){
 					if(data.status_ok){
