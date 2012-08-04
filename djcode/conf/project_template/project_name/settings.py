@@ -1,4 +1,6 @@
-# Django settings for djcode project.
+# Django settings for {{ project_name }} project.
+
+import os
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -8,26 +10,24 @@ ADMINS = (
 )
 
 MANAGERS = ADMINS
-DEFAULT_FROM_EMAIL = 'medobs@localhost'
+DEFAULT_FROM_EMAIL = 'admin@localhost'
 
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-		'NAME': '',                      # Or path to database file if using sqlite3.
-		'USER': '',                      # Not used with sqlite3.
-		'PASSWORD': '',                  # Not used with sqlite3.
-		'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-		'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+		'ENGINE': 'django.db.backends.sqlite3',					# Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+		'NAME': os.path.join(os.path.dirname(__file__), 'medobs.sqlite'),	# Or path to database file if using sqlite3.
+		'USER': '',								# Not used with sqlite3.
+		'PASSWORD': '',								# Not used with sqlite3.
+		'HOST': '',								# Set to empty string for localhost. Not used with sqlite3.
+		'PORT': '',								# Set to empty string for default. Not used with sqlite3.
 	}
 }
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
+# In a Windows environment this must be set to your system time zone.
 TIME_ZONE = 'America/Chicago'
 
 # Language code for this installation. All choices can be found here:
@@ -43,6 +43,18 @@ USE_I18N = True
 # If you set this to False, Django will not format dates, numbers and
 # calendars according to the current locale
 USE_L10N = True
+
+# If you set this to False, Django will not use timezone-aware datetimes.
+USE_TZ = True
+
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# Example: "/home/media/media.lawrence.com/media/"
+MEDIA_ROOT = ''
+
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
+MEDIA_URL = ''
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -69,23 +81,9 @@ STATICFILES_FINDERS = (
 #	'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = ''
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
-
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/static/admin/'
-
 # Make this unique, and don't share it with anybody.
 # Set this to a random string -- the longer, the better.
-SECRET_KEY = ''
+SECRET_KEY = '{{ secret_key }}'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -100,18 +98,19 @@ MIDDLEWARE_CLASSES = (
 	'django.middleware.csrf.CsrfViewMiddleware',
 	'django.contrib.auth.middleware.AuthenticationMiddleware',
 	'django.contrib.messages.middleware.MessageMiddleware',
+	# Uncomment the next line for simple clickjacking protection:
+	# 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'djcode.urls'
+ROOT_URLCONF = '{{ project_name }}.urls'
+
+# Python dotted path to the WSGI application used by Django's runserver.
+WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 
 TEMPLATE_DIRS = (
 	# Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
 	# Always use forward slashes, even on Windows.
 	# Don't forget to use absolute paths, not relative paths.
-)
-
-LOCALE_PATHS = (
-	# Add TEMPLATE_DIRS paths + 'locale/' to enable translation of templates
 )
 
 INSTALLED_APPS = (
@@ -126,11 +125,6 @@ INSTALLED_APPS = (
 	'django.contrib.localflavor',
 )
 
-if DEBUG:
-	INSTALLED_APPS += (
-		"django.contrib.admindocs",
-	)
-
 TEMPLATE_CONTEXT_PROCESSORS = (
 	"django.contrib.auth.context_processors.auth",
 	"django.core.context_processors.debug",
@@ -141,6 +135,30 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 	"djcode.context_processors.version",
 	"djcode.context_processors.datepicker_i18n_file",
 )
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
 
 # jQuery UI datepicker localization file name
 # The localization files are also available in the UI svn:
