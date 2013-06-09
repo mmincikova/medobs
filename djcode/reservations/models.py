@@ -126,7 +126,7 @@ class Visit_template(models.Model):
 	class Meta:
 		verbose_name = _("visit template")
 		verbose_name_plural = _("visit templates")
-		unique_together = (("office", "day", "starting_time", "valid_since", "valid_until"),)
+		unique_together = (("office", "day", "starting_time"),)
 
 	def __unicode__(self):
 		return _("%(day_name)s at %(time)s") % {
